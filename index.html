@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>酔い処 かふーじゅ - 那覇市若狭のアットホームな大衆居酒屋</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
+    <link rel="icon" href="image.png" type="image/png">
+    <style>
+        /* Zen Kurenaidoフォントを全体に適用し、文字間を詰める */
+        body {
+            font-family: 'Zen Kurenaido', sans-serif;
+            letter-spacing: -0.05em; /* 文字間を詰める */
+            background-color: #1a1a1a; /* 濃い背景色 */
+            color: #f0f0f0; /* 明るいテキスト色 */
+        }
+        
+        /* 見出しも同じフォントファミリーを継承 */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Zen Kurenaido', sans-serif;
+            letter-spacing: -0.05em; /* 文字間を詰める */
+        }
+
+        /* ヒーローセクションの背景画像（ダミー） */
+        .hero-section {
+            background: linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.7)), url('https://placehold.co/1920x1080/333/555?text=%E9%85%94%E3%81%84%E5%87%A6%20%E3%81%8B%E3%81%B5%E3%83%BC%E3%81%98%E3%82%85');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* コンテンツセクションの基本スタイル */
+        .content-section {
+            display: none; /* 初期状態では非表示 */
+            animation: fadeIn 0.8s;
+            background-color: #242424; /* セクションの背景色 */
+            border-radius: 12px;
+        }
+
+        /* アクティブなセクションを表示 */
+        .content-section.active {
+            display: block;
+        }
+
+        /* フェードインアニメーション */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ナビゲーションリンクのアクティブ状態 */
+        .nav-link.active {
+            color: #fbbf24; /* 琥珀色 */
+            border-bottom: 2px solid #fbbf24;
+        }
+        
+        .mobile-nav-link.active {
+            background-color: #fbbf24;
+            color: #1a1a1a;
+        }
+
+        /* メニューモーダルのスタイル */
+        .modal {
+            display: none; /* 初期状態では非表示 */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeInModal 0.3s;
+        }
+        .modal-content {
+            position: relative;
+            background-color: #2d2d2d; /* モーダルの背景色 */
+            margin: 10% auto;
+            padding: 25px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 12px;
+            animation: zoomInModal 0.3s;
+        }
+        .close-modal {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #f0f0f0;
+        }
+
+        @keyframes fadeInModal {
+            from { background-color: rgba(0, 0, 0, 0); }
+            to { background-color: rgba(0, 0, 0, 0.8); }
+        }
+        @keyframes zoomInModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* アレルゲンタグ */
+        .allergen-tag {
+            background-color: #d97706; /* 暗めのオレンジ */
+            color: #ffffff;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 99px;
+            margin: 2px;
+        }
+
+        /* メニューのフード/ドリンク タブ */
+        .menu-tab {
+            background-color: #3a3a3a;
+            color: #ccc;
+            border-bottom: 3px solid transparent;
+        }
+        .menu-tab.active {
+            background-color: #242424; /* セクション背景色と同じ */
+            color: #fbbf24;
+            border-bottom: 3px solid #fbbf24;
+        }
+        .menu-tab-content {
+            display: none;
+        }
+        .menu-tab-content.active {
+            display: block;
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 text-lg"> <!-- 文字サイズを text-lg に拡大 -->
+
+    <!-- ヘッダー -->
+    <header class="bg-gray-900/80 backdrop-blur-md text-white sticky top-0 z-50 shadow-lg">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
+            <!-- ロゴと店名 -->
+            <a href="#" id="logo-link" class="flex items-center gap-3 group">
+                <img src="image.png" alt="酔い処 かふーじゅ ロゴ" class="h-12 w-12 rounded-full border-2 border-amber-500 group-hover:opacity-80 transition-opacity">
+                <h1 class="text-2xl sm:text-3xl font-bold text-white group-hover:text-amber-400 transition-colors">
+                    酔い処 かふーじゅ
+                </h1>
+            </a>
+
+            <!-- デスクトップ用メニュー -->
+            <div class="hidden md:flex space-x-6">
+                <a href="#home" class="nav-link text-lg hover:text-amber-400 transition-colors px-2 py-1 active" data-page="home">トップ (Home)</a>
+                <a href="#menu" class="nav-link text-lg hover:text-amber-400 transition-colors px-2 py-1" data-page="menu">お品書き (Menu)</a>
+                <a href="#events" class="nav-link text-lg hover:text-amber-400 transition-colors px-2 py-1" data-page="events">イベント (Events)</a>
+                <a href="#contact" class="nav-link text-lg hover:text-amber-400 transition-colors px-2 py-1" data-page="contact">ご予約/お問い合わせ (Contact)</a>
+                <!-- SNS Icon -->
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-amber-400 transition-colors">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12.315 2.34a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-3.75 1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-6-13.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-9 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-3 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm15-6a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75ZM12 1.5a.75.75 0 0 1 .75.75V3a.75.75 0 0 1-1.5 0V2.25a.75.75 0 0 1 .75-.75ZM4.519 4.519a.75.75 0 0 1 .53 1.28l-1.06 1.06a.75.75 0 0 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 .53-.22Zm13.962 0a.75.75 0 0 1 .53.22l1.06 1.06a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 .53-1.28ZM1.5 12a.75.75 0 0 1 .75-.75H3a.75.75 0 0 1 0 1.5H2.25a.75.75 0 0 1-.75-.75Zm19.5 0a.75.75 0 0 1 .75-.75H22.5a.75.75 0 0 1 0 1.5H21.75a.75.75 0 0 1-.75-.75ZM4.519 19.481a.75.75 0 0 1 .53.22l1.06 1.06a.75.75 0 1 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 .53-1.28Zm13.962 0a.75.75 0 0 1 .53 1.28l1.06-1.06a.75.75 0 1 1-1.06-1.06l-1.06 1.06a.75.75 0 0 1 .53-.22ZM12 21.75a.75.75 0 0 1 .75.75V22.5a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                    </svg>
+                    <!-- ↑ InstagramのSVGアイコン例。実際には適切なアイコンに置き換えてください。 -->
+                </a>
+            </div>
+
+            <!-- モバイル用メニューボタン -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white hover:text-amber-400 focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <!-- モバイル用メニュー (非表示) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800/95 absolute top-20 left-0 w-full shadow-xl">
+            <a href="#home" class="mobile-nav-link block text-lg text-center px-4 py-4 text-white font-semibold hover:bg-amber-500 hover:text-gray-900 transition-colors active" data-page="home">トップ (Home)</a>
+            <a href="#menu" class="mobile-nav-link block text-lg text-center px-4 py-4 text-white font-semibold hover:bg-amber-500 hover:text-gray-900 transition-colors" data-page="menu">お品書き (Menu)</a>
+            <a href="#events" class="mobile-nav-link block text-lg text-center px-4 py-4 text-white font-semibold hover:bg-amber-500 hover:text-gray-900 transition-colors" data-page="events">イベント (Events)</a>
+            <a href="#contact" class="mobile-nav-link block text-lg text-center px-4 py-4 text-white font-semibold hover:bg-amber-500 hover:text-gray-900 transition-colors" data-page="contact">ご予約/お問い合わせ (Contact)</a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="block text-lg text-center px-4 py-4 text-amber-400 font-semibold hover:bg-amber-500 hover:text-gray-900 transition-colors">
+                Instagram
+            </a>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- トップページ (Home) -->
+        <section id="home" class="content-section active">
+            <!-- ヒーローセクション -->
+            <div class="hero-section text-center p-12 sm:p-20 md:p-32 rounded-lg shadow-xl overflow-hidden relative border-4 border-amber-600/50">
+                <div class="relative z-10">
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 shadow-text" data-key="catchphrase">
+                        今夜もかふーじゅに集合！アットホームな酔い処
+                    </h2>
+                    <p class="text-xl sm:text-2xl text-gray-200 shadow-text" data-key="sub-catchphrase">
+                        旨い酒と肴、楽しいイベントで、毎日が特別になる大衆居酒屋。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 私たちの思い -->
+            <div class="my-10 p-8 bg-gray-800 shadow-lg rounded-lg border border-gray-700">
+                <h3 class="text-3xl font-bold text-center text-amber-400 mb-6" data-key="about-title">私たちの思い</h3>
+                <p class="text-lg leading-relaxed text-gray-200" data-key="about-body">
+                    「酔い処 かふーじゅ」の「かふーじゅ」とは、沖縄の言葉で「果報（かふう）」＝「幸せ、良い知らせ」を意味します。<br><br>
+                    私たちは、この小さな居酒屋が、訪れるお客様にとっての「幸せな場所」でありたいと願っています。<br>
+                    一度だけでなく、二度、三度と足を運びたくなるような、アットホームな空間づくり。<br>
+                    お一人お一人のお客様との出会いを大切にし、心を込めたおもてなしを。<br><br>
+                    そして、お店があるこの若狭という地域に根ざし、地域の皆様の笑顔と発展に、微力ながらも貢献していくこと。<br>
+                    それが「酔い処 かふーじゅ」の変わらぬ思いです。
+                </p>
+            </div>
+
+            <!-- 店舗情報・アクセス -->
+            <div class="my-10 p-8 bg-gray-800 shadow-lg rounded-lg border border-gray-700 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-3xl font-bold text-amber-400 mb-6" data-key="info-title">店舗情報・アクセス</h3>
+                    <div class="space-y-4 text-lg">
+                        <p><strong>店名:</strong> 酔い処 かふーじゅ</p>
+                        <p><strong>住所:</strong> 〒900-0031 沖縄県那覇市若狭3-3-15</p>
+                        <p><strong>営業時間:</strong> 17:00 - 24:00</p>
+                        <p>
+                            <strong>定休日:</strong> 毎週火曜日<br>
+                            <span class="text-sm text-gray-400">
+                                ※その他、不定休あり。詳細はInstagramでご確認ください。<br>
+                                ※火曜日も8名様以上のご予約でオープン可能です（1週間前までにご連絡ください）。
+                            </span>
+                        </p>
+                        <p><strong>電話番号:</strong> 098-XXX-XXXX (ダミー)</p>
+                        <p><strong>お支払い:</strong> 現金, クレジットカード (ダミー)</p>
+                    </div>
+                </div>
+                <!-- Google Maps 埋め込み -->
+                <div class="w-full h-80 md:h-full rounded-lg overflow-hidden border-2 border-gray-700">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.522204558223!2d127.67102981503038!3d26.21221798343431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34e5695e1e19623b%3A0x6b8f7e71f76b6f0!2z44CSOTAwLTAwMzEg5rGg6KKL55yM6YKj6KaH5biC6Iul54OK77yT4oiS77yT4oiS77yR77yV!5e0!3m2!1sja!2sjp!4v1678888888888!5m2!1sja!2sjp" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- お品書き (Menu) -->
+        <section id="menu" class="content-section p-6 sm:p-8">
+            <h2 class="text-4xl font-bold text-center text-amber-400 mb-8" data-key="menu-title">お品書き</h2>
+            
+            <!-- 言語切り替え -->
+            <div class="flex justify-center space-x-2 mb-8">
+                <button class="lang-btn px-5 py-2 rounded-full text-base font-semibold transition-colors bg-amber-500 text-gray-900" data-lang="jp">日本語</button>
+                <button class="lang-btn px-5 py-2 rounded-full text-base font-semibold transition-colors bg-gray-700 hover:bg-gray-600" data-lang="en">English</button>
+                <button class="lang-btn px-5 py-2 rounded-full text-base font-semibold transition-colors bg-gray-700 hover:bg-gray-600" data-lang="cn">中文</button>
+            </div>
+
+            <!-- フード / ドリンク タブ切り替え -->
+            <div class="flex justify-center border-b border-gray-700 mb-6">
+                <button class="menu-tab text-xl sm:text-2xl font-semibold py-3 px-8 sm:px-12 active" data-tab="food" data-key="tab-food">フード (Food)</button>
+                <button class="menu-tab text-xl sm:text-2xl font-semibold py-3 px-8 sm:px-12" data-tab="drink" data-key="tab-drink">ドリンク (Drink)</button>
+            </div>
+
+            <!-- フード コンテンツ -->
+            <div id="food-content" class="menu-tab-content active">
+                <!-- おつまみ -->
+                <div class_id="menu-category-otsumami">
+                    <h3 class="text-3xl font-semibold text-amber-300 mb-5 border-l-4 border-amber-300 pl-4" data-key="cat-otsumami">おつまみ</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- メニューアイテム -->
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all" 
+                            data-key="iburigakko"
+                            data-image="https://placehold.co/400x300/5a4a3a/ffffff?text=%E3%81%84%E3%81%B6%E3%82%8A%E3%81%8C%E3%81%A3%E3%81%93%E3%83%81%E3%83%BC%E3%82%BA"
+                            data-price="480円"
+                            data-allergens='["乳"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">いぶりがっこチーズ</h4>
+                            <p class="text-gray-400 text-base" data-key="iburigakko-desc">燻製の香りとチーズのコク。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">480円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all" 
+                            data-key="shutou-cheese"
+                            data-image="https://placehold.co/400x300/6b4226/ffffff?text=%E9%85%92%E7%9B%97%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%A0%E3%83%81%E3%83%BC%E3%82%BA"
+                            data-price="480円"
+                            data-allergens='["乳", "魚介"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">酒盗クリームチーズ</h4>
+                            <p class="text-gray-400 text-base" data-key="shutou-cheese-desc">日本酒泥棒。間違いない組み合わせ。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">480円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all" 
+                            data-key="yamaimo-zakuzaku"
+                            data-image="https://placehold.co/400x300/d4c2ad/ffffff?text=%E5%B1%B1%E8%8A%8B%E3%82%B6%E3%82%AF%E3%82%B6%E3%82%AF"
+                            data-price="480円"
+                            data-allergens='[]'>
+                            <h4 class="text-xl font-semibold text-gray-100">山芋ザクザク</h4>
+                            <p class="text-gray-400 text-base" data-key="yamaimo-zakuzaku-desc">新鮮な山芋の食感をお楽しみください。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">480円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all" 
+                            data-key="mozukusu"
+                            data-image="https://placehold.co/400x300/2a5c3a/ffffff?text=%E3%82%82%E3%81%9A%E3%81%8F%E9%85%A2"
+                            data-price="480円"
+                            data-allergens='[]'>
+                            <h4 class="text-xl font-semibold text-gray-100">もずく酢</h4>
+                            <p class="text-gray-400 text-base" data-key="mozukusu-desc">沖縄定番のさっぱりおつまみ。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">480円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all" 
+                            data-key="umibudou"
+                            data-image="https://placehold.co/400x300/3a7a4a/ffffff?text=%E6%B5%B7%E3%81%B6%E3%81%A9%E3%81%86"
+                            data-price="480円"
+                            data-allergens='[]'>
+                            <h4 class="text-xl font-semibold text-gray-100">海ぶどう</h4>
+                            <p class="text-gray-400 text-base" data-key="umibudou-desc">プチプチ食感がたまらない海の宝石。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">480円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all" 
+                            data-key="kyuri-ippon"
+                            data-image="https://placehold.co/400x300/5a8a3a/ffffff?text=%E3%81%8D%E3%82%85%E3%81%86%E3%82%8A%E4%B8%80%E6%9C%AC%E6%BC%AC%E3%81%91"
+                            data-price="480円"
+                            data-allergens='[]'>
+                            <h4 class="text-xl font-semibold text-gray-100">きゅうり一本漬け</h4>
+                            <p class="text-gray-400 text-base" data-key="kyuri-ippon-desc">とりあえずこれ。さっぱりと。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">480円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all" 
+                            data-key="hiyayakko"
+                            data-image="https://placehold.co/400x300/f0f0f0/333333?text=%E5%86%B7%E3%82%84%E5%A5%B4"
+                            data-price="480円"
+                            data-allergens='["大豆"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">冷や奴</h4>
+                            <p class="text-gray-400 text-base" data-key="hiyayakko-desc">シンプルイズベスト。お好みで薬味を。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">480円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all" 
+                            data-key="caesar-salad"
+                            data-image="https://placehold.co/400x300/7a9a4a/ffffff?text=%E3%82%B7%E3%83%BC%E3%82%B6%E3%83%BC%E3%82%B5%E3%83%A9%E3%83%80"
+                            data-price="540円"
+                            data-allergens='["乳", "卵", "小麦"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">シーザーサラダ</h4>
+                            <p class="text-gray-400 text-base" data-key="caesar-salad-desc">濃厚ドレッシングとクルトンがアクセント。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">540円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all" 
+                            data-key="pirikara-tamago"
+                            data-image="https://placehold.co/400x300/d98a3a/ffffff?text=%E7%89%B9%E8%A3%BD%E3%83%94%E3%83%AA%E8%BE%9B%E5%8D%8A%E7%86%9F%E7%8E%89%E5%AD%90"
+                            data-price="480円"
+                            data-allergens='["卵", "小麦", "大豆"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">特製ピリ辛半熟玉子</h4>
+                            <p class="text-gray-400 text-base" data-key="pirikara-tamago-desc">とろーり半熟。特製のピリ辛ダレで。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">480円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all" 
+                            data-key="pirikara-menma"
+                            data-image="https://placehold.co/400x300/b87a4a/ffffff?text=%E3%83%94%E3%83%AA%E8%BE%9B%E3%81%8A%E3%81%A4%E3%81%BE%E3%81%BF%E3%83%A1%E3%83%B3%E3%83%9E"
+                            data-price="480円"
+                            data-allergens='["小麦", "大豆"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">ピリ辛おつまみメンマ</h4>
+                            <p class="text-gray-400 text-base" data-key="pirikara-menma-desc">ごま油香る、お酒が進むメンマ。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">480円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all" 
+                            data-key="aburi-charshu"
+                            data-image="https://placehold.co/400x300/8a5a4a/ffffff?text=%E7%82%99%E3%82%8A%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B7%E3%83%A5%E3%83%BC"
+                            data-price="620円"
+                            data-allergens='["小麦", "大豆"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">炙りチャーシュー薬味まみれ</h4>
+                            <p class="text-gray-400 text-base" data-key="aburi-charshu-desc">香ばしく炙ったチャーシューに薬味をどっさり。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">620円</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 揚げ物 -->
+                <div class="menu-category-agemono mt-12">
+                    <h3 class="text-3xl font-semibold text-amber-300 mb-5 border-l-4 border-amber-300 pl-4" data-key="cat-agemono">揚げ物</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="wakadori-karaage"
+                            data-image="https://placehold.co/400x300/c7a05e/ffffff?text=%E8%8B%A5%E9%B6%8F%E3%81%8B%E3%82%89%E3%81%82%E3%81%92"
+                            data-price="720円"
+                            data-allergens='["小麦", "卵", "大豆"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">若鶏からあげ</h4>
+                            <p class="text-gray-400 text-base" data-key="wakadori-karaage-desc">ジューシーな定番からあげ。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">720円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="potato-fry"
+                            data-image="https://placehold.co/400x300/f0c04a/333333?text=%E7%9A%AE%E4%BB%98%E3%81%8D%E3%83%9D%E3%83%86%E3%83%88%E3%83%95%E3%83%A9%E3%82%A4"
+                            data-price="640円"
+                            data-allergens='[]'>
+                            <h4 class="text-xl font-semibold text-gray-100">皮付きポテトフライ</h4>
+                            <p class="text-gray-400 text-base" data-key="potato-fry-desc">ホクホク。手が止まらない。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">640円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="atsuage-yakumi"
+                            data-image="https://placehold.co/400x300/d4b68a/333333?text=%E8%96%AC%E5%91%B3%E3%81%9F%E3%81%A3%E3%81%B7%E3%82%8A%E5%8E%9A%E6%8F%9A%E3%81%92"
+                            data-price="620円"
+                            data-allergens='["大豆"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">薬味たっぷり厚揚げ</h4>
+                            <p class="text-gray-400 text-base" data-key="atsuage-yakumi-desc">カリッと揚げた厚揚げに薬味をたっぷり。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">620円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="youngcorn-tenpura"
+                            data-image="https://placehold.co/400x300/f5d56a/333333?text=%E3%83%A4%E3%83%B3%E3%82%B0%E3%82%B3%E3%83%BC%E3%83%B3%E5%A4%A9%E3%81%B7%E3%82%89"
+                            data-price="640円"
+                            data-allergens='["小麦", "卵"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">ヤングコーン天ぷら</h4>
+                            <p class="text-gray-400 text-base" data-key="youngcorn-tenpura-desc">サクサク衣とコーンの甘み。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">640円</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 一品もの -->
+                <div class="menu-category-ippinmono mt-12">
+                    <h3 class="text-3xl font-semibold text-amber-300 mb-5 border-l-4 border-amber-300 pl-4" data-key="cat-ippinmono">一品もの</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="tacos-meatpie"
+                            data-image="https://placehold.co/400x300/b87a4a/ffffff?text=%E3%82%BF%E3%82%B3%E3%82%B9%E3%83%9F%E3%83%BC%E3%83%88%E3%83%91%E3%82%A4"
+                            data-price="820円"
+                            data-allergens='["小麦", "乳", "牛肉"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">タコスミートパイ</h4>
+                            <p class="text-gray-400 text-base" data-key="tacos-meatpie-desc">サクサクパイにスパイシーなタコスミート。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">820円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="taimo-cheese"
+                            data-image="https://placehold.co/400x300/a88b6a/ffffff?text=%E7%94%B0%E8%8A%8B%E3%83%81%E3%83%BC%E3%82%BA%E7%84%BC%E3%81%8D"
+                            data-price="580円"
+                            data-allergens='["乳"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">田芋チーズ焼き</h4>
+                            <p class="text-gray-400 text-base" data-key="taimo-cheese-desc">沖縄の田芋とチーズのとろけるハーモニー。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">580円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="mabo-dofu"
+                            data-image="https://placehold.co/400x300/c23a2a/ffffff?text=%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90"
+                            data-price="820円"
+                            data-allergens='["大豆", "小麦", "豚肉"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">麻婆豆腐</h4>
+                            <p class="text-gray-400 text-base" data-key="mabo-dofu-desc">ピリッと本格派。辛さ調整できます。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">820円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="anchovy-cabbage"
+                            data-image="https://placehold.co/400x300/8db36d/ffffff?text=%E3%82%A2%E3%83%B3%E3%83%81%E3%83%A7%E3%83%93%E3%82%AD%E3%83%A3%E3%83%99%E3%83%84"
+                            data-price="640円"
+                            data-allergens='["魚介"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">アンチョビキャベツ</h4>
+                            <p class="text-gray-400 text-base" data-key="anchovy-cabbage-desc">ニンニクとアンチョビの塩気がたまらない。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">640円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="gyoza"
+                            data-image="https://placehold.co/400x300/d4a77a/333333?text=%E9%A4%83%E5%AD%90"
+                            data-price="640円"
+                            data-allergens='["小麦", "大豆", "豚肉"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">餃子（5個）</h4>
+                            <p class="text-gray-400 text-base" data-key="gyoza-desc">パリッとジューシーな手作り餃子。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">640円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="tofu-garlic"
+                            data-image="https://placehold.co/400x300/f0e4c8/333333?text=%E8%B1%86%E8%85%90%E3%83%8B%E3%83%B3%E3%83%8B%E3%82%AF"
+                            data-price="640円"
+                            data-allergens='["大豆"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">豆腐ニンニク</h4>
+                            <p class="text-gray-400 text-base" data-key="tofu-garlic-desc">ガツンとニンニク。スタミナ満点。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">640円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="goya-chanpuru"
+                            data-image="https://placehold.co/400x300/7a9a5a/ffffff?text=%E3%82%B4%E3%83%BC%E3%83%A4%E3%83%BC%E3%83%81%E3%83%A3%E3%83%B3%E3%83%97%E3%83%AB%E3%83%BC"
+                            data-price="640円"
+                            data-allergens='["卵", "大豆", "豚肉"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">ゴーヤーチャンプルー</h4>
+                            <p class="text-gray-400 text-base" data-key="goya-chanpuru-desc">沖縄の魂。定番チャンプルー。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">640円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="dashimaki"
+                            data-image="https://placehold.co/400x300/f0d06a/333333?text=%E3%81%A0%E3%81%97%E5%B7%BB%E3%81%8D%E5%8D%B5"
+                            data-price="560円"
+                            data-allergens='["卵"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">だし巻き卵</h4>
+                            <p class="text-gray-400 text-base" data-key="dashimaki-desc">ふわふわ。出汁が香る一品。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">560円</p>
+                        </div>
+                         <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="niku-yakimochi"
+                            data-image="https://placehold.co/400x300/b88a6a/ffffff?text=%E8%82%89%E7%84%BC%E3%81%8D%E3%82%82%E3%81%A1"
+                            data-price="560円"
+                            data-allergens='["小麦", "大豆", "豚肉"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">肉焼きもち</h4>
+                            <p class="text-gray-400 text-base" data-key="niku-yakimochi-desc">甘辛い肉タレともちもち食感。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">560円</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 肉料理 -->
+                <div class="menu-category-niku mt-12">
+                    <h3 class="text-3xl font-semibold text-amber-300 mb-5 border-l-4 border-amber-300 pl-4" data-key="cat-niku">肉料理</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="gyu-rare-katsu"
+                            data-image="https://placehold.co/400x300/a64a4a/ffffff?text=%E7%89%9B%E3%83%AC%E3%82%A2%E3%82%AB%E3%83%84"
+                            data-price="1200円"
+                            data-allergens='["小麦", "卵", "牛肉"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">牛レアカツ</h4>
+                            <p class="text-gray-400 text-base" data-key="gyu-rare-katsu-desc">サクッと衣、中はジューシーなレア仕上げ。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">1200円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="rib-steak"
+                            data-image="https://placehold.co/400x300/8c4a3a/ffffff?text=%E3%83%AA%E3%83%96%E3%83%AD%E3%83%BC%E3%82%B9%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD"
+                            data-price="1480円"
+                            data-allergens='["牛肉"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">リブロースステーキ</h4>
+                            <p class="text-gray-400 text-base" data-key="rib-steak-desc">食べ応え抜群。旨味あふれるリブロース。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">1480円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="wagyu-rib-steak"
+                            data-image="https://placehold.co/400x300/7a3a2a/ffffff?text=%E5%92%8C%E7%89%9B%E3%83%AA%E3%83%96%E3%83%AD%E3%83%BC%E3%82%B9"
+                            data-price="2480円"
+                            data-allergens='["牛肉"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">和牛リブロースステーキ</h4>
+                            <p class="text-gray-400 text-base" data-key="wagyu-rib-steak-desc">特別な夜に。とろける和牛の旨味。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">2480円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="hamburger"
+                            data-image="https://placehold.co/400x300/7a5a4a/ffffff?text=%E7%89%B9%E8%A3%BD%E3%83%8F%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B0"
+                            data-price="980円"
+                            data-allergens='["卵", "小麦", "乳", "牛肉", "豚肉"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">特製ハンバーグ</h4>
+                            <p class="text-gray-400 text-base" data-key="hamburger-desc">肉汁たっぷり。かふーじゅ特製ソースで。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">980円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="chicken-tatsuta"
+                            data-image="https://placehold.co/400x300/d9a56a/ffffff?text=%E3%83%81%E3%82%AD%E3%83%B3%E7%AB%9C%E7%94%B0%E6%8F%9A%E3%81%92"
+                            data-price="740円"
+                            data-allergens='["小麦", "卵", "大豆"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">チキン竜田揚げ</h4>
+                            <p class="text-gray-400 text-base" data-key="chicken-tatsuta-desc">サクサク衣とジューシーな鶏肉。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">740円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="chicken-steak"
+                            data-image="https://placehold.co/400x300/b88a5a/ffffff?text=%E3%83%81%E3%82%AD%E3%83%B3%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD"
+                            data-price="780円"
+                            data-allergens='["小麦", "大豆"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">チキンステーキ</h4>
+                            <p class="text-gray-400 text-base" data-key="chicken-steak-desc">皮はパリッと、身はジューシーに。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">780円</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- メイン -->
+                <div class="menu-category-main mt-12">
+                    <h3 class="text-3xl font-semibold text-amber-300 mb-5 border-l-4 border-amber-300 pl-4" data-key="cat-main">メイン（ご飯もの・麺）</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="reimen"
+                            data-image="https://placehold.co/400x300/c0e0f0/333333?text=%E3%81%8B%E3%81%B5%E3%83%BC%E3%81%98%E3%82%85%E5%86%B7%E9%BA%BA"
+                            data-price="820円"
+                            data-allergens='["小麦", "卵"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">かふーじゅ冷麺</h4>
+                            <p class="text-gray-400 text-base" data-key="reimen-desc">〆にぴったり。特製さっぱりスープ。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">820円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="garlic-pizza"
+                            data-image="https://placehold.co/400x300/d4a77a/333333?text=%E3%82%AC%E3%83%BC%E3%83%AA%E3%83%83%E3%82%AF%E3%83%9F%E3%83%BC%E3%83%88%E3%83%94%E3%82%B6"
+                            data-price="720円"
+                            data-allergens='["小麦", "乳", "豚肉"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">ガーリックミートピザ</h4>
+                            <p class="text-gray-400 text-base" data-key="garlic-pizza-desc">ガツンとガーリック。お酒にも合うピザ。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">720円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="margherita"
+                            data-image="https://placehold.co/400x300/e06a5a/ffffff?text=%E3%83%9E%E3%83%AB%E3%82%B2%E3%83%AA%E3%83%BC%E3%82%BF"
+                            data-price="720円"
+                            data-allergens='["小麦", "乳"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">マルゲリータ</h4>
+                            <p class="text-gray-400 text-base" data-key="margherita-desc">定番のマルゲリータピザ。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">720円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="koumi-chahan"
+                            data-image="https://placehold.co/400x300/d4b68a/333333?text=%E9%A6%99%E5%91%B3%E3%83%81%E3%83%A3%E3%83%BC%E3%83%8F%E3%83%B3"
+                            data-price="780円"
+                            data-allergens='["卵", "小麦", "大豆"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">香味チャーハン</h4>
+                            <p class="text-gray-400 text-base" data-key="koumi-chahan-desc">香味野菜が香る、パラパラ絶品チャーハン。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">780円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="mayu-chahan"
+                            data-image="https://placehold.co/400x300/a88a6a/333333?text=%E9%BB%92%E3%83%9E%E3%83%BC%E6%B2%B9%E3%83%81%E3%83%A3%E3%83%BC%E3%83%8F%E3%83%B3"
+                            data-price="780円"
+                            data-allergens='["卵", "小麦", "大豆"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">黒マー油チャーハン</h4>
+                            <p class="text-gray-400 text-base" data-key="mayu-chahan-desc">焦がしニンニク油が香る、クセになる味。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">780円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="taco-rice"
+                            data-image="https://placehold.co/400x300/b87a4a/ffffff?text=%E3%82%BF%E3%82%B3%E3%83%A9%E3%82%A4%E3%82%B9"
+                            data-price="480円"
+                            data-allergens='["乳", "牛肉"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">〆のタコライス</h4>
+                            <p class="text-gray-400 text-base" data-key="taco-rice-desc">沖縄の〆といえばこれ。ミニサイズ。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">480円</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- デザート -->
+                <div class="menu-category-dessert mt-12">
+                    <h3 class="text-3xl font-semibold text-amber-300 mb-5 border-l-4 border-amber-300 pl-4" data-key="cat-dessert">デザート</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="vanilla-ice"
+                            data-image="https://placehold.co/400x300/f0f0e0/333333?text=%E3%83%90%E3%83%8B%E3%83%A9%E3%82%A2%E3%82%A4%E3%82%B9"
+                            data-price="200円"
+                            data-allergens='["乳", "卵"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">バニラアイス</h4>
+                            <p class="text-gray-400 text-base" data-key="vanilla-ice-desc">食後にさっぱりと。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">200円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="age-mochi"
+                            data-image="https://placehold.co/400x300/d4b68a/333333?text=%E6%8F%9A%E3%81%92%E9%A4%85"
+                            data-price="300円"
+                            data-allergens='[]'>
+                            <h4 class="text-xl font-semibold text-gray-100">揚げ餅</h4>
+                            <p class="text-gray-400 text-base" data-key="age-mochi-desc">あつあつ、もちもち。黒蜜きなこで。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">300円</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ドリンク コンテンツ -->
+            <div id="drink-content" class="menu-tab-content">
+                <!-- アルコール -->
+                <div class_id="menu-category-alcohol">
+                    <h3 class="text-3xl font-semibold text-amber-300 mb-5 border-l-4 border-amber-300 pl-4" data-key="cat-alcohol">アルコール</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- ダミーアイテム -->
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="beer"
+                            data-image="https://placehold.co/400x300/f5c542/333333?text=%E7%94%9F%E3%83%93%E3%83%BC%E3%83%AB"
+                            data-price="550円"
+                            data-allergens='["小麦"]'>
+                            <h4 class="text-xl font-semibold text-gray-100">生ビール (ダミー)</h4>
+                            <p class="text-gray-400 text-base" data-key="beer-desc">キンキンに冷えてます。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">550円</p>
+                        </div>
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="awamori"
+                            data-image="https://placehold.co/400x300/e0e0e0/333333?text=%E6%B3%A1%E7%9B%9B"
+                            data-price="500円"
+                            data-allergens='[]'>
+                            <h4 class="text-xl font-semibold text-gray-100">泡盛 (ダミー)</h4>
+                            <p class="text-gray-400 text-base" data-key="awamori-desc">沖縄といえば。各種取り揃え。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">500円</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ノンアルコールドリンク -->
+                <div class="menu-category-non-alcohol mt-12">
+                    <h3 class="text-3xl font-semibold text-amber-300 mb-5 border-l-4 border-amber-300 pl-4" data-key="cat-nonalcohol">ノンアルコールドリンク</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- ダミーアイテム -->
+                        <div class="menu-item bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-amber-400/20 hover:scale-[1.02] transition-all"
+                            data-key="sanpincha"
+                            data-image="https://placehold.co/400x300/c2b280/333333?text=%E3%81%95%E3%82%93%E3%81%B4%E3%82%93%E8%8C%B6"
+                            data-price="300円"
+                            data-allergens='[]'>
+                            <h4 class="text-xl font-semibold text-gray-100">さんぴん茶 (ダミー)</h4>
+                            <p class="text-gray-400 text-base" data-key="sanpincha-desc">沖縄の定番。さっぱりと。</p>
+                            <p class="text-amber-400 text-lg font-bold mt-2">300円</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- イベント (Events) -->
+        <section id="events" class="content-section p-6 sm:p-8">
+            <h2 class="text-4xl font-bold text-center text-amber-400 mb-8" data-key="events-title">イベント情報</h2>
+            
+            <!-- 今月の注目イベント -->
+            <div class="mb-10 p-6 bg-gray-800 rounded-lg shadow-lg border border-gray-700">
+                <h3 class="text-3xl font-semibold text-amber-300 mb-4" data-key="events-monthly">今月の注目イベント (ダミー)</h3>
+                <div class="flex flex-col md:flex-row gap-6 items-center">
+                    <img src="https://placehold.co/600x400/8c4a3a/ffffff?text=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E7%94%BB%E5%83%8F" alt="イベント画像" class="w-full md:w-1/2 rounded-lg shadow-md">
+                    <div class="md:w-1/2">
+                        <h4 class="text-2xl font-bold text-gray-100 mb-2" data-key="event-1-title">和牛ステーキ半額フェア</h4>
+                        <p class="text-lg text-amber-400 font-semibold mb-3" data-key="event-1-date">11月25日 (土) 18:00〜</p>
+                        <p class="text-gray-300" data-key="event-1-desc">
+                            日頃の感謝を込めて、A5ランク和牛リブロースステーキ(2480円)を、なんと半額の1240円でご提供！<br>
+                            数量限定、早い者勝ちです！この機会をお見逃しなく！
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 定期イベントカレンダー -->
+            <div>
+                <h3 class="text-3xl font-semibold text-amber-300 mb-4" data-key="events-regular">定期イベント (ダミー)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-5 bg-gray-800 rounded-lg shadow-md border border-gray-700">
+                        <h4 class="text-2xl font-bold text-center text-gray-100" data-key="event-2-title">毎週月曜<br>ビールDay</h4>
+                        <p class="text-center text-lg mt-2 text-gray-300" data-key="event-2-desc">生ビール何杯飲んでも1杯300円！</p>
+                    </div>
+                    <div class="p-5 bg-gray-800 rounded-lg shadow-md border border-gray-700">
+                        <h4 class="text-2xl font-bold text-center text-gray-100" data-key="event-3-title">毎週水曜<br>レディースDay</h4>
+                        <p class="text-center text-lg mt-2 text-gray-300" data-key="event-3-desc">女性グループ限定、デザート1品サービス！</p>
+                    </div>
+                    <div class="p-5 bg-gray-800 rounded-lg shadow-md border border-gray-700">
+                        <h4 class="text-2xl font-bold text-center text-gray-100" data-key="event-4-title">毎月29日<br>肉の日</h4>
+                        <p class="text-center text-lg mt-2 text-gray-300" data-key="event-4-desc">対象の肉料理が全品10%OFF！</p>
+                    </div>
+                </div>
+                 <p class="text-center text-gray-400 mt-6 text-base" data-key="events-footer">
+                    ※イベントの詳細は予告なく変更する場合がございます。最新情報はInstagramをご確認ください。
+                </p>
+            </div>
+        </section>
+
+        <!-- ご予約/お問い合わせ (Contact) -->
+        <section id="contact" class="content-section p-6 sm:p-8">
+            <h2 class="text-4xl font-bold text-center text-amber-400 mb-8" data-key="contact-title">ご予約・お問い合わせ</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- ご予約方法 -->
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg border border-gray-700">
+                    <h3 class="text-3xl font-semibold text-amber-300 mb-5" data-key="contact-reserve-title">ご予約について</h3>
+                    <p class="text-lg text-gray-300 mb-6" data-key="contact-reserve-desc">
+                        ご予約は「お電話」または「InstagramのDM」にて承っております。<br>
+                        8名様以上のご予約（火曜日含む）は、1週間前までにご連絡をお願いいたします。
+                    </p>
+                    <div class="space-y-4">
+                        <a href="tel:098-XXX-XXXX" class="flex items-center justify-center gap-3 w-full px-6 py-4 bg-amber-500 text-gray-900 font-bold text-xl rounded-lg shadow-lg hover:bg-amber-400 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C6.477 18 2 13.523 2 8V3z"></path></svg>
+                            <span>電話で予約 (ダミー)</span>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 w-full px-6 py-4 bg-gray-700 text-white font-bold text-xl rounded-lg shadow-lg hover:bg-gray-600 transition-colors">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12.315 2.34a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-3.75 1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-6-13.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-9 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-3 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm15-6a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75ZM12 1.5a.75.75 0 0 1 .75.75V3a.75.75 0 0 1-1.5 0V2.25a.75.75 0 0 1 .75-.75ZM4.519 4.519a.75.75 0 0 1 .53 1.28l-1.06 1.06a.75.75 0 0 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 .53-.22Zm13.962 0a.75.75 0 0 1 .53.22l1.06 1.06a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 .53-1.28ZM1.5 12a.75.75 0 0 1 .75-.75H3a.75.75 0 0 1 0 1.5H2.25a.75.75 0 0 1-.75-.75Zm19.5 0a.75.75 0 0 1 .75-.75H22.5a.75.75 0 0 1 0 1.5H21.75a.75.75 0 0 1-.75-.75ZM4.519 19.481a.75.75 0 0 1 .53.22l1.06 1.06a.75.75 0 1 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 .53-1.28Zm13.962 0a.75.75 0 0 1 .53 1.28l1.06-1.06a.75.75 0 1 1-1.06-1.06l-1.06 1.06a.75.75 0 0 1 .53-.22ZM12 21.75a.75.75 0 0 1 .75.75V22.5a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Instagram DMで予約</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- お問い合わせフォーム -->
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg border border-gray-700">
+                    <h3 class="text-3xl font-semibold text-amber-300 mb-5" data-key="contact-form-title">お問い合わせフォーム</h3>
+                    <p class="text-lg text-gray-300 mb-6" data-key="contact-form-desc">
+                        ご予約以外のご質問、ご意見・ご感想などはこちらからお送りください。
+                    </p>
+                    <form id="contact-form">
+                        <div class="mb-5">
+                            <label for="name" class="block mb-2 text-lg font-medium text-gray-200" data-key="form-name">お名前</label>
+                            <input type="text" id="name" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="かふーじゅ 太郎" required>
+                        </div>
+                        <div class="mb-5">
+                            <label for="email" class="block mb-2 text-lg font-medium text-gray-200" data-key="form-email">メールアドレス</label>
+                            <input type="email" id="email" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="example@email.com" required>
+                        </div>
+                        <div class="mb-5">
+                            <label for="message" class="block mb-2 text-lg font-medium text-gray-200" data-key="form-message">お問い合わせ内容</label>
+                            <textarea id="message" rows="6" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="ご質問など..." required></textarea>
+                        </div>
+                        <button type="submit" class="w-full px-6 py-4 bg-amber-500 text-gray-900 font-bold text-xl rounded-lg shadow-lg hover:bg-amber-400 transition-colors" data-key="form-submit">
+                            送信する
+                        </button>
+                    </form>
+                    <div id="form-message" class="mt-4 text-center text-lg"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- フッター -->
+    <footer class="bg-gray-950 border-t border-gray-800 mt-12">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <div class="flex justify-center mb-4">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-amber-400 transition-colors">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12.315 2.34a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-3.75 1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-6-13.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm3 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-9 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm-3 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm15-6a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm0 3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75ZM12 1.5a.75.75 0 0 1 .75.75V3a.75.75 0 0 1-1.5 0V2.25a.75.75 0 0 1 .75-.75ZM4.519 4.519a.75.75 0 0 1 .53 1.28l-1.06 1.06a.75.75 0 0 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 .53-.22Zm13.962 0a.75.75 0 0 1 .53.22l1.06 1.06a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 .53-1.28ZM1.5 12a.75.75 0 0 1 .75-.75H3a.75.75 0 0 1 0 1.5H2.25a.75.75 0 0 1-.75-.75Zm19.5 0a.75.75 0 0 1 .75-.75H22.5a.75.75 0 0 1 0 1.5H21.75a.75.75 0 0 1-.75-.75ZM4.519 19.481a.75.75 0 0 1 .53.22l1.06 1.06a.75.75 0 1 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 .53-1.28Zm13.962 0a.75.75 0 0 1 .53 1.28l1.06-1.06a.75.75 0 1 1-1.06-1.06l-1.06 1.06a.75.75 0 0 1 .53-.22ZM12 21.75a.75.75 0 0 1 .75.75V22.5a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+            <p class="text-lg">&copy; 2024 酔い処 かふーじゅ. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- メニュー詳細モーダル (非表示) -->
+    <div id="menu-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content text-gray-100">
+            <span class="close-modal" id="close-modal-button" aria-label="閉じる">&times;</span>
+            <img id="modal-image" src="" alt="メニュー写真" class="w-full h-64 object-cover rounded-lg mb-4">
+            <h3 id="modal-title" class="text-3xl font-bold text-amber-400 mb-2"></h3>
+            <p id="modal-price" class="text-xl text-gray-300 font-semibold mb-4"></p>
+            <p id="modal-description" class="text-lg text-gray-200 mb-5"></p>
+            <h4 class="text-lg font-semibold text-gray-300 mb-2" data-key="modal-allergens-title">アレルゲン・食材情報</h4>
+            <div id="modal-allergens" class="flex flex-wrap gap-2">
+                <!-- アレルゲンタグがここに追加されます -->
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        try {
+            // 翻訳データ
+            const menuTranslations = {
+                "jp": {
+                    "catchphrase": "今夜もかふーじゅに集合！アットホームな酔い処",
+                    "sub-catchphrase": "旨い酒と肴、楽しいイベントで、毎日が特別になる大衆居z屋。",
+                    "about-title": "私たちの思い",
+                    "about-body": "「酔い処 かふーじゅ」の「かふーじゅ」とは、沖縄の言葉で「果報（かふう）」＝「幸せ、良い知らせ」を意味します。<br><br>私たちは、この小さな居酒屋が、訪れるお客様にとっての「幸せな場所」でありたいと願っています。<br>一度だけでなく、二度、三度と足を運びたくなるような、アットホームな空間づくり。<br>お一人お一人のお客様との出会いを大切にし、心を込めたおもてなしを。<br><br>そして、お店があるこの若狭という地域に根ざし、地域の皆様の笑顔と発展に、微力ながらも貢献していくこと。<br>それが「酔い処 かふーじゅ」の変わらぬ思いです。",
+                    "info-title": "店舗情報・アクセス",
+                    "menu-title": "お品書き",
+                    "events-title": "イベント情報",
+                    "contact-title": "ご予約・お問い合わせ",
+                    "contact-reserve-title": "ご予約について",
+                    "contact-reserve-desc": "ご予約は「お電話」または「InstagramのDM」にて承っております。<br>8名様以上のご予約（火曜日含む）は、1週間前までにご連絡をお願いいたします。",
+                    "contact-form-title": "お問い合わせフォーム",
+                    "contact-form-desc": "ご予約以外のご質問、ご意見・ご感想などはこちらからお送りください。",
+                    "form-name": "お名前",
+                    "form-email": "メールアドレス",
+                    "form-message": "お問い合わせ内容",
+                    "form-submit": "送信する",
+                    "events-monthly": "今月の注目イベント (ダミー)",
+                    "event-1-title": "和牛ステーキ半額フェア",
+                    "event-1-date": "11月25日 (土) 18:00〜",
+                    "event-1-desc": "日頃の感謝を込めて、A5ランク和牛リブロースステーキ(2480円)を、なんと半額の1240円でご提供！<br>数量限定、早い者勝ちです！この機会をお見逃しなく！",
+                    "events-regular": "定期イベント (ダミー)",
+                    "event-2-title": "毎週月曜<br>ビールDay",
+                    "event-2-desc": "生ビール何杯飲んでも1杯300円！",
+                    "event-3-title": "毎週水曜<br>レディースDay",
+                    "event-3-desc": "女性グループ限定、デザート1品サービス！",
+                    "event-4-title": "毎月29日<br>肉の日",
+                    "event-4-desc": "対象の肉料理が全品10%OFF！",
+                    "events-footer": "※イベントの詳細は予告なく変更する場合がございます。最新情報はInstagramをご確認ください。",
+                    "modal-allergens-title": "アレルゲン・食材情報",
+                    "tab-food": "フード (Food)",
+                    "tab-drink": "ドリンク (Drink)",
+
+                    "cat-otsumami": "おつまみ",
+                    "iburigakko": "いぶりがっこチーズ",
+                    "iburigakko-desc": "燻製の香りとチーズのコク。",
+                    "iburigakko-detail": "秋田名物のいぶりがっこと、クリーミーなチーズを合わせました。日本酒やワインのお供に最適です。食感のコントラストをお楽しみください。",
+                    "shutou-cheese": "酒盗クリームチーズ",
+                    "shutou-cheese-desc": "日本酒泥棒。間違いない組み合わせ。",
+                    "shutou-cheese-detail": "濃厚な酒盗（カツオの内臓の塩辛）とクリームチーズを和えました。クラッカーに乗せても、そのままちびちびと舐めても美味しい、お酒が進む一品です。",
+                    "yamaimo-zakuzaku": "山芋ザクザク",
+                    "yamaimo-zakuzaku-desc": "新鮮な山芋の食感をお楽しみください。",
+                    "yamaimo-zakuzaku-detail": "新鮮な山芋を特製のタレで和えました。ザクザクとした食感が楽しい、さっぱりとしたおつまみです。",
+                    "mozukusu": "もずく酢",
+                    "mozukusu-desc": "沖縄定番のさっぱりおつまみ。",
+                    "mozukusu-detail": "沖縄県産のもずくを、さっぱりとした三杯酢で仕上げました。暑い日や食欲がない時でもつるっと食べられます。",
+                    "umibudou": "海ぶどう",
+                    "umibudou-desc": "プチプチ食感がたまらない海の宝石。",
+                    "umibudou-detail": "沖縄の海で育った海ぶどう。プチプチとした独特の食感と、ほんのりとした塩気が特徴です。特製ポン酢でお召し上がりください。",
+                    "kyuri-ippon": "きゅうり一本漬け",
+                    "kyuri-ippon-desc": "とりあえずこれ。さっぱりと。",
+                    "kyuri-ippon-detail": "新鮮なきゅうりを丸ごと一本、特製の浅漬けダレに漬け込みました。箸休めにどうぞ。",
+                    "hiyayakko": "冷や奴",
+                    "hiyayakko-desc": "シンプルイズベスト。お好みで薬味を。",
+                    "hiyayakko-detail": "滑らかな絹ごし豆腐を使用。ネギ、生姜、かつお節など、お好みの薬味と一緒にお召し上がりください。",
+                    "caesar-salad": "シーザーサラダ",
+                    "caesar-salad-desc": "濃厚ドレッシングとクルトンがアクセント。",
+                    "caesar-salad-detail": "新鮮なレタスに、カリカリのクルトンとベーコン、濃厚なシーザードレッシングをかけました。パルメザンチーズをたっぷりとかけてどうぞ。",
+                    "pirikara-tamago": "特製ピリ辛半熟玉子",
+                    "pirikara-tamago-desc": "とろーり半熟。特製のピリ辛ダレで。",
+                    "pirikara-tamago-detail": "黄身がとろーりとした半熟玉子を、特製のピリ辛醤油ダレにじっくりと漬け込みました。おつまみにも、ご飯のお供にも。",
+                    "pirikara-menma": "ピリ辛おつまみメンマ",
+                    "pirikara-menma-desc": "ごま油香る、お酒が進むメンマ。",
+                    "pirikara-menma-detail": "歯ごたえの良いメンマを、ラー油とごま油で風味豊かに仕上げました。ビールのお供に最適です。",
+                    "aburi-charshu": "炙りチャーシュー薬味まみれ",
+                    "aburi-charshu-desc": "香ばしく炙ったチャーシューに薬味をどっさり。",
+                    "aburi-charshu-detail": "特製のタレでじっくり煮込んだチャーシューを、提供直前に香ばしく炙りました。たっぷりのネギやミョウガなどの薬味と一緒にお召し上がりください。",
+
+                    "cat-agemono": "揚げ物",
+                    "wakadori-karaage": "若鶏からあげ",
+                    "wakadori-karaage-desc": "ジューシーな定番からあげ。",
+                    "wakadori-karaage-detail": "特製ダレに漬け込んだ鶏もも肉を、カラッとジューシーに揚げました。当店自慢の定番メニューです。",
+                    "potato-fry": "皮付きポテトフライ",
+                    "potato-fry-desc": "ホクホク。手が止まらない。",
+                    "potato-fry-detail": "じゃがいもの風味をしっかり感じられる、皮付きのフライドポテト。お好みでケチャップやマヨネーズをどうぞ。",
+                    "atsuage-yakumi": "薬味たっぷり厚揚げ",
+                    "atsuage-yakumi-desc": "カリッと揚げた厚揚げに薬味をたっぷり。",
+                    "atsuage-yakumi-detail": "外はカリッと、中はふんわりと揚げた厚揚げに、ネギ、生姜、大葉などの薬味をふんだんに乗せました。生姜醤油でお召し上がりください。",
+                    "youngcorn-tenpura": "ヤングコーン天ぷら",
+                    "youngcorn-tenpura-desc": "サクサク衣とコーンの甘み。",
+                    "youngcorn-tenpura-detail": "シャキシャキとした食感のヤングコーンを、サクサクの衣で天ぷらにしました。ほんのりとした甘みが特徴です。お塩でどうぞ。",
+                    
+                    "cat-ippinmono": "一品もの",
+                    "tacos-meatpie": "タコスミートパイ",
+                    "tacos-meatpie-desc": "サクサクパイにスパイシーなタコスミート。",
+                    "tacos-meatpie-detail": "サクサクのパイ生地に、スパイシーに味付けしたタコスミートとチーズを詰めて焼き上げました。沖縄と洋風のコラボレーション。",
+                    "taimo-cheese": "田芋チーズ焼き",
+                    "taimo-cheese-desc": "沖縄の田芋とチーズのとろけるハーモニー。",
+                    "taimo-cheese-detail": "沖縄の伝統食材である田芋（ターンム）をマッシュし、チーズをたっぷり乗せて香ばしく焼き上げました。田芋の自然な甘みとチーズの塩気が絶妙です。",
+                    "mabo-dofu": "麻婆豆腐",
+                    "mabo-dofu-desc": "ピリッと本格派。辛さ調整できます。",
+                    "mabo-dofu-detail": "豆板醤と花椒の効いた、本格的な麻婆豆腐です。辛さはお好みに合わせて調整可能ですので、お申し付けください。",
+                    "anchovy-cabbage": "アンチョビキャベツ",
+                    "anchovy-cabbage-desc": "ニンニクとアンチョビの塩気がたまらない。",
+                    "anchovy-cabbage-detail": "シャキシャキのキャベツを、ニンニクとアンチョビの効いたソースでさっと炒めました。シンプルながらお酒が進む一品です。",
+                    "gyoza": "餃子（5個）",
+                    "gyoza-desc": "パリッとジューシーな手作り餃子。",
+                    "gyoza-detail": "皮はパリッと、中は肉汁たっぷりのジューシーな餃子です。特製のタレでお召し上がりください。",
+                    "tofu-garlic": "豆腐ニンニク",
+                    "tofu-garlic-desc": "ガツンとニンニク。スタミナ満点。",
+                    "tofu-garlic-detail": "豆腐をニンニクと特製ダレで炒めた、シンプルながらパンチのある一品。スタミナをつけたい時にどうぞ。",
+                    "goya-chanpuru": "ゴーヤーチャンプルー",
+                    "goya-chanpuru-desc": "沖縄の魂。定番チャンプルー。",
+                    "goya-chanpuru-detail": "沖縄料理の定番、ゴーヤーチャンプルー。ゴーヤーのほろ苦さと、ポーク、豆腐、卵の旨味が一体となった一品です。",
+                    "dashimaki": "だし巻き卵",
+                    "dashimaki-desc": "ふわふわ。出汁が香る一品。",
+                    "dashimaki-detail": "ご注文を頂いてから一つ一つ丁寧に焼き上げます。ふわふわの食感と、じゅわっと広がる出汁の香りをお楽しみください。",
+                    "niku-yakimochi": "肉焼きもち",
+                    "niku-yakimochi-desc": "甘辛い肉タレともちもち食感。",
+                    "niku-yakimochi-detail": "お餅に豚肉を巻き、甘辛い特製ダレで香ばしく焼き上げました。もちもち食感と甘辛いタレが後を引く美味しさです。",
+                    
+                    "cat-niku": "肉料理",
+                    "gyu-rare-katsu": "牛レアカツ",
+                    "gyu-rare-katsu-desc": "サクッと衣、中はジューシーなレア仕上げ。",
+                    "gyu-rare-katsu-detail": "厳選した牛肉を使用し、高温で短時間で揚げることで、外はサクサク、中は美しいレアに仕上げました。わさび醤油でお召し上がりください。",
+                    "rib-steak": "リブロースステーキ",
+                    "rib-steak-desc": "食べ応え抜群。旨味あふれるリブロース。",
+                    "rib-steak-detail": "肉の旨味が濃いリブロースを、豪快にステーキにしました。食べ応え満点の一品です。",
+                    "wagyu-rib-steak": "和牛リブロースステーキ",
+                    "wagyu-rib-steak-desc": "特別な夜に。とろける和牛の旨味。",
+                    "wagyu-rib-steak-detail": "A5ランクの黒毛和牛リブロースを使用。口の中に入れた瞬間にとろける脂の甘みと、芳醇な香りをお楽しみください。",
+                    "hamburger": "特製ハンバーグ",
+                    "hamburger-desc": "肉汁たっぷり。かふーじゅ特製ソースで。",
+                    "hamburger-detail": "牛肉と豚肉の黄金比でこねあげた、肉汁たっぷりのジューシーなハンバーグ。かふーじゅ特製のデミグラスソースでお召し上がりください。",
+                    "chicken-tatsuta": "チキン竜田揚げ",
+                    "chicken-tatsuta-desc": "サクサク衣とジューシーな鶏肉。",
+                    "chicken-tatsuta-detail": "生姜と醤油の風味が効いた特製ダレに漬け込み、片栗粉でサクッと揚げました。ジューシーな鶏もも肉の旨味があふれます。",
+                    "chicken-steak": "チキンステーキ",
+                    "chicken-steak-desc": "皮はパリッと、身はジューシーに。",
+                    "chicken-steak-detail": "鶏もも肉を丸ごと一枚使用。皮目をパリッと香ばしく焼き上げ、身はジューシーに仕上げました。特製のオニオンソースでどうぞ。",
+
+                    "cat-main": "メイン（ご飯もの・麺）",
+                    "reimen": "かふーじゅ冷麺",
+                    "reimen-desc": "〆にぴったり。特製さっぱりスープ。",
+                    "reimen-detail": "飲んだ後の〆にぴったりの、特製冷麺。ツルツルとした麺と、魚介系のさっぱりとした和風スープが特徴です。",
+                    "garlic-pizza": "ガーリックミートピザ",
+                    "garlic-pizza-desc": "ガツンとガーリック。お酒にも合うピザ。",
+                    "garlic-pizza-detail": "たっぷりのガーリックとミートソース、チーズを使ったパンチのあるピザ。ビールやハイボールとの相性抜群です。",
+                    "margherita": "マルゲリータ",
+                    "margherita-desc": "定番のマルゲリータピザ。",
+                    "margherita-detail": "トマトソース、モッツァレラチーズ、バジルを使った、イタリアンピザの定番。シンプルな美味しさです。",
+                    "koumi-chahan": "香味チャーハン",
+                    "koumi-chahan-desc": "香味野菜が香る、パラパラ絶品チャーハン。",
+                    "koumi-chahan-detail": "ネギ、生姜、ミョウガなどの香味野菜を使い、高温で一気に炒めたパラパラのチャーハン。食欲をそそる香りが特徴です。",
+                    "mayu-chahan": "黒マー油チャーハン",
+                    "mayu-chahan-desc": "焦がしニンニク油が香る、クセになる味。",
+                    "mayu-chahan-detail": "特製の黒マー油（焦がしニンニク油）を使った、香ばしさが際立つチャーハン。一度食べたらやみつきになる、クセになる味わいです。",
+                    "taco-rice": "〆のタコライス",
+                    "taco-rice-desc": "沖縄の〆といえばこれ。ミニサイズ。",
+                    "taco-rice-detail": "沖縄のソウルフード、タコライスを〆にぴったりのミニサイズでご提供。スパイシーなタコスミートとチーズ、レタスをご飯と混ぜてお召し上がりください。",
+
+                    "cat-dessert": "デザート",
+                    "vanilla-ice": "バニラアイス",
+                    "vanilla-ice-desc": "食後にさっぱりと。",
+                    "vanilla-ice-detail": "濃厚なバニラビーンズが香る、シンプルなバニラアイスです。食後のお口直しにどうぞ。",
+                    "age-mochi": "揚げ餅",
+                    "age-mochi-desc": "あつあつ、もちもち。黒蜜きなこで。",
+                    "age-mochi-detail": "お餅をカラッと揚げて、アツアツのうちに黒蜜ときなこをたっぷりとかけました。和風のあったかデザートです。",
+
+                    "cat-alcohol": "アルコール",
+                    "beer": "生ビール (ダミー)",
+                    "beer-desc": "キンキンに冷えてます。",
+                    "beer-detail": "仕事終わりの一杯はこれ！徹底した品質管理で、最高の状態の生ビールをご提供します。",
+                    "awamori": "泡盛 (ダミー)",
+                    "awamori-desc": "沖縄といえば。各種取り揃え。",
+                    "awamori-detail": "沖縄の地酒、泡盛。初心者向けの飲みやすいものから、通好みの古酒（クースー）まで、各種取り揃えております。",
+                    
+                    "cat-nonalcohol": "ノンアルコールドリンク",
+                    "sanpincha": "さんぴん茶 (ダミー)",
+                    "sanpincha-desc": "沖縄の定番。さっぱりと。",
+                    "sanpincha-detail": "沖縄で最も親しまれているお茶、さんぴん茶（ジャスミンティー）。さっぱりとした花の香りが、沖縄料理によく合います。"
+                },
+                "en": {
+                    "catchphrase": "Gather at Kafuju tonight! A cozy izakaya.",
+                    "sub-catchphrase": "Great sake, food, and fun events make every day special.",
+                    "about-title": "Our Philosophy",
+                    "about-body": "The name 'Kafuju' comes from the Okinawan word 'Kafuu,' meaning 'good fortune' or 'happiness.'<br><br>We hope this small izakaya will be a 'happy place' for all who visit.<br>We strive to create a welcoming, at-home atmosphere that makes you want to come back again and again, cherishing every encounter with every customer.<br><br>We also aim to be rooted in this Wakasa community, contributing, even in a small way, to the smiles and prosperity of the local area.<br>This is the unchanging philosophy of 'Yoidokoro Kafuju.'",
+                    "info-title": "Info & Access",
+                    "menu-title": "Menu",
+                    "events-title": "Events",
+                    "contact-title": "Reservations / Contact",
+                    "contact-reserve-title": "Reservations",
+                    "contact-reserve-desc": "We accept reservations by 'Phone' or 'Instagram DM'.<br>For parties of 8 or more (including Tuesdays), please contact us at least one week in advance.",
+                    "contact-form-title": "Inquiry Form",
+                    "contact-form-desc": "For non-reservation questions, opinions, or feedback, please use this form.",
+                    "form-name": "Name",
+                    "form-email": "Email Address",
+                    "form-message": "Message",
+                    "form-submit": "Send",
+                    "events-monthly": "Event of the Month (Dummy)",
+                    "event-1-title": "Wagyu Steak Half Price Fair",
+                    "event-1-date": "Nov 25 (Sat) 18:00~",
+                    "event-1-desc": "To show our appreciation, our A5 Rank Wagyu Ribeye Steak (¥2480) will be half price at ¥1240!<br>Limited quantity, first come, first served! Don't miss out!",
+                    "events-regular": "Regular Events (Dummy)",
+                    "event-2-title": "Every Monday<br>Beer Day",
+                    "event-2-desc": "All draft beers ¥300, no matter how many!",
+                    "event-3-title": "Every Wednesday<br>Ladies' Day",
+                    "event-3-desc": "One free dessert for groups of ladies!",
+                    "event-4-title": "29th of Every Month<br>Meat Day",
+                    "event-4-desc": "All designated meat dishes 10% OFF!",
+                    "events-footer": "*Event details are subject to change. Please check Instagram for the latest info.",
+                    "modal-allergens-title": "Allergen & Ingredient Info",
+                    "tab-food": "Food",
+                    "tab-drink": "Drink",
+
+                    "cat-otsumami": "Appetizers",
+                    "iburigakko": "Smoked Radish & Cheese",
+                    "iburigakko-desc": "Smoky aroma and rich cheese.",
+                    "iburigakko-detail": "A specialty from Akita, 'Iburigakko' (smoked pickled radish), paired with creamy cheese. Perfect with sake or wine.",
+                    "shutou-cheese": "Shutou & Cream Cheese",
+                    "shutou-cheese-desc": "A 'sake thief.' A perfect match.",
+                    "shutou-cheese-detail": "Rich 'Shutou' (fermented bonito entrails) mixed with cream cheese. A savory treat that pairs excellently with sake.",
+                    "yamaimo-zakuzaku": "Crunchy Mountain Yam",
+                    "yamaimo-zakuzaku-desc": "Enjoy the fresh, crisp texture.",
+                    "yamaimo-zakuzaku-detail": "Fresh mountain yam seasoned with a special sauce. A refreshing appetizer with a satisfying crunch.",
+                    "mozukusu": "Mozuku Seaweed in Vinegar",
+                    "mozukusu-desc": "A refreshing Okinawa classic.",
+                    "mozukusu-detail": "Okinawan mozuku seaweed served in a light vinegar sauce. A light and healthy starter.",
+                    "umibudou": "Sea Grapes",
+                    "umibudou-desc": "Sea jewels with a popping texture.",
+                    "umibudou-detail": "A type of Okinawan seaweed, famous for its 'popping' texture. Served with a citrus soy dip.",
+                    "kyuri-ippon": "Pickled Cucumber",
+                    "kyuri-ippon-desc": "A quick and refreshing bite.",
+                    "kyuri-ippon-detail": "A whole cucumber lightly pickled in our special brine. A perfect palate cleanser.",
+                    "hiyayakko": "Chilled Tofu",
+                    "hiyayakko-desc": "Simple is best. With toppings.",
+                    "hiyayakko-detail": "Silken tofu served chilled. Enjoy with your choice of toppings like green onion, ginger, and bonito flakes.",
+                    "caesar-salad": "Caesar Salad",
+                    "caesar-salad-desc": "Rich dressing and crunchy croutons.",
+                    "caesar-salad-detail": "Fresh lettuce, crispy croutons, bacon, and a rich Caesar dressing, topped with Parmesan cheese.",
+                    "pirikara-tamago": "Spicy Soft-Boiled Egg",
+                    "pirikara-tamago-desc": "Gooey yolk in our special spicy sauce.",
+                    "pirikara-tamago-detail": "A perfectly soft-boiled egg marinated in our special spicy soy-based sauce.",
+                    "pirikara-menma": "Spicy Menma (Bamboo Shoots)",
+                    "pirikara-menma-desc": "Savory bamboo shoots with sesame oil.",
+                    "pirikara-menma-detail": "Crunchy bamboo shoots seasoned with chili oil and sesame oil. A great snack with beer.",
+                    "aburi-charshu": "Torched Charshu with Green Onions",
+                    "aburi-charshu-desc": "Seared pork belly buried in toppings.",
+                    "aburi-charshu-detail": "Slow-braised pork belly, seared to perfection and served with a generous amount of green onions and other herbs.",
+
+                    "cat-agemono": "Fried Foods",
+                    "wakadori-karaage": "Fried Chicken (Karaage)",
+                    "wakadori-karaage-desc": "Juicy and classic fried chicken.",
+                    "wakadori-karaage-detail": "Tender chicken thigh marinated in our special sauce, fried crispy and juicy.",
+                    "potato-fry": "French Fries (Wedges)",
+                    "potato-fry-desc": "Fluffy, skin-on potato fries.",
+                    "potato-fry-detail": "Thick-cut, skin-on potato fries, perfectly crispy on the outside and fluffy on the inside.",
+                    "atsuage-yakumi": "Fried Tofu with Toppings",
+                    "atsuage-yakumi-desc": "Crispy fried tofu covered in herbs.",
+                    "atsuage-yakumi-detail": "Thick slices of tofu fried until golden brown, served with a mountain of fresh green onions, ginger, and bonito flakes.",
+                    "youngcorn-tenpura": "Young Corn Tempura",
+                    "youngcorn-tenpura-desc": "Crispy batter and sweet corn.",
+                    "youngcorn-tenpura-detail": "Crispy baby corn fried in a light tempura batter. Enjoy the sweetness with a pinch of salt.",
+                    
+                    "cat-ippinmono": "Side Dishes",
+                    "tacos-meatpie": "Taco Meat Pie",
+                    "tacos-meatpie-desc": "Crispy pie with spicy taco meat.",
+                    "tacos-meatpie-detail": "A savory pie filled with spicy taco meat and cheese, baked until golden brown. An Okinawan-Western fusion.",
+                    "taimo-cheese": "Baked Taro & Cheese",
+                    "taimo-cheese-desc": "Melted harmony of Okinawan taro and cheese.",
+                    "taimo-cheese-detail": "Mashed 'Taimo' (Okinawan taro) topped with cheese and baked until bubbly. The natural sweetness of the taro pairs perfectly with the salty cheese.",
+                    "mabo-dofu": "Mapo Tofu",
+                    "mabo-dofu-desc": "Authentic and spicy. Adjusts to your taste.",
+                    "mabo-dofu-detail": "A classic Sichuan dish with a spicy and numbing kick. Spice level can be adjusted upon request.",
+                    "anchovy-cabbage": "Anchovy & Cabbage Stir-fry",
+                    "anchovy-cabbage-desc": "Irresistible garlic and anchovy saltiness.",
+                    "anchovy-cabbage-detail": "Crisp cabbage quickly stir-fried with garlic and anchovies. A simple but addictive dish.",
+                    "gyoza": "Gyoza (5 pcs)",
+                    "gyoza-desc": "Crispy and juicy handmade dumplings.",
+                    "gyoza-detail": "Handmade dumplings, pan-fried until crispy on the bottom and juicy inside.",
+                    "tofu-garlic": "Garlic Tofu",
+                    "tofu-garlic-desc": "A powerful punch of garlic. Stamina boost.",
+                    "tofu-garlic-detail": "Tofu stir-fried with plenty of garlic and a special sauce. A simple dish packed with flavor.",
+                    "goya-chanpuru": "Goya Chanpuru",
+                    "goya-chanpuru-desc": "The soul of Okinawa. A classic stir-fry.",
+                    "goya-chanpuru-detail": "The quintessential Okinawan stir-fry, featuring bitter melon, pork, tofu, and egg.",
+                    "dashimaki": "Dashimaki Tamago (Rolled Omelet)",
+                    "dashimaki-desc": "Fluffy omelet full of dashi broth.",
+                    "dashimaki-detail": "A traditional Japanese rolled omelet, made to order. Fluffy, juicy, and full of savory dashi flavor.",
+                    "niku-yakimochi": "Grilled Mochi with Pork",
+                    "niku-yakimochi-desc": "Chewy mochi with sweet & savory pork.",
+                    "niku-yakimochi-detail": "Chewy rice cakes wrapped in pork and grilled with a sweet soy-based sauce.",
+                    
+                    "cat-niku": "Meat Dishes",
+                    "gyu-rare-katsu": "Beef Katsu (Rare)",
+                    "gyu-rare-katsu-desc": "Crispy outside, juicy and rare inside.",
+                    "gyu-rare-katsu-detail": "A premium beef cutlet fried quickly at high heat for a crispy crust while keeping the inside beautifully rare. Serve with wasabi soy sauce.",
+                    "rib-steak": "Ribeye Steak",
+                    "rib-steak-desc": "A hearty steak packed with flavor.",
+                    "rib-steak-detail": "A juicy and flavorful ribeye steak, grilled to your liking. A satisfying and hearty dish.",
+                    "wagyu-rib-steak": "Wagyu Ribeye Steak",
+                    "wagyu-rib-steak-desc": "For a special night. Melt-in-your-mouth Wagyu.",
+                    "wagyu-rib-steak-detail": "A5 rank Japanese Wagyu ribeye. Experience the luxurious sweetness and aroma of fat that melts in your mouth.",
+                    "hamburger": "Special Hamburger Steak",
+                    "hamburger-desc": "Juicy patty with Kafuju's special sauce.",
+                    "hamburger-detail": "A juicy hamburger steak made from a perfect blend of beef and pork, served with our house-made demi-glace sauce.",
+                    "chicken-tatsuta": "Tatsuta Fried Chicken",
+                    "chicken-tatsuta-desc": "Crispy batter and juicy chicken.",
+                    "chicken-tatsuta-detail": "Chicken thigh marinated in ginger and soy sauce, then fried in a crispy potato starch batter.",
+                    "chicken-steak": "Chicken Steak",
+                    "chicken-steak-desc": "Crispy skin and juicy meat.",
+                    "chicken-steak-detail": "A whole chicken thigh grilled until the skin is perfectly crispy and the meat is tender. Served with a special onion sauce.",
+
+                    "cat-main": "Main (Rice & Noodles)",
+                    "reimen": "Kafuju's Cold Noodles",
+                    "reimen-desc": "Perfect to finish. Refreshing special soup.",
+                    "reimen-desc-detail": "A refreshing cold noodle dish, perfect for finishing your meal. Chewy noodles in a light, seafood-based Japanese broth.",
+                    "garlic-pizza": "Garlic Meat Pizza",
+                    "garlic-pizza-desc": "A punch of garlic. Great with drinks.",
+                    "garlic-pizza-detail": "A savory pizza topped with garlic, meat sauce, and cheese. Pairs perfectly with beer or a highball.",
+                    "margherita": "Margherita Pizza",
+                    "margherita-desc": "The classic pizza.",
+                    "margherita-detail": "The classic Italian pizza with tomato sauce, mozzarella, and basil. Simply delicious.",
+                    "koumi-chahan": "Aromatic Fried Rice",
+                    "koumi-chahan-desc": "Fragrant fried rice with aromatic vegetables.",
+                    "koumi-chahan-detail": "Perfectly cooked fried rice stir-fried at high heat with aromatic vegetables like green onion, ginger, and Japanese ginger.",
+                    "mayu-chahan": "Black Garlic Oil Fried Rice",
+                    "mayu-chahan-desc": "Addictive taste with burnt garlic oil.",
+                    "mayu-chahan-detail": "A fragrant fried rice featuring our special 'black ma-yu' (burnt garlic oil). A unique and addictive flavor.",
+                    "taco-rice": "Mini Taco Rice",
+                    "taco-rice-desc": "Okinawa's classic finish. Mini size.",
+                    "taco-rice-detail": "Okinawa's soul food, served in a mini size perfect for finishing your meal. Spicy taco meat, cheese, and lettuce over rice.",
+
+                    "cat-dessert": "Dessert",
+                    "vanilla-ice": "Vanilla Ice Cream",
+                    "vanilla-ice-desc": "A refreshing end to your meal.",
+                    "vanilla-ice-detail": "A simple, rich vanilla ice cream. A perfect palate cleanser after your meal.",
+                    "age-mochi": "Fried Mochi",
+                    "age-mochi-desc": "Hot & chewy. With brown sugar syrup.",
+                    "age-mochi-detail": "Crispy fried rice cakes, served hot and drizzled with 'kuromitsu' (brown sugar syrup) and 'kinako' (roasted soybean powder).",
+                    
+                    "cat-alcohol": "Alcohol",
+                    "beer": "Draft Beer (Dummy)",
+                    "beer-desc": "Ice cold and refreshing.",
+                    "beer-detail": "The perfect start! We serve perfectly chilled, high-quality draft beer.",
+                    "awamori": "Awamori (Dummy)",
+                    "awamori-desc": "The spirit of Okinawa. Various types.",
+                    "awamori-detail": "Okinawa's traditional spirit. We have a selection ranging from easy-to-drink types for beginners to aged 'kusu' for connoisseurs.",
+                    
+                    "cat-nonalcohol": "Non-Alcoholic",
+                    "sanpincha": "Sanpin Cha (Jasmine Tea) (Dummy)",
+                    "sanpincha-desc": "Okinawa's classic tea.",
+                    "sanpincha-detail": "The most popular tea in Okinawa. The refreshing floral aroma of jasmine tea pairs wonderfully with Okinawan food."
+                },
+                "cn": {
+                    "catchphrase": "今晚也来Kafuju集合！舒适的醉人小馆。",
+                    "sub-catchphrase": "美味的酒、佳肴和有趣的活动，让每天都变得特别。",
+                    "about-title": "我们的理念",
+                    "about-body": "“Kafuju”这个名字来源于冲绳方言“Kafuu”，意思是“好运”或“幸福”。<br><br>我们希望这家小小的居酒屋能成为所有来访顾客的“幸福之地”。<br>我们致力于营造一个温馨、像家一样的氛围，让您想一再光顾，并珍惜与每一位顾客的相遇。<br><br>我们也希望能扎根于若狭这个社区，为当地居民的笑容和发展尽一份绵薄之力。<br>这就是“醉处 Kafuju”不变的理念。",
+                    "info-title": "店铺信息与交通",
+                    "menu-title": "菜单",
+                    "events-title": "活动信息",
+                    "contact-title": "预约 / 咨询",
+                    "contact-reserve-title": "关于预约",
+                    "contact-reserve-desc": "我们接受“电话”或“Instagram私信”预约。<br>8人以上的团体（包括周二）请至少提前一周联系我们。",
+                    "contact-form-title": "咨询表",
+                    "contact-form-desc": "如需咨询预约以外的问题、意见或反馈，请使用此表。",
+                    "form-name": "您的姓名",
+                    "form-email": "电子邮件地址",
+                    "form-message": "咨询内容",
+                    "form-submit": "发送",
+                    "events-monthly": "本月焦点活动 (示例)",
+                    "event-1-title": "和牛牛排半价优惠",
+                    "event-1-date": "11月25日 (周六) 18:00〜",
+                    "event-1-desc": "为感谢大家的支持，A5级和牛肋眼牛排(原价2480日元)将以半价1240日元提供！<br>数量有限，先到先得！千万不要错过！",
+                    "events-regular": "定期活动 (示例)",
+                    "event-2-title": "每周一<br>啤酒日",
+                    "event-2-desc": "生啤酒无论喝多少杯，每杯仅需300日元！",
+                    "event-3-title": "每周三<br>女士日",
+                    "event-3-desc": "女性团体顾客可获赠一份甜点！",
+                    "event-4-title": "每月29日<br>肉之日",
+                    "event-4-desc": "指定肉类菜品全部9折优惠！",
+                    "events-footer": "*活动详情可能无预告变更。请查看Instagram获取最新信息。",
+                    "modal-allergens-title": "过敏原和成分信息",
+                    "tab-food": "食物 (Food)",
+                    "tab-drink": "饮料 (Drink)",
+
+                    "cat-otsumami": "开胃小菜",
+                    "iburigakko": "烟熏萝卜奶酪",
+                    "iburigakko-desc": "烟熏香气与浓郁的奶酪。",
+                    "iburigakko-detail": "秋田特产“Iburigakko”（烟熏腌萝卜）与奶油奶酪的搭配。非常适合搭配清酒或葡萄酒。",
+                    "shutou-cheese": "酒盗奶油芝士",
+                    "shutou-cheese-desc": "“清酒小偷”。绝配。",
+                    "shutou-cheese-detail": "浓郁的“酒盗”（腌制鲣鱼内脏）与奶油芝士混合。是佐酒的完美小吃。",
+                    "yamaimo-zakuzaku": "香脆山药",
+                    "yamaimo-zakuzaku-desc": "享受新鲜山药的脆爽口感。",
+                    "yamaimo-zakuzaku-detail": "新鲜山药拌特制酱汁。口感清爽，食感香脆。",
+                    "mozukusu": "水云醋",
+                    "mozukusu-desc": "清爽的冲绳经典小菜。",
+                    "mozukusu-detail": "冲绳产的水云（一种海藻），配上清爽的醋汁。是一道健康清爽的开胃菜。",
+                    "umibudou": "海葡萄",
+                    "umibudou-desc": "口感톡톡的海之宝石。",
+                    "umibudou-desc-detail": "冲绳特产海藻，以其独特的톡톡口感而闻名。请蘸特制橙醋酱油食用。",
+                    "kyuri-ippon": "腌黄瓜",
+                    "kyuri-ippon-desc": "清爽可口，先来一份。",
+                    "kyuri-ippon-detail": "一整根新鲜黄瓜，用特制酱汁浅腌。是完美的清口小菜。",
+                    "hiyayakko": "冷豆腐",
+                    "hiyayakko-desc": "简约即是美味。配佐料。",
+                    "hiyayakko-detail": "冰镇的丝滑豆腐。可随意搭配葱、姜、木鱼花等佐料。",
+                    "caesar-salad": "凯撒沙拉",
+                    "caesar-salad-desc": "浓郁的酱汁和香脆的面包丁。",
+                    "caesar-salad-detail": "新鲜生菜、香脆面包丁、培根，淋上浓郁的凯撒酱，最后撒上帕玛森干酪。",
+                    "pirikara-tamago": "特制香辣半熟蛋",
+                    "pirikara-tamago-desc": "溏心蛋黄配特制辣酱。",
+                    "pirikara-tamago-detail": "完美的半熟溏心蛋，浸泡在特制的香辣酱油中。",
+                    "pirikara-menma": "香辣笋干",
+                    "pirikara-menma-desc": "香油味，下酒的笋干。",
+                    "pirikara-menma-detail": "口感爽脆的笋干，用辣油和香油调味。是啤酒的绝佳伴侣。",
+                    "aburi-charshu": "炙烤叉烧配大量佐料",
+                    "aburi-charshu-desc": "香喷喷的烤叉烧上铺满佐料。",
+                    "aburi-charshu-detail": "用特制酱汁慢炖的叉烧肉，上桌前用火枪炙烤，配上大量葱和香草。",
+
+                    "cat-agemono": "炸物",
+                    "wakadori-karaage": "日式炸鸡块",
+                    "wakadori-karaage-desc": "多汁的经典炸鸡。",
+                    "wakadori-karaage-detail": "用特制酱汁腌制的鸡腿肉，炸至外皮酥脆，内里多汁。",
+                    "potato-fry": "带皮薯角",
+                    "potato-fry-desc": "外脆里糯，停不下来。",
+                    "potato-fry-detail": "能品尝到土豆原味的带皮薯角。外皮香脆，内里绵软。",
+                    "atsuage-yakumi": "佐料满满的炸豆腐",
+                    "atsuage-yakumi-desc": "香脆的炸豆腐上铺满佐料。",
+                    "atsuage-yakumi-detail": "将厚豆腐炸至外皮酥脆，内里松软，配上大量葱、姜等佐料。",
+                    "youngcorn-tenpura": "玉米笋天妇罗",
+                    "youngcorn-tenpura-desc": "酥脆的外衣和玉米的甜味。",
+                    "youngcorn-tenpura-detail": "口感爽脆的玉米笋，裹上轻薄的天妇罗面衣炸制。蘸盐食用，更能突显其甜味。",
+                    
+                    "cat-ippinmono": "一品料理",
+                    "tacos-meatpie": "塔可肉派",
+                    "tacos-meatpie-desc": "酥皮派搭配香辣塔可肉酱。",
+                    "tacos-meatpie-detail": "酥脆的派皮中填满了香辣的塔可肉酱和奶酪。冲绳风味与西式糕点的融合。",
+                    "taimo-cheese": "焗烤田芋奶酪",
+                    "taimo-cheese-desc": "冲绳田芋与奶酪的融化和声。",
+                    "taimo-cheese-detail": "将冲绳的传统食材“田芋”捣成泥，铺上奶酪焗烤。田芋的自然甜味与奶酪的咸香完美结合。",
+                    "mabo-dofu": "麻婆豆腐",
+                    "mabo-dofu-desc": "正宗香辣。可调整辣度。",
+                    "mabo-dofu-detail": "使用豆瓣酱和花椒的正宗川味麻婆豆腐。辣度可根据您的喜好调整。",
+                    "anchovy-cabbage": "凤尾鱼炒卷心菜",
+                    "anchovy-cabbage-desc": "令人无法抗拒的大蒜和凤尾鱼咸香。",
+                    "anchovy-cabbage-detail": "清脆的卷心菜，用大蒜和凤尾鱼快速爆炒。一道简单却极其下酒的菜。",
+                    "gyoza": "煎饺 (5个)",
+                    "gyoza-desc": "底脆馅儿大的手工煎饺。",
+                    "gyoza-detail": "手工制作的饺子，底部煎至金黄酥脆，内馅饱满多汁。",
+                    "tofu-garlic": "大蒜豆腐",
+                    "tofu-garlic-desc": "浓郁的蒜香。补充体力。",
+                    "tofu-garlic-detail": "豆腐配上大量大蒜和特制酱汁炒制。简单而风味十足。",
+                    "goya-chanpuru": "冲绳苦瓜炒",
+                    "goya-chanpuru-desc": "冲绳之魂。经典炒菜。",
+                    "goya-chanpuru-detail": "冲绳的代表性家庭料理。苦瓜的微苦与猪肉、豆腐和鸡蛋的香味完美融合。",
+                    "dashimaki": "日式高汤煎蛋卷",
+                    "dashimaki-desc": "松软，充满高汤的香气。",
+                    "dashimaki-detail": "点单后现做。口感松软，充满了鲜美的日式高汤。",
+                    "niku-yakimochi": "肉卷烤年糕",
+                    "niku-yakimochi-desc": "甜咸的肉汁和Q弹的口感。",
+                    "niku-yakimochi-detail": "Q弹的年糕裹上猪肉，刷上甜咸的特制酱汁烤制而成。",
+                    
+                    "cat-niku": "肉类料理",
+                    "gyu-rare-katsu": "炸半熟牛排",
+                    "gyu-rare-katsu-desc": "外皮酥脆，内部多汁半熟。",
+                    "gyu-rare-katsu-detail": "严选牛肉，高温快炸，使外皮酥脆，而内部保持鲜嫩的半熟状态。请蘸芥末酱油食用。",
+                    "rib-steak": "肋眼牛排",
+                    "rib-steak-desc": "分量十足，肉香四溢的肋眼。",
+                    "rib-steak-detail": "肉味浓郁的肋眼牛排，分量十足。满足您对肉的渴望。",
+                    "wagyu-rib-steak": "和牛肋眼牛排",
+                    "wagyu-rib-steak-desc": "在特别的夜晚。入口即化的和牛美味。",
+                    "wagyu-rib-steak-detail": "使用A5等级的黑毛和牛肋眼。入口即化的脂肪甜味和浓郁的香气，是极致的享受。",
+                    "hamburger": "特制汉堡肉饼",
+                    "hamburger-desc": "肉汁饱满。配Kafuju特制酱汁。",
+                    "hamburger-detail": "按黄金比例混合的牛肉和猪肉肉馅，制作出肉汁饱满的汉堡肉饼。配特制的多明格拉斯酱。",
+                    "chicken-tatsuta": "日式炸鸡排",
+                    "chicken-tatsuta-desc": "酥脆的外衣和多汁的鸡肉。",
+                    "chicken-tatsuta-detail": "用姜和酱油腌制的鸡肉，裹上土豆淀粉炸至酥脆。",
+                    "chicken-steak": "香煎鸡排",
+                    "chicken-steak-desc": "鸡皮香脆，鸡肉多汁。",
+                    "chicken-steak-detail": "一整块鸡腿肉，鸡皮煎至香脆，肉质保持多汁。配特制洋葱酱。",
+
+                    "cat-main": "主食（米饭/面条）",
+                    "reimen": "Kafuju冷面",
+                    "reimen-desc": "收尾的完美选择。特制清爽汤底。",
+                    "reimen-detail": "非常适合酒后享用的特制冷面。口感滑爽的面条，搭配清淡的海鲜风味日式汤底。",
+                    "garlic-pizza": "蒜香肉酱披萨",
+                    "garlic-pizza-desc": "浓郁的蒜香。非常下酒的披萨。",
+                    "garlic-pizza-detail": "铺满大蒜、肉酱和奶酪的重口味披萨。与啤酒或高球威士忌是绝配。",
+                    "margherita": "玛格丽特披萨",
+                    "margherita-desc": "经典的玛格丽特披萨。",
+                    "margherita-detail": "番茄酱、马苏里拉奶酪和罗勒叶组成的经典意大利披萨。简单纯粹的美味。",
+                    "koumi-chahan": "香味炒饭",
+                    "koumi-chahan-desc": "充满蔬菜香气的粒粒分明炒饭。",
+                    "koumi-chahan-detail": "使用葱、姜等香味蔬菜，大火快炒的粒粒分明炒饭。香气扑鼻，令人食欲大开。",
+                    "mayu-chahan": "黑麻油炒饭",
+                    "mayu-chahan-desc": "焦香蒜油，令人上瘾的味道。",
+                    "mayu-chahan-detail": "使用特制黑麻油（焦香蒜油）炒制，香气突出。吃一次就会上瘾的味道。",
+                    "taco-rice": "收尾塔可饭",
+                    "taco-rice-desc": "冲绳的经典收尾。迷你尺寸。",
+                    "taco-rice-detail": "冲绳的灵魂食物，塔可饭。提供迷你尺寸，非常适合作为一餐的收尾。香辣的塔可肉酱、奶酪和生菜拌饭。",
+
+                    "cat-dessert": "甜点",
+                    "vanilla-ice": "香草冰淇淋",
+                    "vanilla-ice-desc": "餐后清爽一下。",
+                    "vanilla-ice-detail": "充满浓郁香草籽香气的经典香草冰淇淋。餐后的完美选择。",
+                    "age-mochi": "炸年糕",
+                    "age-mochi-desc": "热腾腾，Q弹。配黑糖浆。",
+                    "age-mochi-detail": "将年糕炸至酥脆，趁热淋上黑糖浆和黄豆粉。一道日式热甜点。",
+                    
+                    "cat-alcohol": "酒精饮料",
+                    "beer": "生啤酒 (示例)",
+                    "beer-desc": "冰镇爽口。",
+                    "beer-detail": "下班后的第一杯！我们提供品质管理严格、状态最佳的生啤酒。",
+                    "awamori": "泡盛 (示例)",
+                    "awamori-desc": "冲绳的代表。种类丰富。",
+                    "awamori-detail": "冲绳的本地酒“泡盛”。从适合初学者的易饮款，到行家喜爱的陈年“古酒”，种类齐全。",
+                    
+                    "cat-nonalcohol": "无酒精饮料",
+                    "sanpincha": "三品茶 (茉莉花茶) (示例)",
+                    "sanpincha-desc": "冲绳的经典茶饮。",
+                    "sanpincha-detail": "冲绳最受欢迎的茶饮“三品茶”（即茉莉花茶）。清新的花香与冲绳料理非常搭配。"
+                }
+            };
+
+            // アレルゲン情報の翻訳 (簡易版)
+            const allergenTranslations = {
+                "jp": { "乳": "乳", "卵": "卵", "小麦": "小麦", "大豆": "大豆", "牛肉": "牛肉", "豚肉": "豚肉", "魚介": "魚介" },
+                "en": { "乳": "Dairy", "卵": "Egg", "小麦": "Wheat", "大豆": "Soy", "牛肉": "Beef", "豚肉": "Pork", "魚介": "Fish/Seafood" },
+                "cn": { "乳": "乳制品", "卵": "蛋", "小麦": "小麦", "大豆": "大豆", "牛肉": "牛肉", "豚肉": "猪肉", "魚介": "鱼/海鲜" }
+            };
+
+            let currentLang = 'jp'; // 現在の言語
+
+            // --- ページナビゲーション ---
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link, #logo-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+
+            function switchPage(pageId) {
+                // セクションの表示切り替え
+                contentSections.forEach(section => {
+                    section.classList.toggle('active', section.id === pageId);
+                });
+
+                // ナビゲーションリンクのアクティブ状態を更新
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${pageId}`);
+                });
+
+                // モバイルメニューを閉じる
+                mobileMenu.classList.add('hidden');
+                
+                // ページトップにスクロール
+                window.scrollTo(0, 0);
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('href').substring(1);
+                    switchPage(pageId);
+                });
+            });
+
+            // モバイルメニュー開閉
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // ロゴクリックでトップへ
+            document.getElementById('logo-link').addEventListener('click', (e) => {
+                 e.preventDefault();
+                 switchPage('home');
+            });
+
+            // --- 言語切り替え ---
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            function updateLanguage(lang) {
+                currentLang = lang;
+                const translations = menuTranslations[lang];
+
+                // ボタンのスタイル更新
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('bg-amber-500', btn.dataset.lang === lang);
+                    btn.classList.toggle('text-gray-900', btn.dataset.lang === lang);
+                    btn.classList.toggle('bg-gray-700', btn.dataset.lang !== lang);
+                    btn.classList.toggle('hover:bg-gray-600', btn.dataset.lang !== lang);
+                });
+
+                // data-keyを持つすべての要素のテキストを更新
+                document.querySelectorAll('[data-key]').forEach(el => {
+                    const key = el.dataset.key;
+                    if (translations[key]) {
+                        // メニューアイテムのタイトル（h4）の場合
+                        if (el.classList.contains('menu-item')) {
+                            const titleEl = el.querySelector('h4');
+                            if(titleEl) titleEl.innerHTML = translations[key];
+                        }
+                        // メニューアイテムの説明（p）の場合
+                        else if (el.dataset.key.endsWith('-desc')) {
+                             el.innerHTML = translations[key];
+                        }
+                        // それ以外の要素
+                        else {
+                            el.innerHTML = translations[key];
+                        }
+                    }
+                });
+            }
+
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    updateLanguage(button.dataset.lang);
+                });
+            });
+
+            // --- メニュータブ切り替え ---
+            const menuTabs = document.querySelectorAll('.menu-tab');
+            const menuTabContents = document.querySelectorAll('.menu-tab-content');
+
+            menuTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.dataset.tab;
+
+                    // タブのアクティブ状態を切り替え
+                    menuTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    // コンテンツの表示を切り替え
+                    menuTabContents.forEach(content => {
+                        content.classList.toggle('active', content.id === `${tabName}-content`);
+                    });
+                });
+            });
+
+            // --- メニューモーダル ---
+            const modal = document.getElementById('menu-modal');
+            const closeModalButton = document.getElementById('close-modal-button');
+            const modalImage = document.getElementById('modal-image');
+            const modalTitle = document.getElementById('modal-title');
+            const modalPrice = document.getElementById('modal-price');
+            const modalDescription = document.getElementById('modal-description');
+            const modalAllergens = document.getElementById('modal-allergens');
+            const menuContainer = document.getElementById('menu');
+
+            // イベント委任を使用して、#menuセクション内の.menu-itemクリックを処理
+            menuContainer.addEventListener('click', function(e) {
+                // クリックされた要素またはその親要素が .menu-item かをチェック
+                const menuItem = e.target.closest('.menu-item');
+                
+                if (menuItem) {
+                    const key = menuItem.dataset.key;
+                    const translations = menuTranslations[currentLang];
+                    const allergenInfo = allergenTranslations[currentLang];
+                    
+                    modalImage.src = menuItem.dataset.image;
+                    modalTitle.textContent = translations[key] || menuItem.querySelector('h4').textContent;
+                    modalPrice.textContent = menuItem.dataset.price;
+                    modalDescription.textContent = translations[`${key}-detail`] || translations[`${key}-desc`] || '';
+
+                    // アレルゲン情報をクリアして再生成
+                    modalAllergens.innerHTML = '';
+                    try {
+                        const allergens = JSON.parse(menuItem.dataset.allergens);
+                        if (allergens && allergens.length > 0) {
+                            allergens.forEach(allergenKey => {
+                                const translatedAllergen = allergenInfo[allergenKey] || allergenKey;
+                                const tag = document.createElement('span');
+                                tag.className = 'allergen-tag';
+                                tag.textContent = translatedAllergen;
+                                modalAllergens.appendChild(tag);
+                            });
+                        } else {
+                            const tag = document.createElement('span');
+                            tag.className = 'text-gray-400';
+                            tag.textContent = currentLang === 'jp' ? '特になし' : (currentLang === 'en' ? 'None' : '无');
+                            modalAllergens.appendChild(tag);
+                        }
+                    } catch (err) {
+                        console.error("Failed to parse allergens:", err);
+                        const tag = document.createElement('span');
+                        tag.className = 'text-gray-400';
+                        tag.textContent = '情報なし';
+                        modalAllergens.appendChild(tag);
+                    }
+
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden'; // 背景スクロール禁止
+                }
+            });
+
+            // モーダルを閉じる処理
+            function closeModal() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // 背景スクロール許可
+            }
+
+            closeModalButton.addEventListener('click', closeModal);
+            window.addEventListener('click', (e) => {
+                if (e.target == modal) {
+                    closeModal();
+                }
+            });
+
+            // --- お問い合わせフォーム ---
+            const contactForm = document.getElementById('contact-form');
+            const formMessage = document.getElementById('form-message');
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // ここに実際のフォーム送信処理（例: EmailJS, Formspree, Netlify Formsなど）を追加します。
+                // ダミーの成功メッセージを表示
+                formMessage.textContent = currentLang === 'jp' ? 'お問い合わせありがとうございます。送信されました！' : 
+                                          (currentLang === 'en' ? 'Thank you! Your message has been sent.' : 
+                                          '谢谢！您的消息已发送。');
+                formMessage.className = 'mt-4 text-center text-lg text-green-400';
+                contactForm.reset();
+
+                // 3秒後にメッセージを消す
+                setTimeout(() => {
+                    formMessage.textContent = '';
+                }, 3000);
+            });
+            
+            // 初期化
+            updateLanguage(currentLang); // ページ読み込み時にデフォルト言語を適用
+            
+        } catch (error) {
+            console.error("ホームページのスクリプト実行中にエラーが発生しました:", error);
+            // ユーザーにエラーを通知する（例）
+            const body = document.querySelector('body');
+            if(body) {
+                const errorDiv = document.createElement('div');
+                errorDiv.style.backgroundColor = 'red';
+                errorDiv.style.color = 'white';
+                errorDiv.style.padding = '10px';
+                errorDiv.style.position = 'fixed';
+                errorDiv.style.bottom = '0';
+                errorDiv.style.left = '0';
+                errorDiv.style.width = '100%';
+                errorDiv.style.textAlign = 'center';
+                errorDiv.style.zIndex = '9999';
+                errorDiv.textContent = 'ページの読み込み中にエラーが発生しました。一部の機能が動作しない可能性があります。';
+                body.appendChild(errorDiv);
+            }
+        }
+    </script>
+
+</body>
+</html>
