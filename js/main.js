@@ -4,24 +4,25 @@ document.addEventListener('DOMContentLoaded', () => {
     renderMenu(foodMenuData, 'food-content');
     renderMenu(drinkMenuData, 'drink-content');
     updateLanguage(currentLang);
-    setupScrollAnimations();
     setupNavigation();
+    
+    // スクロールアニメーションの初期化（少し遅らせてDOMのレンダリングを待つ）
+    setTimeout(setupScrollAnimations, 100);
 });
 
 function renderMenu(data, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = ''; 
-    
     const t = menuTranslations[currentLang];
 
-    data.forEach(category => {
+    data.forEach((category, catIndex) => {
         const section = document.createElement('div');
-        section.className = 'mb-20';
+        section.className = 'mb-20 scroll-fade-up'; // セクションごとにもアニメーション
         
         const header = document.createElement('div');
         header.className = 'flex items-center gap-4 mb-8';
         header.innerHTML = `
-            <h3 class="text-3xl font-hand text-washi border-l-4 border-kohaku pl-3" data-key="${category.category}">
+            <h3 class="text-2xl md:text-3xl font-serif text-washi border-l-4 border-gold pl-4" data-key="${category.category}">
                 ${t[category.category] || category.category}
             </h3>
             <div class="h-px bg-white/10 flex-grow"></div>
@@ -29,30 +30,30 @@ function renderMenu(data, containerId) {
         section.appendChild(header);
 
         const list = document.createElement('div');
-        list.className = 'grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2';
+        list.className = 'grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4';
         
         category.items.forEach((item, index) => {
             const title = t[item.key] || item.key;
             const desc = t[`${item.key}-desc`] || '';
 
             const row = document.createElement('div');
-            row.className = `menu-list-item flex justify-between items-baseline py-3 cursor-pointer group fade-in-up delay-${(index % 5) * 50}`;
+            // リストアイテムにもスクロールアニメーションと遅延を追加
+            row.className = `menu-list-item flex justify-between items-baseline py-3 cursor-pointer group scroll-fade-up delay-${(index % 4) * 100}`;
             row.dataset.key = item.key;
             row.dataset.price = item.price;
             
             row.innerHTML = `
                 <div class="flex-1 pr-4">
-                    <h4 class="text-lg font-bold text-washi group-hover:text-kohaku transition-colors font-hand tracking-wider">
+                    <h4 class="text-lg font-bold text-washi group-hover:text-gold transition-colors font-serif tracking-wider">
                         ${title}
                     </h4>
-                    <p class="text-xs text-gray-500 font-light line-clamp-1 mt-1 group-hover:text-gray-400" data-key="${item.key}-desc">
+                    <p class="text-xs text-gray-400 font-light line-clamp-1 mt-1 group-hover:text-gray-300" data-key="${item.key}-desc">
                         ${desc}
                     </p>
                 </div>
-                <span class="text-kohaku font-hand text-lg whitespace-nowrap">${item.price}</span>
+                <span class="text-gold font-serif text-lg whitespace-nowrap">${item.price}</span>
             `;
             list.appendChild(row);
-            
             row.addEventListener('click', () => openModal(item));
         });
 
@@ -78,18 +79,17 @@ function updateLanguage(lang) {
         const key = row.dataset.key;
         const h4 = row.querySelector('h4');
         const p = row.querySelector('p');
-        
         if (t[key] && h4) h4.textContent = t[key];
         if (t[`${key}-desc`] && p) p.textContent = t[`${key}-desc`];
     });
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
         if (btn.dataset.lang === lang) {
-            btn.classList.add('border-kohaku', 'text-kohaku');
-            btn.classList.remove('text-gray-400', 'border-white/20');
+            btn.classList.add('bg-gold', 'text-navy', 'border-transparent');
+            btn.classList.remove('text-slate-400', 'border-gold/50');
         } else {
-            btn.classList.remove('border-kohaku', 'text-kohaku');
-            btn.classList.add('text-gray-400', 'border-white/20');
+            btn.classList.remove('bg-gold', 'text-navy', 'border-transparent');
+            btn.classList.add('text-slate-400', 'border-gold/50');
         }
     });
 }
@@ -99,25 +99,24 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
 });
 
 function switchPage(pageId) {
-    // 全てのビューセクションを隠す
     document.querySelectorAll('.view-section').forEach(s => {
         s.classList.remove('active');
     });
     
-    // ターゲットのビューを表示
     const targetId = pageId === 'home' ? 'home-view' : `${pageId}-view`;
     const target = document.getElementById(targetId);
     
     if(target) {
         target.classList.add('active');
+        // ページ切り替え後にスクロールアニメーションを再設定
+        setTimeout(setupScrollAnimations, 100);
     }
     
-    // ナビゲーションのアクティブ状態更新
     document.querySelectorAll('.nav-link, .mobile-nav-link, #logo-link').forEach(link => {
         if(link.dataset.page === pageId) {
-            link.classList.add('text-kohaku');
+            link.classList.add('text-gold');
         } else {
-            link.classList.remove('text-kohaku');
+            link.classList.remove('text-gold');
         }
     });
 
@@ -126,7 +125,6 @@ function switchPage(pageId) {
 }
 
 function setupNavigation() {
-    // ナビゲーションリンクのクリック処理
     document.querySelectorAll('a[data-page]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -139,13 +137,16 @@ function setupNavigation() {
         tab.addEventListener('click', () => {
             const targetId = tab.dataset.tab;
             document.querySelectorAll('.menu-tab').forEach(t => {
-                t.classList.remove('active', 'text-kohaku', 'border-b-2', 'border-kohaku');
-                t.classList.add('text-gray-500');
+                t.classList.remove('active', 'text-gold', 'border-b-2', 'border-gold');
+                t.classList.add('text-slate-500');
             });
-            tab.classList.add('active', 'text-kohaku', 'border-b-2', 'border-kohaku');
-            tab.classList.remove('text-gray-500');
+            tab.classList.add('active', 'text-gold', 'border-b-2', 'border-gold');
+            tab.classList.remove('text-slate-500');
             document.querySelectorAll('.menu-tab-content').forEach(c => c.classList.add('hidden'));
             document.getElementById(`${targetId}-content`).classList.remove('hidden');
+            
+            // タブ切り替え時にもアニメーション再設定
+            setTimeout(setupScrollAnimations, 100);
         });
     });
     
@@ -175,7 +176,6 @@ function openMobileMenu() {
     menu.classList.add('open');
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
-    
     line1.classList.add('rotate-45', 'translate-y-2.5');
     line2.classList.add('opacity-0');
     line3.classList.add('-rotate-45', '-translate-y-2.5');
@@ -185,28 +185,34 @@ function closeMobileMenu() {
     menu.classList.remove('open');
     overlay.classList.remove('open');
     document.body.style.overflow = '';
-    
     line1.classList.remove('rotate-45', 'translate-y-2.5');
     line2.classList.remove('opacity-0');
     line3.classList.remove('-rotate-45', '-translate-y-2.5');
 }
 
+// スクロールアニメーションのセットアップ
 function setupScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -10% 0px', // 画面の下10%に入ったら発火
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('visible');
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target); // 一度表示したら監視終了
+            }
         });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-    
-    window.addEventListener('scroll', () => {
-        const header = document.getElementById('main-header');
-        if (window.scrollY > 50) {
-            header.classList.add('bg-sumi/90', 'shadow-lg');
-            header.classList.remove('nav-blur');
-        } else {
-            header.classList.remove('bg-sumi/90', 'shadow-lg');
-            header.classList.add('nav-blur');
+    }, observerOptions);
+
+    // 監視対象の要素を取得 (.scroll-fade-up クラスがついているもの)
+    const targets = document.querySelectorAll('.scroll-fade-up');
+    targets.forEach(target => {
+        // 既に表示済みの場合はスキップ
+        if (!target.classList.contains('is-visible')) {
+            observer.observe(target);
         }
     });
 }
