@@ -13,31 +13,30 @@ const renderer = new THREE.WebGLRenderer({ alpha: true }); // Transparent backgr
 renderer.setSize(window.innerWidth, window.innerHeight);
 container.appendChild(renderer.domElement);
 
-// Particles (Embers/Bubbles)
+// Particles (Golden Embers)
 const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 300; // Number of particles
+const particlesCount = 350; // 少し増やしました
 
 const posArray = new Float32Array(particlesCount * 3);
-const speedArray = new Float32Array(particlesCount); // Individual speed for varying movement
+const speedArray = new Float32Array(particlesCount);
 
 for(let i = 0; i < particlesCount * 3; i++) {
-    // Spread particles widely
     posArray[i] = (Math.random() - 0.5) * 20; 
 }
 
 for(let i = 0; i < particlesCount; i++) {
-    speedArray[i] = Math.random() * 0.02 + 0.005; // Random upward speed
+    speedArray[i] = Math.random() * 0.01 + 0.002; // ゆっくりと立ち上る
 }
 
 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
-// Material (Warm, Amber Color)
+// Material (Gold / Amber Color)
 const particlesMaterial = new THREE.PointsMaterial({
-    size: 0.08,
-    color: 0xea580c, // Kohaku (Amber) color
+    size: 0.06,
+    color: 0xfbbf24, // Gold color
     transparent: true,
     opacity: 0.8,
-    blending: THREE.AdditiveBlending // Glow effect
+    blending: THREE.AdditiveBlending
 });
 
 // Mesh
@@ -57,7 +56,6 @@ function animate() {
         // Reset if goes too high
         if(positions[i * 3 + 1] > 10) {
             positions[i * 3 + 1] = -10;
-            // Randomize X and Z slightly on reset for variation
             positions[i * 3] = (Math.random() - 0.5) * 20;
             positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
         }
@@ -65,8 +63,8 @@ function animate() {
 
     particlesGeometry.attributes.position.needsUpdate = true;
 
-    // Subtle rotation of the whole system
-    particlesMesh.rotation.y += 0.0005;
+    // Subtle rotation
+    particlesMesh.rotation.y += 0.0003;
 
     renderer.render(scene, camera);
 }
