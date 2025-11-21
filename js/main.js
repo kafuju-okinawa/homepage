@@ -1,13 +1,9 @@
 let currentLang = 'jp';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 初期描画
     renderMenu(foodMenuData, 'food-content');
     renderMenu(drinkMenuData, 'drink-content');
-    
-    // 初期言語セット
     updateLanguage(currentLang);
-    
     setupScrollAnimations();
     setupNavigation();
 });
@@ -16,7 +12,6 @@ function renderMenu(data, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = ''; 
     
-    // 現在の言語の翻訳データを取得
     const t = menuTranslations[currentLang];
 
     data.forEach(category => {
@@ -37,7 +32,6 @@ function renderMenu(data, containerId) {
         list.className = 'grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2';
         
         category.items.forEach((item, index) => {
-            // テキストの初期値を取得
             const title = t[item.key] || item.key;
             const desc = t[`${item.key}-desc`] || '';
 
@@ -71,25 +65,24 @@ function updateLanguage(lang) {
     currentLang = lang;
     const t = menuTranslations[lang];
 
-    // data-keyを持つ静的要素を更新
     document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.dataset.key;
         if (t[key]) {
-            // メニューリスト内のdescなどはここで更新される
             if(!el.closest('.menu-list-item') || el.tagName !== 'H4') {
                  el.innerHTML = t[key];
             }
         }
     });
     
-    // 動的生成されたメニューリストのタイトルを更新
     document.querySelectorAll('.menu-list-item').forEach(row => {
         const key = row.dataset.key;
         const h4 = row.querySelector('h4');
+        const p = row.querySelector('p');
+        
         if (t[key] && h4) h4.textContent = t[key];
+        if (t[`${key}-desc`] && p) p.textContent = t[`${key}-desc`];
     });
 
-    // ボタンのアクティブ状態
     document.querySelectorAll('.lang-btn').forEach(btn => {
         if (btn.dataset.lang === lang) {
             btn.classList.add('border-kohaku', 'text-kohaku');
@@ -106,30 +99,42 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
 });
 
 function switchPage(pageId) {
-    document.querySelectorAll('.content-section').forEach(s => {
-        s.style.display = 'none';
+    // 全てのビューセクションを隠す
+    document.querySelectorAll('.view-section').forEach(s => {
         s.classList.remove('active');
     });
-    const target = document.getElementById(pageId);
+    
+    // ターゲットのビューを表示
+    const targetId = pageId === 'home' ? 'home-view' : `${pageId}-view`;
+    const target = document.getElementById(targetId);
+    
     if(target) {
-        target.style.display = 'block';
-        setTimeout(() => target.classList.add('active'), 10);
+        target.classList.add('active');
     }
-    document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
-        link.classList.toggle('text-kohaku', link.dataset.page === pageId);
+    
+    // ナビゲーションのアクティブ状態更新
+    document.querySelectorAll('.nav-link, .mobile-nav-link, #logo-link').forEach(link => {
+        if(link.dataset.page === pageId) {
+            link.classList.add('text-kohaku');
+        } else {
+            link.classList.remove('text-kohaku');
+        }
     });
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    closeMobileMenu(); // メニューを閉じる
+    closeMobileMenu(); 
 }
 
 function setupNavigation() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    // ナビゲーションリンクのクリック処理
+    document.querySelectorAll('a[data-page]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const pageId = this.getAttribute('href').substring(1);
+            const pageId = this.dataset.page;
             switchPage(pageId);
         });
     });
+
     document.querySelectorAll('.menu-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             const targetId = tab.dataset.tab;
@@ -144,7 +149,6 @@ function setupNavigation() {
         });
     });
     
-    // モバイルメニュー操作
     const btn = document.getElementById('mobile-menu-button');
     const overlay = document.getElementById('mobile-menu-overlay');
     
@@ -170,9 +174,8 @@ function toggleMobileMenu() {
 function openMobileMenu() {
     menu.classList.add('open');
     overlay.classList.add('open');
-    document.body.style.overflow = 'hidden'; // スクロール禁止
+    document.body.style.overflow = 'hidden';
     
-    // ハンバーガーアニメーション
     line1.classList.add('rotate-45', 'translate-y-2.5');
     line2.classList.add('opacity-0');
     line3.classList.add('-rotate-45', '-translate-y-2.5');
@@ -181,9 +184,8 @@ function openMobileMenu() {
 function closeMobileMenu() {
     menu.classList.remove('open');
     overlay.classList.remove('open');
-    document.body.style.overflow = ''; // スクロール許可
+    document.body.style.overflow = '';
     
-    // ハンバーガー元に戻す
     line1.classList.remove('rotate-45', 'translate-y-2.5');
     line2.classList.remove('opacity-0');
     line3.classList.remove('-rotate-45', '-translate-y-2.5');
