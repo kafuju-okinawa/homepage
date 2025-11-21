@@ -16,10 +16,9 @@
                         'body': ['"Shippori Mincho"', 'serif'],
                     },
                     colors: {
-                        'sumi': '#1c1c1e', 
-                        'washi': '#fcfaf2', 
-                        'kohaku': '#ea580c', 
-                        'kurocha': '#3f3f46', 
+                        'navy': '#0f172a', 
+                        'gold': '#fbbf24', 
+                        'gold-dark': '#b45309',
                     }
                 }
             }
@@ -38,69 +37,56 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        /* ガード用スタイル */
+        /* CSSファイル読み込み失敗時のガード */
         #mobile-menu { transform: translateX(100%); transition: transform 0.3s ease-in-out; }
         #mobile-menu.open { transform: translateX(0); }
         #mobile-menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
         #mobile-menu-overlay.open { opacity: 1; pointer-events: auto; }
         .hamburger-line { transition: all 0.3s ease-in-out; }
         #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.6; }
-        .menu-list-item { position: relative; transition: all 0.3s ease; border-bottom: 1px dashed rgba(255,255,255,0.1); }
-        .menu-list-item:hover { background-color: rgba(255, 255, 255, 0.03); padding-left: 0.5rem; }
-        .menu-list-item::before { content: "●"; position: absolute; left: -1.5rem; top: 50%; transform: translateY(-50%); color: #ea580c; opacity: 0; transition: opacity 0.3s ease; font-size: 0.8rem; }
-        .menu-list-item:hover::before { opacity: 1; }
-        .nav-blur { background: rgba(28, 28, 30, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        .menu-tab.active { background-color: transparent; color: #ea580c; border-bottom: 2px solid #ea580c; }
-        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(0.5deg); } }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1c1c1e; }
-        ::-webkit-scrollbar-thumb { background: #52525b; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #ea580c; }
-        
-        /* 表示切り替え用クラス */
         .view-section { display: none; }
         .view-section.active { display: block; animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body class="antialiased selection:bg-kohaku selection:text-white bg-sumi text-washi overflow-x-hidden">
+<body class="antialiased selection:bg-gold selection:text-navy bg-navy text-slate-100 overflow-x-hidden">
 
     <!-- Three.js Background -->
     <div id="canvas-container"></div>
 
     <!-- Header -->
-    <header class="fixed top-0 left-0 w-full z-[100] nav-blur border-b border-white/5 transition-all duration-300" id="main-header">
-        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+    <header class="fixed top-0 left-0 w-full z-[100] nav-blur transition-all duration-300 shadow-lg" id="main-header">
+        <div class="container mx-auto px-4 h-16 md:h-20 flex justify-between items-center">
+            <!-- Logo -->
             <a href="#" id="logo-link" class="flex items-center gap-3 group z-50" data-page="home">
-                <div class="relative w-10 h-10">
-                    <div class="absolute inset-0 bg-kohaku rounded-full blur opacity-50 group-hover:opacity-80 transition-opacity"></div>
-                    <img src="images/others/logo.png" onerror="this.src='https://placehold.co/100x100/ea580c/ffffff?text=酒'" alt="ロゴ" class="relative w-full h-full object-cover rounded-full border border-white/20">
+                <div class="relative w-10 h-10 border border-gold rounded-full p-0.5">
+                    <img src="images/others/logo.png" onerror="this.src='https://placehold.co/100x100/fbbf24/000000?text=酒'" alt="ロゴ" class="w-full h-full object-cover rounded-full">
                 </div>
-                <h1 class="font-hand text-xl sm:text-2xl text-washi group-hover:text-kohaku transition-colors tracking-wider">
-                    酔い処 かふーじゅ
-                </h1>
+                <div class="flex flex-col">
+                    <h1 class="font-hand text-lg md:text-2xl text-gold group-hover:text-white transition-colors tracking-wider leading-none">
+                        居酒屋 かふーじゅ
+                    </h1>
+                    <span class="text-[10px] text-slate-400 tracking-widest md:block hidden">IZAKAYA KA-FUJU OKINAWA</span>
+                </div>
             </a>
 
             <!-- PC Nav -->
-            <nav class="hidden md:flex items-center gap-6 font-hand text-lg tracking-widest">
-                <a href="#" class="nav-link hover:text-kohaku transition-colors py-2" data-page="home">トップ (Home)</a>
-                <a href="#" class="nav-link hover:text-kohaku transition-colors py-2" data-page="menu">お品書き (Menu)</a>
-                <a href="#" class="nav-link hover:text-kohaku transition-colors py-2" data-page="events">催し物 (Events)</a>
-                <a href="#" class="nav-link hover:text-kohaku transition-colors py-2" data-page="contact">ご予約 (Contact)</a>
-                <a href="https://instagram.com" target="_blank" class="text-gray-400 hover:text-kohaku transition-colors">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                </a>
+            <nav class="hidden md:flex items-center gap-8 font-hand text-lg tracking-widest">
+                <a href="#" class="nav-link text-slate-300 hover:text-gold transition-colors py-2 relative group" data-page="home">トップ</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-gold transition-colors py-2 relative group" data-page="menu">お品書き</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-gold transition-colors py-2 relative group" data-page="events">催し物</a>
+                <a href="#" class="nav-link text-slate-300 hover:text-gold transition-colors py-2 relative group" data-page="contact">ご予約</a>
+                <div class="text-gold font-bold text-xl ml-4">
+                    <i class="fas fa-phone"></i> 098-XXX-XXXX
+                </div>
             </nav>
 
             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="md:hidden text-washi focus:outline-none z-[200] p-2 relative">
-                <div class="w-8 h-6 relative flex flex-col justify-between overflow-hidden">
-                    <span class="hamburger-line block w-full h-0.5 bg-washi origin-left" id="line-1"></span>
-                    <span class="hamburger-line block w-2/3 h-0.5 bg-washi ml-auto transition-opacity duration-300" id="line-2"></span>
-                    <span class="hamburger-line block w-full h-0.5 bg-washi origin-left" id="line-3"></span>
+            <button id="mobile-menu-button" class="md:hidden text-gold focus:outline-none z-[200] p-2 relative">
+                <div class="w-7 h-5 relative flex flex-col justify-between overflow-hidden">
+                    <span class="hamburger-line block w-full h-0.5 bg-gold origin-left" id="line-1"></span>
+                    <span class="hamburger-line block w-full h-0.5 bg-gold ml-auto transition-opacity duration-300" id="line-2"></span>
+                    <span class="hamburger-line block w-full h-0.5 bg-gold origin-left" id="line-3"></span>
                 </div>
             </button>
         </div>
@@ -108,242 +94,365 @@
 
     <!-- Mobile Menu Drawer -->
     <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/80 z-[150]"></div>
-    <nav id="mobile-menu" class="fixed top-0 right-0 w-[80%] max-w-sm h-full bg-sumi border-l border-white/10 z-[160] shadow-2xl flex flex-col pt-24 px-8">
-        <div class="flex flex-col gap-6 font-hand text-xl">
-            <a href="#" class="mobile-nav-link border-b border-white/10 pb-2 hover:text-kohaku transition-colors" data-page="home">トップ (Home)</a>
-            <a href="#" class="mobile-nav-link border-b border-white/10 pb-2 hover:text-kohaku transition-colors" data-page="menu">お品書き (Menu)</a>
-            <a href="#" class="mobile-nav-link border-b border-white/10 pb-2 hover:text-kohaku transition-colors" data-page="events">催し物 (Events)</a>
-            <a href="#" class="mobile-nav-link border-b border-white/10 pb-2 hover:text-kohaku transition-colors" data-page="contact">ご予約 (Contact)</a>
-            <a href="https://instagram.com" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-kohaku transition-colors pt-2">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                <span class="font-sans text-sm">Instagram</span>
-            </a>
+    <nav id="mobile-menu" class="fixed top-0 right-0 w-[85%] max-w-sm h-full bg-navy border-l border-gold/30 z-[160] shadow-2xl flex flex-col pt-20 px-6 overflow-y-auto">
+        <div class="flex flex-col gap-6 font-hand text-xl mb-8">
+            <a href="#" class="mobile-nav-link border-b border-gold/20 pb-3 text-gold hover:text-white transition-colors" data-page="home">トップ</a>
+            <a href="#" class="mobile-nav-link border-b border-gold/20 pb-3 text-slate-300 hover:text-gold transition-colors" data-page="menu">お品書き</a>
+            <a href="#" class="mobile-nav-link border-b border-gold/20 pb-3 text-slate-300 hover:text-gold transition-colors" data-page="events">催し物</a>
+            <a href="#" class="mobile-nav-link border-b border-gold/20 pb-3 text-slate-300 hover:text-gold transition-colors" data-page="contact">ご予約</a>
         </div>
-        <div class="mt-auto mb-8 text-sm text-gray-500 text-center">
-            &copy; 酔い処 かふーじゅ
+        
+        <!-- Mobile Banners -->
+        <div class="mt-auto mb-8 space-y-4">
+            <a href="#" onclick="switchPage('menu'); closeMobileMenu(); return false;" class="sidebar-banner block">
+                <img src="https://placehold.co/600x200/fbbf24/0f172a?text=Recommend" alt="今月のおすすめ" class="w-full">
+                <div class="sidebar-banner-text">今月のおすすめメニュー</div>
+            </a>
+            <a href="#" onclick="switchPage('events'); closeMobileMenu(); return false;" class="sidebar-banner block">
+                <img src="https://placehold.co/600x200/b45309/ffffff?text=Ranking" alt="人気ランキング" class="w-full">
+                <div class="sidebar-banner-text">人気メニューランキング</div>
+            </a>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="min-h-screen relative z-10">
+    <!-- Main Wrapper -->
+    <div class="pt-16 md:pt-20 relative z-10 min-h-screen flex flex-col md:flex-row">
         
-        <!-- ==========================================
-             Home View (Hero + About + Info)
-        ========================================== -->
-        <div id="home-view" class="view-section active">
+        <!-- Sidebar (PC Only) -->
+        <aside class="hidden md:block w-64 flex-shrink-0 p-4 fixed top-20 left-0 h-[calc(100vh-5rem)] overflow-y-auto z-40 border-r border-gold/10 bg-navy/50 backdrop-blur-sm">
+            <div class="space-y-6 mt-4">
+                <a href="#" onclick="switchPage('menu'); return false;" class="sidebar-banner block group">
+                    <div class="relative overflow-hidden">
+                        <img src="images/menu/wagyu.jpg" onerror="this.src='https://placehold.co/400x250/fbbf24/0f172a?text=Wagyu'" alt="今月のおすすめ" class="transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="sidebar-banner-text">
+                        <span class="text-sm block text-slate-400">旬の味覚</span>
+                        今月のおすすめ
+                    </div>
+                </a>
+
+                <a href="#" onclick="switchPage('menu'); return false;" class="sidebar-banner block group">
+                    <div class="relative overflow-hidden">
+                        <img src="images/menu/goya.jpg" onerror="this.src='https://placehold.co/400x250/b45309/ffffff?text=Ranking'" alt="人気ランキング" class="transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="sidebar-banner-text">
+                        <span class="text-sm block text-slate-400">みんな頼んでる</span>
+                        人気メニューBEST3
+                    </div>
+                </a>
+
+                <a href="https://instagram.com" target="_blank" class="sidebar-banner block group border-pink-500">
+                    <div class="bg-gradient-to-br from-purple-600 to-pink-500 p-4 text-center">
+                        <svg class="w-8 h-8 mx-auto text-white mb-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </div>
+                    <div class="sidebar-banner-text !border-pink-500 !text-pink-400">
+                        店主のきまぐれ投稿
+                    </div>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="w-full md:pl-64 flex-grow">
             
-            <!-- Hero Section -->
-            <div class="relative min-h-[100svh] w-full flex items-center justify-center overflow-hidden">
-                <!-- 背景画像 -->
-                <div class="absolute inset-0 z-0">
-                    <img src="images/others/hero_bg.jpg" onerror="this.src='https://placehold.co/1920x1080/222222/555555?text=Izakaya+Atmosphere'" alt="店内風景" class="w-full h-full object-cover opacity-50 scale-105 animate-float">
-                    <div class="absolute inset-0 bg-gradient-to-b from-sumi/30 via-transparent to-sumi"></div>
+            <!-- ==========================================
+                 Home View
+            ========================================== -->
+            <div id="home-view" class="view-section active">
+                
+                <!-- Hero Section -->
+                <div class="relative h-[80vh] md:h-screen w-full flex items-center justify-center overflow-hidden">
+                    <div class="absolute inset-0 z-0">
+                        <img src="images/others/hero_bg.jpg" onerror="this.src='https://placehold.co/1920x1080/0f172a/fbbf24?text=Izakaya+Atmosphere'" alt="店内風景" class="w-full h-full object-cover opacity-50 animate-float">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/30 to-transparent"></div>
+                    </div>
+
+                    <div class="relative z-10 container mx-auto px-6 flex flex-col-reverse md:flex-row justify-center items-center h-full pt-10 pb-10">
+                        <div class="writing-vertical font-hand text-4xl sm:text-5xl md:text-7xl leading-loose tracking-widest text-white drop-shadow-lg border-r-4 border-gold pr-8 py-8 fade-in-up">
+                            <span data-key="catchphrase">那覇、若狭。<br>心ほどける、<br>大人の隠れ家。</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Hero Content -->
-                <div class="relative z-10 container mx-auto px-6 flex flex-col-reverse md:flex-row justify-center md:justify-between items-center h-full pt-28 md:pt-0 pb-10">
-                    
-                    <!-- Mobile: Sub Copy & Button -->
-                    <div class="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0 fade-in-up delay-300">
-                        <p class="text-base md:text-xl tracking-widest mb-8 text-gray-300 leading-loose font-hand" data-key="sub-catchphrase">
-                            旨い酒と肴、楽しいイベントで、<br>毎日が特別になる大衆居酒屋。
-                        </p>
-                        <a href="#" onclick="switchPage('menu'); return false;" class="px-8 md:px-10 py-3 md:py-4 border border-kohaku text-kohaku hover:bg-kohaku hover:text-white transition-all rounded-sm font-hand tracking-widest text-lg inline-block bg-sumi/80 backdrop-blur-sm">
-                            お品書きを見る
+                <!-- News (Top Page) -->
+                <div class="bg-navy/90 border-y border-gold/30 py-8 px-4 relative z-20 -mt-20 mx-4 md:mx-auto md:max-w-4xl shadow-2xl rounded-sm">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+                        <div class="bg-gold text-navy px-3 py-1 font-bold tracking-widest text-sm whitespace-nowrap self-start">
+                            お知らせ
+                        </div>
+                        <ul class="space-y-2 text-sm md:text-base text-slate-300 flex-grow">
+                            <li class="flex gap-3 border-b border-slate-700 pb-2">
+                                <span class="text-gold font-hand">2024.11.20</span>
+                                <span>和牛ステーキ半額フェア、11/25より開催いたします。</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-gold font-hand">2024.11.01</span>
+                                <span>11月の定休日のお知らせ。</span>
+                            </li>
+                        </ul>
+                        <a href="#" onclick="switchPage('events'); return false;" class="text-gold text-sm hover:underline whitespace-nowrap self-end md:self-center">
+                            一覧を見る →
                         </a>
                     </div>
-
-                    <!-- Vertical Copy -->
-                    <div class="w-full md:w-1/2 flex justify-center md:justify-end mb-6 md:mb-0 fade-in-up">
-                        <div class="writing-vertical font-hand text-4xl sm:text-5xl md:text-7xl leading-loose tracking-widest text-washi drop-shadow-lg border-r-4 border-kohaku pr-6 md:pr-12 mr-2 md:mr-0 py-4">
-                            <span data-key="catchphrase">今夜も<br>かふーじゅに<br>集合。<br>アットホームな<br>酔い処</span>
-                        </div>
-                    </div>
                 </div>
-            </div>
 
-            <!-- About Section -->
-            <div class="container mx-auto px-6 py-24 md:py-32 relative">
-                <div class="flex flex-col md:flex-row items-center gap-12 relative z-10">
-                     <div class="md:w-5/12 fade-in-up">
-                        <div class="relative transform -rotate-1 hover:rotate-0 transition-transform duration-500">
-                            <img src="images/others/owner.jpg" onerror="this.src='https://placehold.co/600x800/333/777?text=Our+Passion'" alt="店主" class="relative rounded-sm shadow-2xl w-full aspect-[3/4] object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-500">
-                        </div>
-                    </div>
-                    <div class="md:w-7/12 fade-in-up delay-200">
-                        <h3 class="text-3xl md:text-4xl font-hand text-kohaku mb-10 tracking-widest border-b border-kohaku/30 pb-4 inline-block" data-key="about-title">私たちの思い</h3>
-                        <div class="space-y-8 text-lg leading-loose text-gray-300 font-light tracking-wide">
-                            <p data-key="about-body-1">「酔い処 かふーじゅ」の「かふーじゅ」とは、沖縄の言葉で「果報（かふう）」＝「幸せ、良い知らせ」を意味します。</p>
-                            <p data-key="about-body-2">私たちは、この小さな居酒屋が、訪れるお客様にとっての「幸せな場所」でありたいと願っています。<br>こだわりの酒と肴、そして何より「人」との繋がりを大切にしています。</p>
-                            <p data-key="about-body-3">この若狭の地で、皆様の日常に小さな「果報」をお届けできるよう、今夜も明かりを灯してお待ちしております。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <div class="cloud-divider-bottom mt-10"></div>
 
-            <!-- Info / Map Section -->
-            <div class="bg-kurocha/20 py-24 border-y border-white/5 backdrop-blur-sm">
-                <div class="container mx-auto px-6">
-                    <h3 class="text-3xl font-hand text-center mb-16 tracking-widest text-kohaku" data-key="info-title">店舗情報・アクセス</h3>
-                    <div class="grid md:grid-cols-2 gap-12">
-                        <div class="bg-sumi/80 p-8 rounded-sm border border-white/10 shadow-lg fade-in-up">
-                            <dl class="space-y-6 text-lg">
-                                <div class="flex flex-col sm:flex-row border-b border-dashed border-white/10 pb-4">
-                                    <dt class="font-hand text-gray-400 w-32 mb-1 sm:mb-0">住所</dt>
-                                    <dd>〒900-0031 沖縄県那覇市若狭3-3-15</dd>
+                <!-- About (Zigzag Layout) -->
+                <div class="bg-section py-24 px-6">
+                    <div class="container mx-auto max-w-5xl">
+                        
+                        <!-- Block 1: Img Left, Text Right -->
+                        <div class="flex flex-col md:flex-row items-center gap-12 mb-24">
+                            <div class="w-full md:w-1/2 fade-in-up">
+                                <div class="img-frame transform -rotate-1">
+                                    <img src="images/others/owner.jpg" onerror="this.src='https://placehold.co/600x400/0f172a/fbbf24?text=Passion'" alt="想い" class="w-full h-full object-cover">
                                 </div>
-                                <div class="flex flex-col sm:flex-row border-b border-dashed border-white/10 pb-4">
-                                    <dt class="font-hand text-gray-400 w-32 mb-1 sm:mb-0">営業時間</dt>
-                                    <dd>17:00 - 24:00</dd>
-                                </div>
-                                <div class="flex flex-col sm:flex-row">
-                                    <dt class="font-hand text-gray-400 w-32 mb-1 sm:mb-0">定休日</dt>
-                                    <dd>
-                                        毎週火曜日<br>
-                                        <span class="text-sm text-gray-500 mt-1 block">※その他、不定休あり。詳細はInstagramで。<br>※火曜日も8名様以上のご予約でオープン可能です。</span>
-                                    </dd>
-                                </div>
-                            </dl>
+                            </div>
+                            <div class="w-full md:w-1/2 fade-in-up delay-100">
+                                <h3 class="text-3xl font-hand text-gold mb-6 tracking-widest border-l-4 border-gold pl-4" data-key="about-title">かふーじゅの想い</h3>
+                                <p class="text-lg leading-loose text-slate-300 font-light text-justify mb-6" data-key="about-body-1">「酔い処 かふーじゅ」の「かふーじゅ」とは、沖縄の言葉で「果報（かふう）」＝「幸せ、良い知らせ」を意味します。</p>
+                                <p class="text-lg leading-loose text-slate-300 font-light text-justify" data-key="about-body-2">私たちが目指すのは、訪れるたびに心が温まり、明日への活力が湧いてくるような場所。</p>
+                            </div>
                         </div>
-                        <div class="h-[300px] w-full rounded-sm overflow-hidden shadow-lg grayscale hover:grayscale-0 transition-all duration-500 fade-in-up delay-200 border border-white/10">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.522204558223!2d127.67102981503038!3d26.21221798343431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34e5695e1e19623b%3A0x6b8f7e71f76b6f0!2z44CSOTAwLTAwMzEg5rGg6KKL55yM6YKj6KaH5biC6Iul54OK77yT4oiS77yT4oiS77yR77yV!5e0!3m2!1sja!2sjp!4v1678888888888!5m2!1sja!2sjp" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+                        <!-- Block 2: Img Right, Text Left (Zigzag) -->
+                        <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+                            <div class="w-full md:w-1/2 fade-in-up">
+                                <div class="img-frame transform rotate-1">
+                                    <img src="images/menu/awamori.jpg" onerror="this.src='https://placehold.co/600x400/0f172a/fbbf24?text=Sake+&+Food'" alt="酒と肴" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <div class="w-full md:w-1/2 fade-in-up delay-100">
+                                <h3 class="text-3xl font-hand text-gold mb-6 tracking-widest border-l-4 border-gold pl-4">厳選した酒と肴</h3>
+                                <p class="text-lg leading-loose text-slate-300 font-light text-justify mb-6" data-key="sub-catchphrase">厳選した泡盛と、炭火香る絶品料理。<br>今夜は時間を忘れて、語り合いませんか。</p>
+                                <a href="#" onclick="switchPage('menu'); return false;" class="inline-block border-b border-gold text-gold hover:text-white pb-1 transition-colors">
+                                    こだわりのお品書きを見る →
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Info & Map (Revised Map Code) -->
+                <div class="bg-navy py-24 px-6 border-t border-gold/20">
+                    <div class="container mx-auto max-w-5xl">
+                        <div class="text-center mb-16 fade-in-up">
+                            <h3 class="text-3xl font-hand text-gold mb-2 tracking-widest" data-key="info-title">店舗情報</h3>
+                            <div class="w-16 h-0.5 bg-gold mx-auto"></div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-10">
+                            <!-- Info Table -->
+                            <div class="w-full md:w-1/2 bg-section p-8 border border-gold/30 shadow-2xl fade-in-up relative">
+                                <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-gold"></div>
+                                <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-gold"></div>
+                                <dl class="space-y-6 text-lg">
+                                    <div class="border-b border-slate-700 pb-4">
+                                        <dt class="font-hand text-gold text-sm mb-1">住所</dt>
+                                        <dd>〒900-0031 沖縄県那覇市若狭3-3-15</dd>
+                                    </div>
+                                    <div class="border-b border-slate-700 pb-4">
+                                        <dt class="font-hand text-gold text-sm mb-1">営業時間</dt>
+                                        <dd>17:00 - 24:00</dd>
+                                    </div>
+                                    <div class="border-b border-slate-700 pb-4">
+                                        <dt class="font-hand text-gold text-sm mb-1">定休日</dt>
+                                        <dd>毎週火曜日<br><span class="text-sm text-slate-500">※不定休あり</span></dd>
+                                    </div>
+                                    <div>
+                                        <dt class="font-hand text-gold text-sm mb-1">電話番号</dt>
+                                        <dd class="text-2xl font-bold tracking-widest font-hand">098-XXX-XXXX</dd>
+                                    </div>
+                                </dl>
+                            </div>
+
+                            <!-- Map (Updated) -->
+                            <div class="w-full md:w-1/2 img-frame h-[400px] shadow-2xl fade-in-up delay-200">
+                                <!-- 住所と店名を指定して検索する形式の埋め込みコード -->
+                                <iframe src="https://maps.google.com/maps?q=%E9%85%94%E3%81%84%E5%87%A6+%E3%81%8B%E3%81%B5%E3%83%BC%E3%81%98%E3%82%85+(%E6%B2%96%E7%B8%84%E7%9C%8C%E9%82%A3%E8%A6%87%E5%B8%82%E8%8B%A5%E7%8B%AD3-3-15)&t=&z=17&ie=UTF8&iwloc=B&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- ==========================================
-             Menu View
-        ========================================== -->
-        <div id="menu-view" class="view-section">
-            <div class="pt-32 pb-24 px-6 container mx-auto max-w-5xl">
-                <h2 class="text-5xl font-hand text-center mb-4 text-kohaku" data-key="menu-title">お品書き</h2>
-                <p class="text-center text-gray-400 mb-12 font-hand tracking-widest">心づくしの酒と肴</p>
-
-                <!-- Language Switcher -->
-                <div class="flex justify-center gap-4 mb-12">
-                    <button class="lang-btn px-4 py-1 rounded-full border border-white/20 text-sm transition-all hover:border-kohaku active" data-lang="jp">日本語</button>
-                    <button class="lang-btn px-4 py-1 rounded-full border border-white/20 text-sm transition-all hover:border-kohaku text-gray-400" data-lang="en">English</button>
-                    <button class="lang-btn px-4 py-1 rounded-full border border-white/20 text-sm transition-all hover:border-kohaku text-gray-400" data-lang="cn">中文</button>
-                </div>
-
-                <!-- Tabs -->
-                <div class="flex justify-center gap-12 mb-16 border-b border-white/10 pb-4">
-                    <button class="menu-tab text-2xl font-hand py-2 px-4 transition-colors active text-kohaku" data-tab="food" data-key="tab-food">お料理 (Food)</button>
-                    <button class="menu-tab text-2xl font-hand py-2 px-4 transition-colors text-gray-500 hover:text-gray-300" data-tab="drink" data-key="tab-drink">お飲み物 (Drink)</button>
-                </div>
-
-                <div id="food-content" class="menu-tab-content active"></div>
-                <div id="drink-content" class="menu-tab-content hidden"></div>
-            </div>
-        </div>
-
-        <!-- ==========================================
-             Events View
-        ========================================== -->
-        <div id="events-view" class="view-section">
-            <div class="pt-32 pb-24 px-6 container mx-auto max-w-5xl">
-                <h2 class="text-5xl font-hand text-center mb-16 text-kohaku" data-key="events-title">催し物</h2>
                 
-                <!-- Featured Event -->
-                <div class="bg-sumi/80 rounded-sm shadow-xl overflow-hidden flex flex-col md:flex-row mb-16 fade-in-up group border border-white/5 hover:border-kohaku/30 transition-colors">
-                    <div class="md:w-1/2 relative overflow-hidden">
-                        <img src="images/events/monthly_special.jpg" onerror="this.src='https://placehold.co/800x800/8c4a3a/ffffff?text=Event'" alt="イベント" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute top-4 left-4 bg-kohaku text-white px-4 py-1 font-hand text-lg tracking-widest shadow-md">注目</div>
-                    </div>
-                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-                        <h3 class="text-2xl md:text-3xl font-bold text-washi mb-4" data-key="event-1-title">和牛ステーキ半額フェア</h3>
-                        <p class="text-kohaku text-xl font-hand mb-6" data-key="event-1-date">11月25日 (土) 18:00〜</p>
-                        <p class="text-gray-300 leading-relaxed mb-8" data-key="event-1-desc">日頃の感謝を込めて、A5ランク和牛リブロースステーキ(2480円)を、なんと半額の1240円でご提供！数量限定、早い者勝ちです！</p>
-                        <a href="#" onclick="switchPage('contact'); return false;" class="inline-block text-center border border-white/30 py-3 px-8 hover:bg-white hover:text-sumi transition-colors duration-300 w-fit mx-auto md:mx-0">予約する</a>
-                    </div>
+                <!-- Mobile Banner Area -->
+                <div class="md:hidden px-6 pb-12 space-y-4">
+                    <a href="#" onclick="switchPage('menu'); return false;" class="sidebar-banner block">
+                        <img src="https://placehold.co/600x200/fbbf24/0f172a?text=Recommend" alt="今月のおすすめ" class="w-full">
+                        <div class="sidebar-banner-text">今月のおすすめメニュー</div>
+                    </a>
+                    <a href="#" onclick="switchPage('events'); return false;" class="sidebar-banner block">
+                        <img src="https://placehold.co/600x200/b45309/ffffff?text=Ranking" alt="人気ランキング" class="w-full">
+                        <div class="sidebar-banner-text">人気メニューランキング</div>
+                    </a>
                 </div>
 
-                <!-- Regular Events -->
-                <div class="grid md:grid-cols-3 gap-6">
-                    <div class="bg-sumi/50 p-8 border border-white/5 hover:border-kohaku/50 transition-colors text-center fade-in-up delay-100">
-                        <div class="text-kohaku text-4xl mb-4 font-hand">月</div>
-                        <h4 class="text-xl font-bold text-washi mb-2" data-key="event-2-title">ビールDay</h4>
-                        <p class="text-gray-400 text-sm" data-key="event-2-desc">生ビール何杯飲んでも1杯300円！</p>
+            </div>
+
+            <!-- ==========================================
+                 Menu View
+            ========================================== -->
+            <div id="menu-view" class="view-section">
+                <div class="cloud-divider-top"></div>
+                <div class="py-24 px-6 container mx-auto max-w-5xl">
+                    <h2 class="text-4xl md:text-5xl font-hand text-center mb-4 text-gold" data-key="menu-title">お品書き</h2>
+                    <div class="w-20 h-0.5 bg-gold mx-auto mb-12"></div>
+
+                    <!-- Language Switcher -->
+                    <div class="flex justify-center gap-4 mb-12">
+                        <button class="lang-btn px-6 py-1.5 border border-gold/50 text-sm transition-all hover:bg-gold hover:text-navy active" data-lang="jp">日本語</button>
+                        <button class="lang-btn px-6 py-1.5 border border-gold/50 text-sm transition-all hover:bg-gold hover:text-navy text-slate-400" data-lang="en">English</button>
+                        <button class="lang-btn px-6 py-1.5 border border-gold/50 text-sm transition-all hover:bg-gold hover:text-navy text-slate-400" data-lang="cn">中文</button>
                     </div>
-                    <div class="bg-sumi/50 p-8 border border-white/5 hover:border-kohaku/50 transition-colors text-center fade-in-up delay-200">
-                        <div class="text-kohaku text-4xl mb-4 font-hand">水</div>
-                        <h4 class="text-xl font-bold text-washi mb-2" data-key="event-3-title">レディースDay</h4>
-                        <p class="text-gray-400 text-sm" data-key="event-3-desc">女性グループ限定、デザート1品サービス！</p>
+
+                    <!-- Tabs -->
+                    <div class="flex justify-center gap-8 mb-16 border-b border-gold/20 pb-4">
+                        <button class="menu-tab text-2xl font-hand py-2 px-4 transition-colors active text-gold" data-tab="food" data-key="tab-food">お料理</button>
+                        <button class="menu-tab text-2xl font-hand py-2 px-4 transition-colors text-slate-500 hover:text-slate-300" data-tab="drink" data-key="tab-drink">お飲み物</button>
                     </div>
-                    <div class="bg-sumi/50 p-8 border border-white/5 hover:border-kohaku/50 transition-colors text-center fade-in-up delay-300">
-                        <div class="text-kohaku text-4xl mb-4 font-hand">29</div>
-                        <h4 class="text-xl font-bold text-washi mb-2" data-key="event-4-title">肉の日</h4>
-                        <p class="text-gray-400 text-sm" data-key="event-4-desc">対象の肉料理が全品10%OFF！</p>
-                    </div>
+
+                    <div id="food-content" class="menu-tab-content active"></div>
+                    <div id="drink-content" class="menu-tab-content hidden"></div>
                 </div>
             </div>
-        </div>
 
-        <!-- ==========================================
-             Contact View
-        ========================================== -->
-        <div id="contact-view" class="view-section">
-            <div class="pt-32 pb-24 px-6 container mx-auto max-w-4xl">
-                <h2 class="text-5xl font-hand text-center mb-16 text-kohaku" data-key="contact-title">ご予約・お問い合わせ</h2>
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div class="space-y-8">
-                        <h3 class="text-2xl font-bold text-washi border-l-4 border-kohaku pl-4" data-key="contact-reserve-title">ご予約について</h3>
-                        <p class="text-gray-400 leading-loose" data-key="contact-reserve-desc">ご予約は「お電話」または「InstagramのDM」にて承っております。<br>8名様以上のご予約は、1週間前までにご連絡をお願いいたします。</p>
-                        <div class="space-y-4 pt-4">
-                            <a href="tel:098-XXX-XXXX" class="block w-full bg-white/5 border border-white/10 hover:bg-kohaku hover:border-kohaku hover:text-white p-6 text-center transition-all">
-                                <div class="text-sm text-gray-400 mb-1 hover:text-white">お電話で</div>
-                                <div class="text-2xl font-bold tracking-widest">098-XXX-XXXX</div>
-                            </a>
-                            <a href="https://instagram.com" target="_blank" class="block w-full bg-white/5 border border-white/10 hover:bg-pink-700 hover:border-transparent p-6 text-center transition-all">
-                                <div class="text-sm text-gray-400 mb-1 hover:text-white">Instagramで</div>
-                                <div class="text-xl font-bold">DMを送る</div>
-                            </a>
+            <!-- ==========================================
+                 Events View
+            ========================================== -->
+            <div id="events-view" class="view-section">
+                <div class="cloud-divider-top"></div>
+                <div class="py-24 px-6 container mx-auto max-w-5xl">
+                    <h2 class="text-4xl md:text-5xl font-hand text-center mb-16 text-gold" data-key="events-title">催し物</h2>
+                    
+                    <div class="bg-navy border border-gold/30 p-1 rounded-sm shadow-2xl mb-16 fade-in-up">
+                        <div class="flex flex-col md:flex-row">
+                            <div class="md:w-1/2 relative h-64 md:h-auto">
+                                <img src="images/events/monthly_special.jpg" onerror="this.src='https://placehold.co/800x800/0f172a/fbbf24?text=Special+Event'" alt="イベント" class="w-full h-full object-cover">
+                                <div class="absolute top-0 left-0 bg-gold text-navy px-4 py-2 font-bold tracking-widest">今月のおすすめ</div>
+                            </div>
+                            <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                                <h3 class="text-2xl font-bold text-gold mb-4 font-hand" data-key="event-1-title">和牛ステーキ半額フェア</h3>
+                                <p class="text-white text-lg mb-6 border-b border-gold/20 pb-2 inline-block" data-key="event-1-date">11月25日 (土) 18:00〜</p>
+                                <p class="text-slate-300 leading-relaxed mb-8" data-key="event-1-desc">日頃の感謝を込めて、A5ランク和牛リブロースステーキ(2480円)を、なんと半額の1240円でご提供！数量限定、早い者勝ちです！</p>
+                                <a href="#" onclick="switchPage('contact'); return false;" class="self-start px-8 py-3 border border-gold text-gold hover:bg-gold hover:text-navy transition-colors">予約する</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="bg-kurocha/20 p-8 rounded-sm border border-white/5">
-                        <h3 class="text-2xl font-bold text-washi mb-6" data-key="contact-form-title">お問い合わせフォーム</h3>
-                        <form id="contact-form" class="space-y-5">
-                            <div><label class="block text-sm text-gray-400 mb-2" data-key="form-name">お名前</label><input type="text" class="w-full bg-sumi border border-white/10 focus:border-kohaku text-white p-3 outline-none" required></div>
-                            <div><label class="block text-sm text-gray-400 mb-2" data-key="form-email">メールアドレス</label><input type="email" class="w-full bg-sumi border border-white/10 focus:border-kohaku text-white p-3 outline-none" required></div>
-                            <div><label class="block text-sm text-gray-400 mb-2" data-key="form-message">お問い合わせ内容</label><textarea rows="4" class="w-full bg-sumi border border-white/10 focus:border-kohaku text-white p-3 outline-none" required></textarea></div>
-                            <button type="submit" class="w-full bg-kohaku hover:bg-orange-500 text-white font-bold py-4 transition-colors tracking-widest" data-key="form-submit">送信する</button>
-                        </form>
-                        <div id="form-message" class="mt-4 text-center text-kohaku"></div>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-navy border border-gold/20 p-8 text-center hover:border-gold transition-colors group fade-in-up delay-100">
+                            <div class="text-4xl mb-4">🍺</div>
+                            <h4 class="text-xl font-bold text-gold mb-2" data-key="event-2-title">ビールDay</h4>
+                            <p class="text-slate-400 text-sm" data-key="event-2-desc">生ビール何杯飲んでも1杯300円！</p>
+                        </div>
+                        <div class="bg-navy border border-gold/20 p-8 text-center hover:border-gold transition-colors group fade-in-up delay-200">
+                            <div class="text-4xl mb-4">🍰</div>
+                            <h4 class="text-xl font-bold text-gold mb-2" data-key="event-3-title">レディースDay</h4>
+                            <p class="text-slate-400 text-sm" data-key="event-3-desc">女性グループ限定、デザート1品サービス！</p>
+                        </div>
+                        <div class="bg-navy border border-gold/20 p-8 text-center hover:border-gold transition-colors group fade-in-up delay-300">
+                            <div class="text-4xl mb-4">🍖</div>
+                            <h4 class="text-xl font-bold text-gold mb-2" data-key="event-4-title">肉の日</h4>
+                            <p class="text-slate-400 text-sm" data-key="event-4-desc">対象の肉料理が全品10%OFF！</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
 
-    <footer class="bg-black py-12 border-t border-white/10 text-center relative z-10">
-        <div class="flex justify-center items-center gap-2 mb-4 opacity-50">
-            <span class="font-hand text-xl">酔い処 かふーじゅ</span>
-        </div>
-        <p class="text-gray-600 text-sm font-light tracking-wider">&copy; 2024 Yoidokoro Kafuju.</p>
-    </footer>
+            <!-- ==========================================
+                 Contact View
+            ========================================== -->
+            <div id="contact-view" class="view-section">
+                <div class="cloud-divider-top"></div>
+                <div class="py-24 px-6 container mx-auto max-w-4xl">
+                    <h2 class="text-4xl md:text-5xl font-hand text-center mb-4 text-gold" data-key="contact-title">ご予約・お問い合わせ</h2>
+                    <div class="w-20 h-0.5 bg-gold mx-auto mb-12"></div>
+
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="space-y-8">
+                            <h3 class="text-2xl font-hand text-white border-l-4 border-gold pl-4" data-key="contact-reserve-title">ご予約について</h3>
+                            <p class="text-slate-300 leading-loose" data-key="contact-reserve-desc">ご予約は「お電話」または「InstagramのDM」にて承っております。<br>8名様以上のご予約は、1週間前までにご連絡をお願いいたします。</p>
+                            
+                            <div class="space-y-4 pt-4">
+                                <a href="tel:098-XXX-XXXX" class="flex items-center justify-between bg-navy border border-gold/30 hover:border-gold hover:bg-gold/10 p-6 transition-all group">
+                                    <div>
+                                        <div class="text-xs text-gold mb-1">お電話で</div>
+                                        <div class="text-2xl font-bold tracking-widest text-white">098-XXX-XXXX</div>
+                                    </div>
+                                    <span class="text-gold text-2xl group-hover:translate-x-1 transition-transform">→</span>
+                                </a>
+                                <a href="https://instagram.com" target="_blank" class="flex items-center justify-between bg-navy border border-gold/30 hover:border-gold hover:bg-gold/10 p-6 transition-all group">
+                                    <div>
+                                        <div class="text-xs text-gold mb-1">Instagramで</div>
+                                        <div class="text-xl font-bold text-white">DMを送る</div>
+                                    </div>
+                                    <span class="text-gold text-2xl group-hover:translate-x-1 transition-transform">→</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="bg-section p-8 border-t-4 border-gold shadow-lg">
+                            <h3 class="text-2xl font-hand text-white mb-6" data-key="contact-form-title">お問い合わせフォーム</h3>
+                            <form id="contact-form" class="space-y-5">
+                                <div>
+                                    <label class="block text-xs text-gold mb-2 tracking-widest" data-key="form-name">お名前</label>
+                                    <input type="text" class="w-full bg-navy border border-slate-600 focus:border-gold text-white p-3 outline-none transition-colors" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gold mb-2 tracking-widest" data-key="form-email">メールアドレス</label>
+                                    <input type="email" class="w-full bg-navy border border-slate-600 focus:border-gold text-white p-3 outline-none transition-colors" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gold mb-2 tracking-widest" data-key="form-message">お問い合わせ内容</label>
+                                    <textarea rows="4" class="w-full bg-navy border border-slate-600 focus:border-gold text-white p-3 outline-none transition-colors" required></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-gold hover:bg-white text-navy font-bold py-4 transition-colors tracking-widest" data-key="form-submit">送信する</button>
+                            </form>
+                            <div id="form-message" class="mt-4 text-center text-gold"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="bg-navy py-12 border-t border-gold/30 text-center relative z-10">
+                <div class="flex justify-center items-center gap-3 mb-6">
+                    <div class="w-8 h-8 border border-gold rounded-full p-0.5">
+                        <img src="images/others/logo.png" onerror="this.src='https://placehold.co/100x100/fbbf24/000000?text=酒'" class="w-full h-full rounded-full object-cover">
+                    </div>
+                    <span class="font-hand text-xl text-gold">酔い処 かふーじゅ</span>
+                </div>
+                <p class="text-slate-500 text-xs font-light tracking-wider">&copy; 2024 Yoidokoro Kafuju. All Rights Reserved.</p>
+            </footer>
+
+        </div> <!-- End of Main Content Wrapper -->
+    </div> <!-- End of Flex Container -->
 
     <!-- Menu Modal -->
     <div id="menu-modal" class="fixed inset-0 z-[200] hidden">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" id="modal-overlay"></div>
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg p-6">
-            <div class="bg-sumi border border-white/10 rounded-sm shadow-2xl relative animate-float">
-                <button class="absolute top-2 right-2 bg-black/50 rounded-full p-1 text-white/70 hover:text-white z-10" id="close-modal-button">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg p-4">
+            <div class="bg-navy border border-gold rounded-sm shadow-2xl relative animate-float overflow-hidden">
+                <button class="absolute top-2 right-2 bg-black/50 rounded-full p-1 text-white hover:text-gold z-10 transition-colors" id="close-modal-button">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
+                
                 <div class="h-64 overflow-hidden relative">
                     <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
-                    <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent h-20"></div>
-                    <h3 id="modal-title" class="absolute bottom-4 left-4 text-2xl font-bold text-washi drop-shadow-md"></h3>
+                    <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-navy to-transparent h-20"></div>
+                    <h3 id="modal-title" class="absolute bottom-4 left-4 text-2xl font-bold text-gold drop-shadow-md font-hand"></h3>
                 </div>
+                
                 <div class="p-6">
-                    <div class="flex justify-end mb-4">
-                        <span id="modal-price" class="text-2xl font-hand text-kohaku"></span>
+                    <div class="flex justify-end mb-4 border-b border-gold/20 pb-2">
+                        <span id="modal-price" class="text-2xl font-hand text-white"></span>
                     </div>
-                    <p id="modal-description" class="text-gray-300 leading-relaxed mb-6"></p>
-                    <div class="border-t border-dashed border-white/10 pt-4">
-                        <p class="text-xs text-gray-500 mb-2" data-key="modal-allergens-title">アレルゲン</p>
+                    <p id="modal-description" class="text-slate-300 leading-relaxed mb-6"></p>
+                    
+                    <div class="bg-white/5 p-3 rounded-sm">
+                        <p class="text-xs text-gold mb-2 tracking-widest" data-key="modal-allergens-title">アレルゲン</p>
                         <div id="modal-allergens" class="flex flex-wrap gap-2"></div>
                     </div>
                 </div>
