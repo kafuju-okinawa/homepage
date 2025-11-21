@@ -1,42 +1,144 @@
-/* Canvas Container for Three.js */
+/* --- Base Settings --- */
+body {
+    font-family: 'Shippori Mincho', serif;
+    background-color: #0f172a; 
+    color: #f8fafc;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* 背景の和柄（青海波） */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4af37' fill-opacity='0.03' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Three.js Canvas */
 #canvas-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0; /* Behind everything */
+    z-index: 0;
     pointer-events: none;
-    opacity: 0.6; /* Subtle visibility */
+    opacity: 0.8;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #b45309; border-radius: 4px; }
+
+/* --- Utilities --- */
+.font-hand { font-family: 'Zen Kurenaido', sans-serif; }
+.text-gold { color: #fbbf24; }
+.border-gold { border-color: #fbbf24; }
+.bg-gold { background-color: #fbbf24; color: #0f172a; }
+
+/* 縦書き */
+.writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: 0.15em;
 }
-::-webkit-scrollbar-track {
-    background: #1c1c1e;
+
+/* 雲の区切り線 */
+.cloud-divider-top {
+    width: 100%;
+    height: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 320' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%230f172a' fill-opacity='1' d='M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: cover;
+    transform: rotate(180deg);
+    margin-top: -1px;
 }
-::-webkit-scrollbar-thumb {
-    background: #52525b;
+.cloud-divider-bottom {
+    width: 100%;
+    height: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 320' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%230f172a' fill-opacity='1' d='M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: cover;
+    margin-bottom: -1px;
+}
+
+/* 画像の装飾 (金枠) */
+.img-frame {
+    border: 2px solid #fbbf24;
+    padding: 4px;
+    background-color: #0f172a;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Sidebar Banner Styles --- */
+.sidebar-banner {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #fbbf24;
     border-radius: 4px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
 }
-::-webkit-scrollbar-thumb:hover {
-    background: #ea580c;
+.sidebar-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+}
+.sidebar-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.sidebar-banner-text {
+    background: rgba(15, 23, 42, 0.9);
+    color: #fbbf24;
+    text-align: center;
+    padding: 0.5rem;
+    font-family: 'Zen Kurenaido', sans-serif;
+    border-top: 1px solid #fbbf24;
 }
 
-/* Utilities */
-.organic-radius {
-    border-radius: 2% 98% 2% 98% / 98% 2% 98% 2%; 
-    transition: all 0.5s ease;
+/* --- Mobile Menu --- */
+#mobile-menu {
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    background-color: #0f172a; 
+    border-left: 1px solid rgba(251, 191, 36, 0.3);
 }
-.organic-radius:hover {
-    border-radius: 98% 2% 98% 2% / 2% 98% 2% 98%;
+#mobile-menu.open { transform: translateX(0); }
+#mobile-menu-overlay {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+    background-color: rgba(0,0,0,0.7);
 }
+#mobile-menu-overlay.open { opacity: 1; pointer-events: auto; }
+.hamburger-line { transition: all 0.3s ease-in-out; background-color: #fbbf24; }
 
-/* Active Nav Link */
-.nav-link.active-link {
-    color: #ea580c;
-    border-bottom: 2px solid #ea580c;
+/* --- Animations --- */
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.animate-float { animation: float 6s ease-in-out infinite; }
+.fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+.fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
+/* View Section Toggle */
+.view-section { display: none; }
+.view-section.active { display: block; animation: fadeIn 0.5s ease-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Header Blur */
+.nav-blur {
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(251, 191, 36, 0.3);
 }
+.nav-link.active-link { color: #fbbf24; }
+.menu-list-item { position: relative; transition: all 0.3s ease; border-bottom: 1px dashed rgba(251, 191, 36, 0.3); }
+.menu-tab.active { background-color: transparent; color: #fbbf24; border-bottom: 2px solid #fbbf24; }
+
 
