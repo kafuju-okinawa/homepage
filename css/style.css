@@ -1,1 +1,42 @@
+/* Canvas Container for Three.js */
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Behind everything */
+    pointer-events: none;
+    opacity: 0.6; /* Subtle visibility */
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #1c1c1e;
+}
+::-webkit-scrollbar-thumb {
+    background: #52525b;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ea580c;
+}
+
+/* Utilities */
+.organic-radius {
+    border-radius: 2% 98% 2% 98% / 98% 2% 98% 2%; 
+    transition: all 0.5s ease;
+}
+.organic-radius:hover {
+    border-radius: 98% 2% 98% 2% / 2% 98% 2% 98%;
+}
+
+/* Active Nav Link */
+.nav-link.active-link {
+    color: #ea580c;
+    border-bottom: 2px solid #ea580c;
+}
 
