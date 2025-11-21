@@ -34,103 +34,27 @@
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-    <!-- Custom CSS (もし読み込めなくても下のstyleタグでカバーします) -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        /* --- 重要なスタイルをここに直接記述してガードします --- */
-        
-        /* サイドメニューの制御 (ここが効いていないと開きっぱなしになります) */
-        #mobile-menu {
-            transform: translateX(100%); /* 初期状態は画面の右外へ隠す */
-            transition: transform 0.3s ease-in-out;
-        }
-        #mobile-menu.open {
-            transform: translateX(0); /* openクラスがつくと出てくる */
-        }
-        
-        /* 背景の暗幕 */
-        #mobile-menu-overlay {
-            opacity: 0;
-            pointer-events: none; /* クリック無効化 */
-            transition: opacity 0.3s ease-in-out;
-        }
-        #mobile-menu-overlay.open {
-            opacity: 1;
-            pointer-events: auto; /* クリック有効化 */
-        }
-        
-        /* ハンバーガーアイコンのアニメーション */
-        .hamburger-line {
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* Three.js 背景用コンテナ */
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        /* メニューリスト */
-        .menu-list-item {
-            position: relative;
-            transition: all 0.3s ease;
-            border-bottom: 1px dashed rgba(255,255,255,0.1);
-        }
-        .menu-list-item:hover {
-            background-color: rgba(255, 255, 255, 0.03);
-            padding-left: 0.5rem;
-        }
-        .menu-list-item::before {
-            content: "●"; 
-            position: absolute;
-            left: -1.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ea580c;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            font-size: 0.8rem;
-        }
-        .menu-list-item:hover::before {
-            opacity: 1;
-        }
-
-        /* ナビゲーション背景のぼかし */
-        .nav-blur {
-            background: rgba(28, 28, 30, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        /* タブのアクティブ状態 */
-        .menu-tab.active {
-            background-color: transparent;
-            color: #ea580c;
-            border-bottom: 2px solid #ea580c;
-        }
-        
-        /* アニメーション */
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-5px) rotate(0.5deg); }
-        }
+        /* ガード用スタイル */
+        #mobile-menu { transform: translateX(100%); transition: transform 0.3s ease-in-out; }
+        #mobile-menu.open { transform: translateX(0); }
+        #mobile-menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
+        #mobile-menu-overlay.open { opacity: 1; pointer-events: auto; }
+        .hamburger-line { transition: all 0.3s ease-in-out; }
+        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.6; }
+        .menu-list-item { position: relative; transition: all 0.3s ease; border-bottom: 1px dashed rgba(255,255,255,0.1); }
+        .menu-list-item:hover { background-color: rgba(255, 255, 255, 0.03); padding-left: 0.5rem; }
+        .menu-list-item::before { content: "●"; position: absolute; left: -1.5rem; top: 50%; transform: translateY(-50%); color: #ea580c; opacity: 0; transition: opacity 0.3s ease; font-size: 0.8rem; }
+        .menu-list-item:hover::before { opacity: 1; }
+        .nav-blur { background: rgba(28, 28, 30, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .menu-tab.active { background-color: transparent; color: #ea580c; border-bottom: 2px solid #ea580c; }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(0.5deg); } }
         .animate-float { animation: float 6s ease-in-out infinite; }
-
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
+        .fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in-up.visible { opacity: 1; transform: translateY(0); }
-        
-        /* スクロールバー */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1c1c1e; }
         ::-webkit-scrollbar-thumb { background: #52525b; border-radius: 4px; }
@@ -148,10 +72,9 @@
             <a href="#" id="logo-link" class="flex items-center gap-3 group z-50">
                 <div class="relative w-10 h-10">
                     <div class="absolute inset-0 bg-kohaku rounded-full blur opacity-50 group-hover:opacity-80 transition-opacity"></div>
-                    <!-- ロゴ画像 -->
                     <img src="images/others/logo.png" onerror="this.src='https://placehold.co/100x100/ea580c/ffffff?text=酒'" alt="ロゴ" class="relative w-full h-full object-cover rounded-full border border-white/20">
                 </div>
-                <h1 class="font-hand text-2xl text-washi group-hover:text-kohaku transition-colors tracking-wider">
+                <h1 class="font-hand text-xl sm:text-2xl text-washi group-hover:text-kohaku transition-colors tracking-wider">
                     酔い処 かふーじゅ
                 </h1>
             </a>
@@ -167,7 +90,7 @@
                 </a>
             </nav>
 
-            <!-- Mobile Menu Button (Hamburger) -->
+            <!-- Mobile Menu Button -->
             <button id="mobile-menu-button" class="md:hidden text-washi focus:outline-none z-[200] p-2 relative">
                 <div class="w-8 h-6 relative flex flex-col justify-between overflow-hidden">
                     <span class="hamburger-line block w-full h-0.5 bg-washi origin-left" id="line-1"></span>
@@ -200,25 +123,27 @@
     <main class="min-h-screen relative z-10">
         <!-- Home -->
         <section id="home" class="content-section active">
-            <div class="relative h-screen w-full flex items-center justify-center overflow-hidden">
-                <!-- 背景画像 (images/others/hero_bg.jpg) -->
+            <!-- min-h-screen に変更して、スマホアドレスバーの影響を軽減 -->
+            <div class="relative min-h-[100svh] w-full flex items-center justify-center overflow-hidden">
+                <!-- 背景画像 -->
                 <div class="absolute inset-0 z-0">
                     <img src="images/others/hero_bg.jpg" onerror="this.src='https://placehold.co/1920x1080/222222/555555?text=Izakaya+Atmosphere'" alt="店内風景" class="w-full h-full object-cover opacity-50 scale-105 animate-float">
                     <div class="absolute inset-0 bg-gradient-to-b from-sumi/30 via-transparent to-sumi"></div>
                 </div>
 
-                <!-- Hero Text -->
-                <div class="relative z-10 container mx-auto px-6 flex flex-col-reverse md:flex-row justify-center md:justify-between items-center h-full pt-20">
-                    <div class="md:w-1/2 text-center md:text-left mt-10 md:mt-0 fade-in-up delay-300">
-                        <p class="text-lg md:text-xl tracking-widest mb-8 text-gray-300 leading-loose font-hand" data-key="sub-catchphrase">
+                <!-- Hero Text: スマホレイアウトを調整 -->
+                <div class="relative z-10 container mx-auto px-6 flex flex-col-reverse md:flex-row justify-center md:justify-between items-center h-full pt-28 md:pt-20 pb-10">
+                    <div class="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0 fade-in-up delay-300">
+                        <p class="text-base md:text-xl tracking-widest mb-8 text-gray-300 leading-loose font-hand" data-key="sub-catchphrase">
                             旨い酒と肴、楽しいイベントで、<br>毎日が特別になる大衆居酒屋。
                         </p>
-                        <a href="#menu" onclick="switchPage('menu')" class="px-10 py-4 border border-kohaku text-kohaku hover:bg-kohaku hover:text-white transition-all rounded-sm font-hand tracking-widest text-lg inline-block bg-sumi/80 backdrop-blur-sm">
+                        <a href="#menu" onclick="switchPage('menu')" class="px-8 md:px-10 py-3 md:py-4 border border-kohaku text-kohaku hover:bg-kohaku hover:text-white transition-all rounded-sm font-hand tracking-widest text-lg inline-block bg-sumi/80 backdrop-blur-sm">
                             お品書きを見る
                         </a>
                     </div>
-                    <div class="md:w-1/2 flex justify-center md:justify-end h-[50vh] md:h-auto fade-in-up">
-                        <div class="writing-vertical font-hand text-5xl md:text-6xl leading-loose tracking-widest text-washi drop-shadow-lg border-r-2 border-kohaku pr-8 mr-4 md:mr-0">
+                    <!-- スマホで縦書きが切れないように高さ調整 -->
+                    <div class="w-full md:w-1/2 flex justify-center md:justify-end mb-4 md:mb-0 fade-in-up">
+                        <div class="writing-vertical font-hand text-4xl sm:text-5xl md:text-6xl leading-loose tracking-widest text-washi drop-shadow-lg border-r-2 border-kohaku pr-6 md:pr-8 mr-2 md:mr-0 max-h-[50vh] md:max-h-none">
                             <span data-key="catchphrase">今夜も<br>かふーじゅに<br>集合。<br>アットホームな<br>酔い処</span>
                         </div>
                     </div>
@@ -226,11 +151,10 @@
             </div>
 
             <!-- About -->
-            <div class="container mx-auto px-6 py-24 md:py-32 relative">
+            <div class="container mx-auto px-6 py-20 md:py-32 relative">
                 <div class="flex flex-col md:flex-row items-center gap-12 relative z-10">
                      <div class="md:w-5/12 fade-in-up">
                         <div class="relative transform -rotate-1 hover:rotate-0 transition-transform duration-500">
-                            <!-- 店主画像 (images/others/owner.jpg) -->
                             <img src="images/others/owner.jpg" onerror="this.src='https://placehold.co/600x800/333/777?text=Our+Passion'" alt="店主" class="relative rounded-sm shadow-2xl w-full aspect-[3/4] object-cover grayscale-[50%] hover:grayscale-0 transition-all duration-500">
                         </div>
                     </div>
@@ -283,22 +207,18 @@
                 <h2 class="text-5xl font-hand text-center mb-4 text-kohaku" data-key="menu-title">お品書き</h2>
                 <p class="text-center text-gray-400 mb-12 font-hand tracking-widest">心づくしの酒と肴</p>
 
-                <!-- 言語切り替えボタン -->
                 <div class="flex justify-center gap-4 mb-12">
                     <button class="lang-btn px-4 py-1 rounded-full border border-white/20 text-sm transition-all hover:border-kohaku active" data-lang="jp">日本語</button>
                     <button class="lang-btn px-4 py-1 rounded-full border border-white/20 text-sm transition-all hover:border-kohaku text-gray-400" data-lang="en">English</button>
                     <button class="lang-btn px-4 py-1 rounded-full border border-white/20 text-sm transition-all hover:border-kohaku text-gray-400" data-lang="cn">中文</button>
                 </div>
 
-                <!-- フード/ドリンク タブ -->
                 <div class="flex justify-center gap-12 mb-16 border-b border-white/10 pb-4">
                     <button class="menu-tab text-2xl font-hand py-2 px-4 transition-colors active text-kohaku" data-tab="food" data-key="tab-food">お料理 (Food)</button>
                     <button class="menu-tab text-2xl font-hand py-2 px-4 transition-colors text-gray-500 hover:text-gray-300" data-tab="drink" data-key="tab-drink">お飲み物 (Drink)</button>
                 </div>
 
-                <!-- お料理リスト -->
                 <div id="food-content" class="menu-tab-content active"></div>
-                <!-- お飲み物リスト -->
                 <div id="drink-content" class="menu-tab-content hidden"></div>
             </div>
         </section>
@@ -308,10 +228,8 @@
             <div class="container mx-auto max-w-5xl">
                 <h2 class="text-5xl font-hand text-center mb-16 text-kohaku" data-key="events-title">催し物</h2>
                 
-                <!-- 注目イベント -->
                 <div class="bg-sumi/80 rounded-sm shadow-xl overflow-hidden flex flex-col md:flex-row mb-16 fade-in-up group border border-white/5 hover:border-kohaku/30 transition-colors">
                     <div class="md:w-1/2 relative overflow-hidden">
-                        <!-- イベント画像 (images/events/monthly_special.jpg) -->
                         <img src="images/events/monthly_special.jpg" onerror="this.src='https://placehold.co/800x800/8c4a3a/ffffff?text=Event'" alt="イベント" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                         <div class="absolute top-4 left-4 bg-kohaku text-white px-4 py-1 font-hand text-lg tracking-widest shadow-md">注目</div>
                     </div>
@@ -323,7 +241,6 @@
                     </div>
                 </div>
 
-                <!-- 定期イベント -->
                 <div class="grid md:grid-cols-3 gap-6">
                     <div class="bg-sumi/50 p-8 border border-white/5 hover:border-kohaku/50 transition-colors text-center fade-in-up delay-100">
                         <div class="text-kohaku text-4xl mb-4 font-hand">月</div>
@@ -394,7 +311,6 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
                 <div class="h-64 overflow-hidden relative">
-                    <!-- モーダル画像はJSでsrcがセットされます -->
                     <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
                     <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent h-20"></div>
                     <h3 id="modal-title" class="absolute bottom-4 left-4 text-2xl font-bold text-washi drop-shadow-md"></h3>
