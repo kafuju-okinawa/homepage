@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>酔い処 かふーじゅ - 那覇市若狭のアットホームな大衆居酒屋</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'hand': ['"Zen Kurenaido"', 'sans-serif'],
+                        'body': ['"Shippori Mincho"', 'serif'],
+                    },
+                    colors: {
+                        'sumi': '#1c1c1e', 
+                        'washi': '#fcfaf2', 
+                        'kohaku': '#ea580c', 
+                        'kurocha': '#3f3f46', 
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700&family=Zen+Kurenaido&display=swap" rel="stylesheet">
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="antialiased selection:bg-kohaku selection:text-white bg-sumi text-washi">
+
+    <!-- Three.js Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full z-[100] nav-blur border-b border-white/5 transition-all duration-300" id="main-header">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" id="logo-link" class="flex items-center gap-3 group z-50">
+                <div class="relative w-10 h-10">
+                    <div class="absolute inset-0 bg-kohaku rounded-full blur opacity-50 group-hover:opacity-80 transition-opacity"></div>
+                    <!-- ロゴ画像のパスを更新 (images/others/logo.png) -->
+                    <img src="images/others/logo.png" onerror="this.src='https://placehold.co/100x100/ea580c/ffffff?text=酒'" alt="ロゴ" class="relative w-full h-full object-cover rounded-full border border-white/20">
+                </div>
+                <h1 class="font-hand text-2xl text-washi group-hover:text-kohaku transition-colors tracking-wider">
+                    酔い処 かふーじゅ
+                </h1>
+            </a>
+
+            <!-- PC Nav -->
+            <nav class="hidden md:flex items-center gap-6 font-hand text-lg tracking-widest">
+                <a href="#home" class="nav-link hover:text-kohaku transition-colors py-2" data-page="home">トップ (Home)</a>
+                <a href="#menu" class="nav-link hover:text-kohaku transition-colors py-2" data-page="menu">お品書き (Menu)</a>
+                <a href="#events" class="nav-link hover:text-kohaku transition-colors py-2" data-page="events">催し物 (Events)</a>
+                <a href="#contact" class="nav-link hover:text-kohaku transition-colors py-2" data-page="contact">ご予約 (Contact)</a>
+                <a href="https://instagram.com" target="_blank" class="text-gray-400 hover:text-kohaku transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-washi focus:outline-none z-[200] p-2 relative">
+                <div class="w-8 h-6 relative flex flex-col justify-between overflow-hidden">
+                    <span class="hamburger-line block w-full h-0.5 bg-washi origin-left" id="line-1"></span>
+                    <span class="hamburger-line block w-2/3 h-0.5 bg-washi ml-auto transition-opacity duration-300" id="line-2"></span>
+                    <span class="hamburger-line block w-full h-0.5 bg-washi origin-left" id="line-3"></span>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/80 z-[150]"></div>
+    <nav id="mobile-menu" class="fixed top-0 right-0 w-[80%] max-w-sm h-full bg-sumi border-l border-white/10 z-[160] shadow-2xl flex flex-col pt-24 px-8">
+        <div class="flex flex-col gap-6 font-hand text-xl">
+            <a href="#home" class="mobile-nav-link border-b border-white/10 pb-2 hover:text-kohaku transition-colors" data-page="home">トップ (Home)</a>
+            <a href="#menu" class="mobile-nav-link border-b border-white/10 pb-2 hover:text-kohaku transition-colors" data-page="menu">お品書き (Menu)</a>
+            <a href="#events" class="mobile-nav-link border-b border-white/10 pb-2 hover:text-kohaku transition-colors" data-page="events">催し物 (Events)</a>
+            <a href="#contact" class="mobile-nav-link border-b border-white/10 pb-2 hover:text-kohaku transition-colors" data-page="contact">ご予約 (Contact)</a>
+            <a href="https://instagram.com" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-kohaku transition-colors pt-2">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <span class="font-sans text-sm">Instagram</span>
+            </a>
+        </div>
+        <div class="mt-auto mb-8 text-sm text-gray-500 text-center">
+            &copy; 酔い処 かふーじゅ
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="min-h-screen relative z-10">
+        <!-- Home -->
+        <section id="home" class="content-section active">
+            <div class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+                <!-- 背景画像 (images/others/hero_bg.jpg) -->
+                <div class="absolute inset-0 z-0">
+                    <!-- 画像がない場合はプレースホルダーを表示 -->
+                    <img src="images/others/hero_bg.jpg" onerror="this.src='https://placehold.co/1920x1080/222222/555555?text=Izakaya+Atmosphere'" alt="店内風景" class="w-full h-full object-cover opacity-50 scale-105 animate-float">
+                    <div class="absolute inset-0 bg-gradient-to-b from-sumi/30 via-transparent to-sumi"></div>
+                </div>
+
+                <!-- Hero Text -->
+                <div class="relative z-10 container mx-auto px-6 flex flex-col-reverse md:flex-row justify-center md:justify-between items-center h-full pt-20">
+                    <div class="md:w-1/2 text-center md:text-left mt-10 md:mt-0 fade-in-up delay-300">
+                        <p class="text-lg md:text-xl tracking-widest mb-8 text-gray-300 leading-loose font-hand" data-key="sub-catchphrase">
+                            旨い酒と肴、楽しいイベントで、<br>毎日が特別になる大衆居酒屋。
+                        </p>
+                        <a href="#menu" onclick="switchPage('menu')" class="px-10 py-4 border border-kohaku text-kohaku hover:bg-kohaku hover:text-white transition-all rounded-sm font-hand tracking-widest text-lg inline-block bg-sumi/80 backdrop-blur-sm">
+                            お品書きを見る
+                        </a>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center md:justify-end h-[50vh] md:h-auto fade-in-up">
+                        <div class="writing-vertical font-hand text-5xl md:text-6xl leading-loose tracking-widest text-washi drop-shadow-lg border-r-2 border-kohaku pr-8 mr-4 md:mr-0">
+                            <span data-key="catchphrase">今夜も<br>かふーじゅに<br>集合。<br>アットホームな<br>酔い処</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About -->
+            <div class="container mx-auto px-6 py-24 md:py-32 relative">
+                <div class="flex flex-col md:flex-row items-center gap-12 relative z-10">
+                     <div class="md:w-5/12 fade-in-up">
+                        <div class="relative transform -rotate-1 hover:rotate-0 transition-transform duration-500">
+                            <!-- 店主画像 (images/others/owner.jpg) -->
+                            <img src="images/others/owner.jpg" onerror="this.src='https://placehold.co/600x800/333/777?text=Our+Passion'" alt="店主" class="relative rounded-sm shadow-2xl w-full aspect-[3/4] object-cover grayscale-[50%] hover:grayscale-0 transition-all duration-500">
+                        </div>
+                    </div>
+                    <div class="md:w-7/12 fade-in-up delay-200">
+                        <h3 class="text-3xl md:text-4xl font-hand text-kohaku mb-10 tracking-widest" data-key="about-title">私たちの思い</h3>
+                        <div class="space-y-6 text-lg leading-loose text-gray-300 font-light">
+                            <p data-key="about-body-1">「酔い処 かふーじゅ」の「かふーじゅ」とは、沖縄の言葉で「果報（かふう）」＝「幸せ、良い知らせ」を意味します。</p>
+                            <p data-key="about-body-2">私たちは、この小さな居酒屋が、訪れるお客様にとっての「幸せな場所」でありたいと願っています。<br>一度だけでなく、二度、三度と足を運びたくなるような、アットホームな空間づくり。<br>お一人お一人のお客様との出会いを大切にし、心を込めたおもてなしを。</p>
+                            <p data-key="about-body-3">そして、お店があるこの若狭という地域に根ざし、地域の皆様の笑顔と発展に、微力ながらも貢献していくこと。<br>それが「酔い処 かふーじゅ」の変わらぬ思いです。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="bg-kurocha/20 py-24 border-y border-white/5 backdrop-blur-sm">
+                <div class="container mx-auto px-6">
+                    <h3 class="text-3xl font-hand text-center mb-16 tracking-widest text-kohaku" data-key="info-title">店舗情報・アクセス</h3>
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="bg-sumi/80 p-8 rounded-sm border border-white/10 shadow-lg fade-in-up">
+                            <dl class="space-y-6 text-lg">
+                                <div class="flex flex-col sm:flex-row border-b border-dashed border-white/10 pb-4">
+                                    <dt class="font-hand text-gray-400 w-32 mb-1 sm:mb-0">住所</dt>
+                                    <dd>〒900-0031 沖縄県那覇市若狭3-3-15</dd>
+                                </div>
+                                <div class="flex flex-col sm:flex-row border-b border-dashed border-white/10 pb-4">
+                                    <dt class="font-hand text-gray-400 w-32 mb-1 sm:mb-0">営業時間</dt>
+                                    <dd>17:00 - 24:00</dd>
+                                </div>
+                                <div class="flex flex-col sm:flex-row">
+                                    <dt class="font-hand text-gray-400 w-32 mb-1 sm:mb-0">定休日</dt>
+                                    <dd>
+                                        毎週火曜日<br>
+                                        <span class="text-sm text-gray-500 mt-1 block">※その他、不定休あり。Instagramでご確認ください。<br>※火曜日も8名様以上のご予約でオープン可能です。</span>
+                                    </dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <div class="h-[300px] w-full rounded-sm overflow-hidden shadow-lg grayscale hover:grayscale-0 transition-all duration-500 fade-in-up delay-200 border border-white/10">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.522204558223!2d127.67102981503038!3d26.21221798343431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34e5695e1e19623b%3A0x6b8f7e71f76b6f0!2z44CSOTAwLTAwMzEg5rGg6KKL55yM6YKj6KaH5biC6Iul54OK77yT4oiS77yT4oiS77yR77yV!5e0!3m2!1sja!2sjp!4v1678888888888!5m2!1sja!2sjp" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu -->
+        <section id="menu" class="content-section py-24 px-6 min-h-screen">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-5xl font-hand text-center mb-4 text-kohaku" data-key="menu-title">お品書き</h2>
+                <p class="text-center text-gray-400 mb-12 font-hand tracking-widest">心づくしの酒と肴</p>
+
+                <div class="flex justify-center gap-4 mb-12">
+                    <button class="lang-btn px-4 py-1 rounded-full border border-white/20 text-sm transition-all hover:border-kohaku active" data-lang="jp">日本語</button>
+                    <button class="lang-btn px-4 py-1 rounded-full border border-white/20 text-sm transition-all hover:border-kohaku text-gray-400" data-lang="en">English</button>
+                    <button class="lang-btn px-4 py-1 rounded-full border border-white/20 text-sm transition-all hover:border-kohaku text-gray-400" data-lang="cn">中文</button>
+                </div>
+
+                <div class="flex justify-center gap-12 mb-16 border-b border-white/10 pb-4">
+                    <button class="menu-tab text-2xl font-hand py-2 px-4 transition-colors active text-kohaku" data-tab="food" data-key="tab-food">お料理 (Food)</button>
+                    <button class="menu-tab text-2xl font-hand py-2 px-4 transition-colors text-gray-500 hover:text-gray-300" data-tab="drink" data-key="tab-drink">お飲み物 (Drink)</button>
+                </div>
+
+                <div id="food-content" class="menu-tab-content active"></div>
+                <div id="drink-content" class="menu-tab-content hidden"></div>
+            </div>
+        </section>
+
+        <!-- Events -->
+        <section id="events" class="content-section py-24 px-6 bg-kurocha/20 backdrop-blur-sm">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-5xl font-hand text-center mb-16 text-kohaku" data-key="events-title">催し物</h2>
+                
+                <div class="bg-sumi/80 rounded-sm shadow-xl overflow-hidden flex flex-col md:flex-row mb-16 fade-in-up group border border-white/5 hover:border-kohaku/30 transition-colors">
+                    <div class="md:w-1/2 relative overflow-hidden">
+                        <!-- イベント画像 (images/events/monthly_special.jpg) -->
+                        <img src="images/events/monthly_special.jpg" onerror="this.src='https://placehold.co/800x800/8c4a3a/ffffff?text=Event'" alt="イベント" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 left-4 bg-kohaku text-white px-4 py-1 font-hand text-lg tracking-widest shadow-md">注目</div>
+                    </div>
+                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                        <h3 class="text-2xl md:text-3xl font-bold text-washi mb-4" data-key="event-1-title">和牛ステーキ半額フェア</h3>
+                        <p class="text-kohaku text-xl font-hand mb-6" data-key="event-1-date">11月25日 (土) 18:00〜</p>
+                        <p class="text-gray-300 leading-relaxed mb-8" data-key="event-1-desc">日頃の感謝を込めて、A5ランク和牛リブロースステーキ(2480円)を、なんと半額の1240円でご提供！数量限定、早い者勝ちです！</p>
+                        <a href="#contact" class="inline-block text-center border border-white/30 py-3 px-8 hover:bg-white hover:text-sumi transition-colors duration-300 w-fit mx-auto md:mx-0">予約する</a>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-sumi/50 p-8 border border-white/5 hover:border-kohaku/50 transition-colors text-center fade-in-up delay-100">
+                        <div class="text-kohaku text-4xl mb-4 font-hand">月</div>
+                        <h4 class="text-xl font-bold text-washi mb-2" data-key="event-2-title">ビールDay</h4>
+                        <p class="text-gray-400 text-sm" data-key="event-2-desc">生ビール何杯飲んでも1杯300円！</p>
+                    </div>
+                    <div class="bg-sumi/50 p-8 border border-white/5 hover:border-kohaku/50 transition-colors text-center fade-in-up delay-200">
+                        <div class="text-kohaku text-4xl mb-4 font-hand">水</div>
+                        <h4 class="text-xl font-bold text-washi mb-2" data-key="event-3-title">レディースDay</h4>
+                        <p class="text-gray-400 text-sm" data-key="event-3-desc">女性グループ限定、デザート1品サービス！</p>
+                    </div>
+                    <div class="bg-sumi/50 p-8 border border-white/5 hover:border-kohaku/50 transition-colors text-center fade-in-up delay-300">
+                        <div class="text-kohaku text-4xl mb-4 font-hand">29</div>
+                        <h4 class="text-xl font-bold text-washi mb-2" data-key="event-4-title">肉の日</h4>
+                        <p class="text-gray-400 text-sm" data-key="event-4-desc">対象の肉料理が全品10%OFF！</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="content-section py-24 px-6 bg-sumi">
+            <div class="container mx-auto max-w-4xl">
+                <h2 class="text-5xl font-hand text-center mb-16 text-kohaku" data-key="contact-title">ご予約・お問い合わせ</h2>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="space-y-8">
+                        <h3 class="text-2xl font-bold text-washi border-l-4 border-kohaku pl-4" data-key="contact-reserve-title">ご予約について</h3>
+                        <p class="text-gray-400 leading-loose" data-key="contact-reserve-desc">ご予約は「お電話」または「InstagramのDM」にて承っております。<br>8名様以上のご予約は、1週間前までにご連絡をお願いいたします。</p>
+                        <div class="space-y-4 pt-4">
+                            <a href="tel:098-XXX-XXXX" class="block w-full bg-white/5 border border-white/10 hover:bg-kohaku hover:border-kohaku hover:text-white p-6 text-center transition-all">
+                                <div class="text-sm text-gray-400 mb-1 hover:text-white">お電話で</div>
+                                <div class="text-2xl font-bold tracking-widest">098-XXX-XXXX</div>
+                            </a>
+                            <a href="https://instagram.com" target="_blank" class="block w-full bg-white/5 border border-white/10 hover:bg-pink-700 hover:border-transparent p-6 text-center transition-all">
+                                <div class="text-sm text-gray-400 mb-1 hover:text-white">Instagramで</div>
+                                <div class="text-xl font-bold">DMを送る</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="bg-kurocha/20 p-8 rounded-sm border border-white/5">
+                        <h3 class="text-2xl font-bold text-washi mb-6" data-key="contact-form-title">お問い合わせフォーム</h3>
+                        <form id="contact-form" class="space-y-5">
+                            <div><label class="block text-sm text-gray-400 mb-2" data-key="form-name">お名前</label><input type="text" class="w-full bg-sumi border border-white/10 focus:border-kohaku text-white p-3 outline-none" required></div>
+                            <div><label class="block text-sm text-gray-400 mb-2" data-key="form-email">メールアドレス</label><input type="email" class="w-full bg-sumi border border-white/10 focus:border-kohaku text-white p-3 outline-none" required></div>
+                            <div><label class="block text-sm text-gray-400 mb-2" data-key="form-message">お問い合わせ内容</label><textarea rows="4" class="w-full bg-sumi border border-white/10 focus:border-kohaku text-white p-3 outline-none" required></textarea></div>
+                            <button type="submit" class="w-full bg-kohaku hover:bg-orange-500 text-white font-bold py-4 transition-colors tracking-widest" data-key="form-submit">送信する</button>
+                        </form>
+                        <div id="form-message" class="mt-4 text-center text-kohaku"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black py-12 border-t border-white/10 text-center relative z-10">
+        <div class="flex justify-center items-center gap-2 mb-4 opacity-50">
+            <span class="font-hand text-xl">酔い処 かふーじゅ</span>
+        </div>
+        <p class="text-gray-600 text-sm font-light tracking-wider">&copy; 2024 Yoidokoro Kafuju.</p>
+    </footer>
+
+    <!-- Menu Modal -->
+    <div id="menu-modal" class="fixed inset-0 z-[200] hidden">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" id="modal-overlay"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg p-6">
+            <div class="bg-sumi border border-white/10 rounded-sm shadow-2xl relative animate-float">
+                <button class="absolute top-2 right-2 bg-black/50 rounded-full p-1 text-white/70 hover:text-white z-10" id="close-modal-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div class="h-64 overflow-hidden relative">
+                    <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent h-20"></div>
+                    <h3 id="modal-title" class="absolute bottom-4 left-4 text-2xl font-bold text-washi drop-shadow-md"></h3>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-end mb-4">
+                        <span id="modal-price" class="text-2xl font-hand text-kohaku"></span>
+                    </div>
+                    <p id="modal-description" class="text-gray-300 leading-relaxed mb-6"></p>
+                    <div class="border-t border-dashed border-white/10 pt-4">
+                        <p class="text-xs text-gray-500 mb-2" data-key="modal-allergens-title">アレルゲン</p>
+                        <div id="modal-allergens" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/visual.js"></script>
+</body>
+</html>
