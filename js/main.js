@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateLanguage(currentLang);
     setupNavigation();
     
-    // スクロールアニメーションの初期化（少し遅らせてDOMのレンダリングを待つ）
+    // 初期表示時のアニメーション設定
     setTimeout(setupScrollAnimations, 100);
 });
 
@@ -17,7 +17,7 @@ function renderMenu(data, containerId) {
 
     data.forEach((category, catIndex) => {
         const section = document.createElement('div');
-        section.className = 'mb-20 scroll-fade-up'; // セクションごとにもアニメーション
+        section.className = 'mb-20 scroll-fade-up'; 
         
         const header = document.createElement('div');
         header.className = 'flex items-center gap-4 mb-8';
@@ -37,7 +37,6 @@ function renderMenu(data, containerId) {
             const desc = t[`${item.key}-desc`] || '';
 
             const row = document.createElement('div');
-            // リストアイテムにもスクロールアニメーションと遅延を追加
             row.className = `menu-list-item flex justify-between items-baseline py-3 cursor-pointer group scroll-fade-up delay-${(index % 4) * 100}`;
             row.dataset.key = item.key;
             row.dataset.price = item.price;
@@ -99,6 +98,7 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
 });
 
 function switchPage(pageId) {
+    // コンテンツエリアの切り替え
     document.querySelectorAll('.view-section').forEach(s => {
         s.classList.remove('active');
     });
@@ -108,10 +108,20 @@ function switchPage(pageId) {
     
     if(target) {
         target.classList.add('active');
-        // ページ切り替え後にスクロールアニメーションを再設定
         setTimeout(setupScrollAnimations, 100);
     }
+
+    // ヒーロー画像の制御 (トップページのみ表示)
+    const hero = document.getElementById('top-hero');
+    if (pageId === 'home') {
+        hero.classList.remove('hero-hidden');
+        hero.classList.add('hero-visible');
+    } else {
+        hero.classList.remove('hero-visible');
+        hero.classList.add('hero-hidden');
+    }
     
+    // ナビゲーションのアクティブ状態更新
     document.querySelectorAll('.nav-link, .mobile-nav-link, #logo-link').forEach(link => {
         if(link.dataset.page === pageId) {
             link.classList.add('text-gold');
@@ -145,7 +155,6 @@ function setupNavigation() {
             document.querySelectorAll('.menu-tab-content').forEach(c => c.classList.add('hidden'));
             document.getElementById(`${targetId}-content`).classList.remove('hidden');
             
-            // タブ切り替え時にもアニメーション再設定
             setTimeout(setupScrollAnimations, 100);
         });
     });
@@ -190,11 +199,10 @@ function closeMobileMenu() {
     line3.classList.remove('-rotate-45', '-translate-y-2.5');
 }
 
-// スクロールアニメーションのセットアップ
 function setupScrollAnimations() {
     const observerOptions = {
         root: null,
-        rootMargin: '0px 0px -10% 0px', // 画面の下10%に入ったら発火
+        rootMargin: '0px 0px -10% 0px', 
         threshold: 0
     };
 
@@ -202,15 +210,13 @@ function setupScrollAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target); // 一度表示したら監視終了
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // 監視対象の要素を取得 (.scroll-fade-up クラスがついているもの)
     const targets = document.querySelectorAll('.scroll-fade-up');
     targets.forEach(target => {
-        // 既に表示済みの場合はスキップ
         if (!target.classList.contains('is-visible')) {
             observer.observe(target);
         }
@@ -253,5 +259,3 @@ function openModal(item) {
 
 document.getElementById('close-modal-button').addEventListener('click', () => modal.classList.add('hidden'));
 document.getElementById('modal-overlay').addEventListener('click', () => modal.classList.add('hidden'));
-
-
