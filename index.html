@@ -47,6 +47,9 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .scroll-fade-up { opacity: 0; transition: opacity 1s, transform 1s; } /* CSS未読込時用 */
         .scroll-fade-up.is-visible { opacity: 1; }
+        
+        /* 画像のみバナーのホバーエフェクト強化 */
+        .sidebar-banner:hover { border-color: #fbbf24; box-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
     </style>
 </head>
 <body class="antialiased selection:bg-gold selection:text-navy bg-navy text-slate-100 overflow-x-hidden">
@@ -102,14 +105,13 @@
             <a href="#" class="mobile-nav-link border-b border-gold/20 pb-3 text-slate-300 hover:text-gold transition-colors" data-page="contact">ご予約</a>
         </div>
         
+        <!-- Mobile Banners (Simple Image 16:9) -->
         <div class="mt-auto mb-8 space-y-4">
-            <a href="#" onclick="switchPage('menu'); closeMobileMenu(); return false;" class="sidebar-banner block">
-                <img src="https://placehold.co/600x200/fbbf24/0f172a?text=Recommend" alt="今月のおすすめ" class="w-full">
-                <div class="sidebar-banner-text">今月のおすすめメニュー</div>
+            <a href="#" onclick="switchPage('menu'); closeMobileMenu(); return false;" class="sidebar-banner block aspect-video">
+                <img src="https://placehold.co/400x225/fbbf24/0f172a?text=Recommend" alt="今月のおすすめ" class="w-full h-full object-cover">
             </a>
-            <a href="#" onclick="switchPage('events'); closeMobileMenu(); return false;" class="sidebar-banner block">
-                <img src="https://placehold.co/600x200/b45309/ffffff?text=Ranking" alt="人気ランキング" class="w-full">
-                <div class="sidebar-banner-text">人気メニューランキング</div>
+            <a href="#" onclick="switchPage('events'); closeMobileMenu(); return false;" class="sidebar-banner block aspect-video">
+                <img src="https://placehold.co/400x225/b45309/ffffff?text=Ranking" alt="人気ランキング" class="w-full h-full object-cover">
             </a>
         </div>
     </nav>
@@ -117,35 +119,37 @@
     <!-- Main Wrapper -->
     <div class="pt-16 md:pt-20 relative z-10 min-h-screen flex flex-col md:flex-row">
         
-        <!-- Sidebar (PC Only) -->
-        <aside class="hidden md:block w-64 flex-shrink-0 p-4 fixed top-20 left-0 h-[calc(100vh-5rem)] overflow-y-auto z-40 border-r border-gold/10 bg-navy/50 backdrop-blur-sm">
-            <div class="space-y-6 mt-4">
-                <a href="#" onclick="switchPage('menu'); return false;" class="sidebar-banner block group scroll-fade-up delay-100">
-                    <div class="relative overflow-hidden">
-                        <img src="images/menu/wagyu.jpg" onerror="this.src='https://placehold.co/400x250/fbbf24/0f172a?text=Wagyu'" alt="今月のおすすめ" class="transition-transform duration-500 group-hover:scale-110">
+        <!-- Sidebar (PC Only) - 境界線を削除し、背景を透過 -->
+        <aside class="hidden md:block w-64 flex-shrink-0 p-6 fixed top-20 left-0 h-[calc(100vh-5rem)] overflow-y-auto z-40 scrollbar-none">
+            <div class="space-y-6 mt-8">
+                <!-- バナー1: おすすめ (画像のみ・16:9) -->
+                <a href="#" onclick="switchPage('menu'); return false;" class="sidebar-banner block group aspect-video scroll-fade-up delay-100 relative">
+                    <div class="w-full h-full overflow-hidden">
+                        <img src="images/menu/wagyu.jpg" onerror="this.src='https://placehold.co/400x225/fbbf24/0f172a?text=Recommend'" alt="今月のおすすめ" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                     </div>
-                    <div class="sidebar-banner-text">
-                        <span class="text-sm block text-slate-400 font-sans">旬の味覚</span>
+                    <!-- ホバー時に少し説明が出るようにしてもおしゃれ -->
+                    <div class="absolute bottom-0 left-0 w-full bg-navy/80 text-gold text-xs text-center py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         今月のおすすめ
                     </div>
                 </a>
 
-                <a href="#" onclick="switchPage('menu'); return false;" class="sidebar-banner block group scroll-fade-up delay-200">
-                    <div class="relative overflow-hidden">
-                        <img src="images/menu/goya.jpg" onerror="this.src='https://placehold.co/400x250/b45309/ffffff?text=Ranking'" alt="人気ランキング" class="transition-transform duration-500 group-hover:scale-110">
+                <!-- バナー2: ランキング (画像のみ・16:9) -->
+                <a href="#" onclick="switchPage('menu'); return false;" class="sidebar-banner block group aspect-video scroll-fade-up delay-200 relative">
+                    <div class="w-full h-full overflow-hidden">
+                        <img src="images/menu/goya.jpg" onerror="this.src='https://placehold.co/400x225/b45309/ffffff?text=Ranking'" alt="人気ランキング" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                     </div>
-                    <div class="sidebar-banner-text">
-                        <span class="text-sm block text-slate-400 font-sans">みんな頼んでる</span>
-                        人気メニューBEST3
+                    <div class="absolute bottom-0 left-0 w-full bg-navy/80 text-gold text-xs text-center py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        人気ランキング
                     </div>
                 </a>
 
-                <a href="https://instagram.com" target="_blank" class="sidebar-banner block group border-pink-500 scroll-fade-up delay-300">
-                    <div class="bg-gradient-to-br from-purple-600 to-pink-500 p-4 text-center">
-                        <svg class="w-8 h-8 mx-auto text-white mb-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <!-- バナー3: インスタ (画像のみ・16:9) -->
+                <a href="https://instagram.com" target="_blank" class="sidebar-banner block group aspect-video border-pink-500/50 scroll-fade-up delay-300 relative">
+                    <div class="w-full h-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     </div>
-                    <div class="sidebar-banner-text !border-pink-500 !text-pink-400">
-                        店主のきまぐれ投稿
+                     <div class="absolute bottom-0 left-0 w-full bg-navy/80 text-pink-400 text-xs text-center py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Instagram
                     </div>
                 </a>
             </div>
@@ -159,16 +163,16 @@
             ========================================== -->
             <div id="home-view" class="view-section active">
                 
-                <!-- Hero Section: 画像メイン、文字は極力排除 -->
+                <!-- Hero Section -->
                 <div class="relative h-[80vh] md:h-[90vh] w-full flex items-center justify-center overflow-hidden">
                     <!-- 背景画像 -->
                     <div class="absolute inset-0 z-0">
                         <img src="images/others/hero_bg.jpg" onerror="this.src='https://placehold.co/1920x1080/0f172a/fbbf24?text=Izakaya+Atmosphere'" alt="店内風景" class="w-full h-full object-cover opacity-90 animate-float">
-                        <!-- グラデーション: 視認性確保のため少し暗く -->
-                        <div class="absolute inset-0 bg-navy/20"></div>
+                        <!-- グラデーション -->
+                        <div class="absolute inset-0 bg-navy/30"></div>
                     </div>
 
-                    <!-- コピー（控えめに） -->
+                    <!-- コピー -->
                     <div class="relative z-10 container mx-auto px-6 h-full flex items-center justify-end pb-20">
                         <div class="writing-vertical text-white drop-shadow-lg border-r-2 border-white/50 pr-6 py-4 scroll-fade-up delay-300">
                             <p class="text-2xl md:text-3xl tracking-widest leading-loose">
@@ -206,7 +210,7 @@
                 <div class="bg-section py-24 px-6">
                     <div class="container mx-auto max-w-5xl">
                         
-                        <!-- Block 1: Img Left, Text Right -->
+                        <!-- Block 1 -->
                         <div class="flex flex-col md:flex-row items-center gap-12 mb-24">
                             <div class="w-full md:w-1/2 scroll-fade-up">
                                 <div class="img-frame transform -rotate-1">
@@ -220,7 +224,7 @@
                             </div>
                         </div>
 
-                        <!-- Block 2: Img Right, Text Left (Zigzag) -->
+                        <!-- Block 2 -->
                         <div class="flex flex-col md:flex-row-reverse items-center gap-12">
                             <div class="w-full md:w-1/2 scroll-fade-up">
                                 <div class="img-frame transform rotate-1">
@@ -432,12 +436,12 @@
                 <div class="h-64 overflow-hidden relative">
                     <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
                     <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-navy to-transparent h-20"></div>
-                    <h3 id="modal-title" class="absolute bottom-4 left-4 text-2xl font-bold text-gold drop-shadow-md font-serif"></h3>
+                    <h3 id="modal-title" class="absolute bottom-4 left-4 text-2xl font-bold text-gold drop-shadow-md font-hand"></h3>
                 </div>
                 
                 <div class="p-6">
                     <div class="flex justify-end mb-4 border-b border-gold/20 pb-2">
-                        <span id="modal-price" class="text-2xl font-serif text-white"></span>
+                        <span id="modal-price" class="text-2xl font-hand text-white"></span>
                     </div>
                     <p id="modal-description" class="text-slate-300 leading-relaxed mb-6 font-sans"></p>
                     
@@ -456,5 +460,3 @@
     <script src="js/visual.js"></script>
 </body>
 </html>
-
-
