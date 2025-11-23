@@ -1,21 +1,19 @@
 /* --- Base Settings --- */
 body {
-    /* 一般的で読みやすいゴシック体と明朝体の組み合わせ */
     font-family: 'Noto Sans JP', "Helvetica Neue", "Arial", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", sans-serif;
     background-color: #0f172a; 
     color: #f8fafc;
     position: relative;
     overflow-x: hidden;
-    letter-spacing: 0.05em; /* 少し広げて読みやすく */
-    line-height: 1.8; /* 行間を広げてゆったりと */
+    letter-spacing: 0.05em; 
+    line-height: 1.8; 
 }
 
-/* 見出し用フォント（明朝体で高級感を） */
 h1, h2, h3, h4, h5, h6, .font-serif {
     font-family: 'Noto Serif JP', serif;
 }
 
-/* 背景の和柄（青海波） - 薄くして上品に */
+/* 背景の和柄 */
 body::before {
     content: "";
     position: fixed;
@@ -37,7 +35,7 @@ body::before {
     height: 100%;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.6; /* キラキラを少し控えめに */
+    opacity: 0.6; 
 }
 
 /* Scrollbar */
@@ -49,8 +47,8 @@ body::before {
 .text-gold { color: #fbbf24; }
 .border-gold { border-color: #fbbf24; }
 .bg-gold { background-color: #fbbf24; color: #0f172a; }
+.font-hand { font-family: 'Zen Kurenaido', sans-serif; }
 
-/* 縦書きクラス */
 .writing-vertical {
     writing-mode: vertical-rl;
     text-orientation: upright;
@@ -79,7 +77,6 @@ body::before {
     z-index: 10;
 }
 
-/* 画像の装飾 */
 .img-frame {
     border: 1px solid rgba(251, 191, 36, 0.5);
     padding: 8px;
@@ -87,39 +84,29 @@ body::before {
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
 }
 
-/* サイドバーバナー */
+/* --- Sidebar Banner Styles (枠線なし・シンプル) --- */
 .sidebar-banner {
     display: block;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(251, 191, 36, 0.3);
+    border: 1px solid transparent; /* 透明なボーダーでレイアウト崩れ防止 */
     border-radius: 2px;
     margin-bottom: 1.5rem;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .sidebar-banner:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-    border-color: #fbbf24;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    border-color: rgba(251, 191, 36, 0.5); /* ホバー時のみ薄い金枠 */
 }
 .sidebar-banner img {
     width: 100%;
     height: auto;
     display: block;
-    transition: transform 0.5s ease;
+    transition: transform 0.6s ease;
 }
 .sidebar-banner:hover img {
-    transform: scale(1.05);
-}
-.sidebar-banner-text {
-    background: rgba(15, 23, 42, 0.9);
-    color: #fbbf24;
-    text-align: center;
-    padding: 0.8rem;
-    font-family: 'Noto Serif JP', serif;
-    border-top: 1px solid rgba(251, 191, 36, 0.3);
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
+    transform: scale(1.08);
 }
 
 /* --- Mobile Menu --- */
@@ -139,39 +126,38 @@ body::before {
 #mobile-menu-overlay.open { opacity: 1; pointer-events: auto; }
 .hamburger-line { transition: all 0.3s ease-in-out; background-color: #fbbf24; }
 
-/* --- Animations (Scroll Reveal) --- */
-/* 基本状態：少し下がって透明 */
+/* --- Animations --- */
 .scroll-fade-up {
     opacity: 0;
     transform: translateY(40px);
     transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
 }
-
-/* 表示状態：元の位置へ */
 .scroll-fade-up.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
-
-/* 順番に表示させるための遅延クラス */
 .delay-100 { transition-delay: 0.1s; }
 .delay-200 { transition-delay: 0.2s; }
 .delay-300 { transition-delay: 0.3s; }
 
-/* ふわふわ浮くアニメーション (ヒーロー画像など) */
 @keyframes float { 
     0%, 100% { transform: translateY(0); } 
     50% { transform: translateY(-8px); } 
 }
 .animate-float { animation: float 8s ease-in-out infinite; }
 
-/* View Section Toggle */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
 .view-section { display: none; }
 .view-section.active { display: block; animation: fadeIn 0.6s ease-out; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Header Blur */
 .nav-blur {
     background: rgba(15, 23, 42, 0.8);
     backdrop-filter: blur(12px);
@@ -180,5 +166,5 @@ body::before {
 .nav-link.active-link { color: #fbbf24; }
 .menu-list-item { position: relative; transition: all 0.3s ease; border-bottom: 1px dashed rgba(251, 191, 36, 0.3); }
 .menu-tab.active { background-color: transparent; color: #fbbf24; border-bottom: 2px solid #fbbf24; }
-
-
+.hero-visible { display: block; }
+.hero-hidden { display: none; }
