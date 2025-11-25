@@ -29,7 +29,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
     
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -38,7 +37,7 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        /* ガード用スタイル (CSS読み込み遅延対策) */
+        /* ガード用スタイル */
         #mobile-menu { transform: translateX(100%); transition: transform 0.3s ease-in-out; }
         #mobile-menu.open { transform: translateX(0); }
         #mobile-menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
@@ -105,7 +104,7 @@
             <a href="#" class="mobile-nav-link border-b border-gold/20 pb-3 text-slate-300 hover:text-gold transition-colors" data-page="contact">ご予約</a>
         </div>
         
-        <!-- Mobile Banners (Images Only) -->
+        <!-- Mobile Banners -->
         <div class="mt-auto mb-8 space-y-4">
             <a href="#" onclick="switchPage('recommend'); closeMobileMenu(); return false;" class="sidebar-banner block aspect-video">
                 <img src="images/menu/osusume.jpg" onerror="this.src='https://placehold.co/400x225/fbbf24/0f172a?text=Recommend'" alt="今月のおすすめ" class="w-full h-full object-cover">
@@ -143,7 +142,7 @@
         <!-- Sidebar (PC Only / Sticky) -->
         <aside class="hidden md:block w-64 flex-shrink-0 p-6 sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto z-40 scrollbar-none self-start">
             <div class="space-y-6 mt-8">
-                <!-- Banner 1: Recommended (osusume.jpg) -->
+                <!-- Banner 1 -->
                 <a href="#" onclick="switchPage('recommend'); return false;" class="sidebar-banner block group aspect-video scroll-fade-up delay-100 relative shadow-lg hover:shadow-gold/20 transition-all duration-300">
                     <div class="w-full h-full overflow-hidden rounded-sm">
                         <img src="images/menu/osusume.jpg" onerror="this.src='https://placehold.co/400x225/fbbf24/0f172a?text=Recommend'" alt="今月のおすすめ" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
@@ -153,7 +152,7 @@
                     </div>
                 </a>
 
-                <!-- Banner 2: Ranking (ninki.jpg) -->
+                <!-- Banner 2 -->
                 <a href="#" onclick="switchPage('ranking'); return false;" class="sidebar-banner block group aspect-video scroll-fade-up delay-200 relative shadow-lg hover:shadow-gold/20 transition-all duration-300">
                     <div class="w-full h-full overflow-hidden rounded-sm">
                         <img src="images/menu/ninki.jpg" onerror="this.src='https://placehold.co/400x225/b45309/ffffff?text=Ranking'" alt="人気ランキング" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
@@ -163,7 +162,7 @@
                     </div>
                 </a>
 
-                <!-- Banner 3: Instagram -->
+                <!-- Banner 3 -->
                 <a href="https://instagram.com" target="_blank" class="sidebar-banner block group aspect-video scroll-fade-up delay-300 relative shadow-lg hover:shadow-pink-500/20 transition-all duration-300 border-pink-500/30">
                     <div class="w-full h-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center rounded-sm">
                         <svg class="w-12 h-12 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
@@ -260,60 +259,44 @@
                 </div>
             </div>
 
-            <!-- Recommend View (New) -->
+            <!-- Recommend View -->
             <div id="recommend-view" class="view-section">
                 <div class="py-24 px-6 container mx-auto max-w-4xl">
                     <h2 class="text-4xl md:text-5xl font-serif text-center mb-4 text-gold scroll-fade-up" data-key="recommend-title">今月のおすすめ</h2>
                     <div class="w-20 h-0.5 bg-gold mx-auto mb-12 scroll-fade-up"></div>
-                    <div id="recommend-list" class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                        <!-- JSで生成 -->
-                    </div>
-                    <div class="text-center mt-16">
-                        <a href="#" onclick="switchPage('menu'); return false;" class="text-slate-400 hover:text-gold transition-colors" data-key="back-to-list">← 一覧に戻る</a>
-                    </div>
+                    <div id="recommend-list" class="grid grid-cols-1 md:grid-cols-2 gap-10"></div>
+                    <div class="text-center mt-16"><a href="#" onclick="switchPage('menu'); return false;" class="text-slate-400 hover:text-gold transition-colors" data-key="back-to-list">← 一覧に戻る</a></div>
                 </div>
             </div>
 
-            <!-- Ranking View (New) -->
+            <!-- Ranking View -->
             <div id="ranking-view" class="view-section">
                 <div class="py-24 px-6 container mx-auto max-w-4xl">
                     <h2 class="text-4xl md:text-5xl font-serif text-center mb-4 text-gold scroll-fade-up" data-key="ranking-title">人気ランキング</h2>
                     <div class="w-20 h-0.5 bg-gold mx-auto mb-12 scroll-fade-up"></div>
-                    <div id="ranking-list" class="space-y-8">
-                        <!-- JSで生成 -->
-                    </div>
-                    <div class="text-center mt-16">
-                        <a href="#" onclick="switchPage('menu'); return false;" class="text-slate-400 hover:text-gold transition-colors" data-key="back-to-list">← 一覧に戻る</a>
-                    </div>
+                    <div id="ranking-list" class="space-y-8"></div>
+                    <div class="text-center mt-16"><a href="#" onclick="switchPage('menu'); return false;" class="text-slate-400 hover:text-gold transition-colors" data-key="back-to-list">← 一覧に戻る</a></div>
                 </div>
             </div>
 
-            <!-- Blog List View (New) -->
+            <!-- Blog List View -->
             <div id="blog-view" class="view-section">
                 <div class="py-24 px-6 container mx-auto max-w-4xl">
                     <h2 class="text-4xl md:text-5xl font-serif text-center mb-4 text-gold scroll-fade-up" data-key="blog-title">かふーじゅ通信</h2>
                     <div class="w-20 h-0.5 bg-gold mx-auto mb-16 scroll-fade-up"></div>
-                    <div id="blog-list" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <!-- JSで生成 -->
-                    </div>
+                    <div id="blog-list" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
                 </div>
             </div>
 
-            <!-- Blog Post Detail View (New) -->
+            <!-- Blog Post Detail View -->
             <div id="post-view" class="view-section">
                 <div class="py-24 px-6 container mx-auto max-w-3xl">
-                    <div class="mb-8">
-                        <a href="#" onclick="switchPage('blog'); return false;" class="text-slate-400 hover:text-gold transition-colors" data-key="back-to-list">← 一覧に戻る</a>
-                    </div>
+                    <div class="mb-8"><a href="#" onclick="switchPage('blog'); return false;" class="text-slate-400 hover:text-gold transition-colors" data-key="back-to-list">← 一覧に戻る</a></div>
                     <article class="bg-navy p-8 md:p-12 border border-gold/30 shadow-2xl">
                         <div class="text-gold font-hand mb-2" id="post-date"></div>
                         <h1 class="text-2xl md:text-4xl font-serif text-white mb-8 leading-normal" id="post-title"></h1>
-                        <div class="mb-10 w-full">
-                            <img id="post-image" src="" alt="" class="w-full h-auto object-cover border border-gold/20">
-                        </div>
-                        <div id="post-content" class="blog-content text-slate-300 text-lg leading-loose font-sans text-justify">
-                            <!-- 本文 -->
-                        </div>
+                        <div class="mb-10 w-full"><img id="post-image" src="" alt="" class="w-full h-auto object-cover border border-gold/20"></div>
+                        <div id="post-content" class="blog-content text-slate-300 text-lg leading-loose font-sans text-justify"></div>
                     </article>
                 </div>
             </div>
@@ -329,15 +312,6 @@
                 </div>
             </div>
 
-            <!-- Events View (For Sidebar Link) -->
-            <!-- Events Viewをブログ一覧(blog-view)に統合するか、独立させるかは好みですが、
-                 ナビゲーションの「催し物」も「ブログ・催し物」として統合したので、
-                 ここでは旧来のイベント一覧は非表示（またはブログへ誘導）でも良いかもしれません。
-                 今回はシンプルに「イベント＝ブログの一種」として扱えるよう、
-                 nav-linkのdata-page="blog" に統一しています。
-                 ただし、サイドバーの「人気ランキング」をクリックした際の遷移先はランキングページです。
-            -->
-            
             <!-- Contact View -->
             <div id="contact-view" class="view-section">
                 <div class="py-24 px-6 container mx-auto max-w-4xl">
@@ -370,21 +344,21 @@
                 </div>
             </div>
 
-            <!-- Footer -->
-            <footer class="bg-navy py-12 border-t border-gold/30 text-center relative z-10">
-                <div class="flex justify-center items-center gap-3 mb-6">
-                    <div class="w-8 h-8 border border-gold rounded-full p-0.5">
-                        <img src="images/others/logo.png" onerror="this.src='https://placehold.co/100x100/fbbf24/000000?text=酒'" class="w-full h-full rounded-full object-cover">
-                    </div>
-                    <span class="font-serif text-xl text-gold">酔い処 かふーじゅ</span>
-                </div>
-                <p class="text-slate-500 text-xs font-light tracking-wider font-sans">&copy; 2024 Yoidokoro Kafuju. All Rights Reserved.</p>
-            </footer>
-
         </div> <!-- End of Main Content Area -->
-    </div> <!-- End of Main Wrapper -->
+    </div> <!-- End of 2 Columns Layout -->
 
-    <!-- Menu Modal -->
+    <!-- Footer (Moved outside) -->
+    <footer class="bg-navy py-12 border-t border-gold/30 text-center relative z-10 w-full">
+        <div class="flex justify-center items-center gap-3 mb-6">
+            <div class="w-8 h-8 border border-gold rounded-full p-0.5">
+                <img src="images/others/logo.png" onerror="this.src='https://placehold.co/100x100/fbbf24/000000?text=酒'" class="w-full h-full rounded-full object-cover">
+            </div>
+            <span class="font-serif text-xl text-gold">酔い処 かふーじゅ</span>
+        </div>
+        <p class="text-slate-500 text-xs font-light tracking-wider font-sans">&copy; 2024 Yoidokoro Kafuju. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Menu Modal (Same as before) -->
     <div id="menu-modal" class="fixed inset-0 z-[200] hidden">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" id="modal-overlay"></div>
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg p-4">
