@@ -1,15 +1,12 @@
 // 翻訳データ
 const menuTranslations = {
     "jp": {
-        // --- サイト全体（キャッチコピー刷新） ---
         "catchphrase": "那覇、若狭。<br>心ほどける、<br>大人の隠れ家。",
         "sub-catchphrase": "厳選した泡盛と、炭火香る絶品料理。<br>今夜は時間を忘れて、語り合いませんか。",
-        
         "about-title": "かふーじゅの想い",
         "about-body-1": "店名である「かふーじゅ」は、沖縄の言葉で「果報（かふう）」、つまり「幸せ」や「良い知らせ」を意味します。",
         "about-body-2": "私たちが目指すのは、訪れるたびに心が温まり、明日への活力が湧いてくるような場所。<br>こだわりの酒と肴、そして何より「人」との繋がりを大切にしています。",
         "about-body-3": "この若狭の地で、皆様の日常に小さな「果報」をお届けできるよう、今夜も明かりを灯してお待ちしております。",
-        
         "info-title": "店舗情報・地図",
         "menu-title": "お品書き",
         "events-title": "催し物",
@@ -21,19 +18,20 @@ const menuTranslations = {
         "form-email": "メールアドレス",
         "form-message": "ご用件",
         "form-submit": "送信する",
-        
-        // --- イベント ---
+        "recommend-title": "今月のおすすめ",
+        "ranking-title": "人気ランキング",
+        "blog-title": "かふーじゅ通信",
+        "blog-read-more": "続きを読む →",
+        "back-to-list": "← 一覧に戻る",
         "event-1-title": "【11月限定】和牛リブロース半額",
         "event-1-date": "開催期間：11月25日(土)〜30日(木)",
-        "event-1-desc": "日頃の感謝を込めて、A5ランク和牛リブロースステーキ(通常2,480円)を、半額の1,240円でご提供いたします。数量限定のため、売り切れの際はご容赦ください。",
-        "event-2-title": "月曜日はビールDay",
-        "event-2-desc": "週の始まりを元気に。生ビール何杯飲んでも1杯300円！",
-        "event-3-title": "水曜レディースDay",
-        "event-3-desc": "女性グループのお客様限定で、本日のデザートをサービス。",
-        "event-4-title": "毎月29日は肉の日",
-        "event-4-desc": "ステーキ、ハンバーグなど対象の肉料理が全品10%OFF。",
-        
-        // --- カテゴリ ---
+        "event-1-desc": "日頃の感謝を込めて、A5ランク和牛リブロースステーキ(2480円)を、なんと半額の1240円でご提供！数量限定、早い者勝ちです！",
+        "event-2-title": "ビールDay",
+        "event-2-desc": "生ビール何杯飲んでも1杯300円！",
+        "event-3-title": "レディースDay",
+        "event-3-desc": "女性グループ限定、デザート1品サービス！",
+        "event-4-title": "肉の日",
+        "event-4-desc": "対象の肉料理が全品10%OFF！",
         "tab-food": "お料理",
         "tab-drink": "お飲み物",
         "cat-otsumami": "とりあえず・肴",
@@ -45,90 +43,88 @@ const menuTranslations = {
         "cat-alcohol": "アルコール",
         "cat-nonalcohol": "ノンアルコール",
         "modal-allergens-title": "含まれるアレルゲン",
-
-        // --- メニューアイテム (名前も少し美味しそうに修正) ---
         "iburigakko": "いぶりがっこチーズ",
         "iburigakko-desc": "秋田名物の燻製漬物とクリームチーズ。酒泥棒な一品。",
         "shutou-cheese": "酒盗クリームチーズ",
-        "shutou-cheese-desc": "カツオの酒盗の塩気とチーズのまろやかさが絶妙。",
+        "shutou-cheese-desc": "日本酒泥棒。間違いない組み合わせ。",
         "yamaimo-zakuzaku": "山芋ザクザク",
-        "yamaimo-zakuzaku-desc": "新鮮な山芋を特製ダレで。食感が楽しいスピードメニュー。",
-        "mozukusu": "沖縄県産 もずく酢",
-        "mozukusu-desc": "太くてコシのある沖縄もずくを、さっぱり三杯酢で。",
+        "yamaimo-zakuzaku-desc": "新鮮な山芋の食感をお楽しみください。",
+        "mozukusu": "もずく酢",
+        "mozukusu-desc": "沖縄定番のさっぱりおつまみ。",
         "umibudou": "海ぶどう",
-        "umibudou-desc": "プチプチ食感がたまらない、沖縄の海の宝石。",
+        "umibudou-desc": "プチプチ食感がたまらない海の宝石。",
         "kyuri-ippon": "きゅうり一本漬け",
-        "kyuri-ippon-desc": "箸休めに最適。出汁の効いた浅漬け。",
-        "hiyayakko": "薬味たっぷり冷や奴",
-        "hiyayakko-desc": "ネギ、生姜、かつお節をどっさりと乗せました。",
-        "caesar-salad": "厚切りベーコンのシーザーサラダ",
-        "caesar-salad-desc": "濃厚ドレッシングと温泉卵を絡めてどうぞ。",
+        "kyuri-ippon-desc": "とりあえずこれ。さっぱりと。",
+        "hiyayakko": "冷や奴",
+        "hiyayakko-desc": "シンプルイズベスト。",
+        "caesar-salad": "シーザーサラダ",
+        "caesar-salad-desc": "濃厚ドレッシングとクルトン。",
         "pirikara-tamago": "特製ピリ辛半熟玉子",
-        "pirikara-tamago-desc": "とろ〜り半熟。秘伝のピリ辛ダレに漬け込みました。",
+        "pirikara-tamago-desc": "とろーり半熟。特製のピリ辛ダレで。",
         "pirikara-menma": "ピリ辛おつまみメンマ",
-        "pirikara-menma-desc": "ごま油の香りが食欲をそそる、ビールのお供。",
-        "aburi-charshu": "自家製 炙りチャーシュー",
-        "aburi-charshu-desc": "じっくり煮込んだ豚バラを、提供直前に香ばしく炙ります。",
-        "wakadori-karaage": "秘伝だれ 若鶏からあげ",
-        "wakadori-karaage-desc": "肉汁溢れるジューシーな仕上がり。当店一番人気。",
+        "pirikara-menma-desc": "ごま油香る、お酒が進むメンマ。",
+        "aburi-charshu": "炙りチャーシュー",
+        "aburi-charshu-desc": "香ばしく炙ったチャーシュー。",
+        "wakadori-karaage": "若鶏からあげ",
+        "wakadori-karaage-desc": "ジューシーな定番からあげ。",
         "potato-fry": "皮付きポテトフライ",
-        "potato-fry-desc": "ホクホク感が楽しめる皮付きタイプ。",
-        "atsuage-yakumi": "カリカリ厚揚げ 薬味まみれ",
-        "atsuage-yakumi-desc": "外はカリッと中はふわふわ。生姜醤油で。",
-        "youngcorn-tenpura": "ヤングコーンの天ぷら",
-        "youngcorn-tenpura-desc": "ヒゲまで美味しい。素材の甘みを塩で。",
-        "tacos-meatpie": "自家製タコスミートパイ",
-        "tacos-meatpie-desc": "サクサクのパイ生地にスパイシーなタコスミート。",
-        "taimo-cheese": "田芋（ターンム）チーズ焼き",
-        "taimo-cheese-desc": "沖縄の祝い芋「田芋」の甘みとチーズの塩気が相性抜群。",
-        "mabo-dofu": "四川風 麻婆豆腐",
-        "mabo-dofu-desc": "花椒の痺れと辛さが癖になる、本格派。",
+        "potato-fry-desc": "ホクホク。手が止まらない。",
+        "atsuage-yakumi": "薬味たっぷり厚揚げ",
+        "atsuage-yakumi-desc": "カリッと揚げた厚揚げ。",
+        "youngcorn-tenpura": "ヤングコーン天ぷら",
+        "youngcorn-tenpura-desc": "サクサク衣とコーンの甘み。",
+        "tacos-meatpie": "タコスミートパイ",
+        "tacos-meatpie-desc": "サクサクパイにスパイシーなタコスミート。",
+        "taimo-cheese": "田芋チーズ焼き",
+        "taimo-cheese-desc": "沖縄の田芋とチーズのハーモニー。",
+        "mabo-dofu": "麻婆豆腐",
+        "mabo-dofu-desc": "ピリッと本格派。",
         "anchovy-cabbage": "アンチョビキャベツ",
-        "anchovy-cabbage-desc": "ニンニクとアンチョビの香りで、ハイボールが進みます。",
-        "gyoza": "手包み 肉汁餃子（5個）",
-        "gyoza-desc": "噛むと肉汁が飛び出します。火傷にご注意ください。",
-        "tofu-garlic": "スタミナ豆腐ニンニク",
-        "tofu-garlic-desc": "ガツンとニンニクを効かせた、活力の出る一皿。",
+        "anchovy-cabbage-desc": "ニンニクとアンチョビ。",
+        "gyoza": "餃子（5個）",
+        "gyoza-desc": "パリッとジューシー。",
+        "tofu-garlic": "豆腐ニンニク",
+        "tofu-garlic-desc": "ガツンとニンニク。",
         "goya-chanpuru": "ゴーヤーチャンプルー",
-        "goya-chanpuru-desc": "沖縄料理の王道。苦味を抑えて食べやすく仕上げました。",
-        "dashimaki": "出汁香る だし巻き卵",
-        "dashimaki-desc": "ご注文を受けてから一本一本丁寧に焼き上げます。",
-        "niku-yakimochi": "肉巻き焼きもち",
-        "niku-yakimochi-desc": "甘辛い肉ダレと、餅のもちもち食感がたまりません。",
-        "gyu-rare-katsu": "黒毛和牛のレアカツ",
-        "gyu-rare-katsu-desc": "サクッとした衣と、とろける赤身のレア加減。",
+        "goya-chanpuru-desc": "沖縄の魂。定番。",
+        "dashimaki": "だし巻き卵",
+        "dashimaki-desc": "ふわふわ。出汁が香る。",
+        "niku-yakimochi": "肉焼きもち",
+        "niku-yakimochi-desc": "甘辛い肉タレともちもち食感。",
+        "gyu-rare-katsu": "牛レアカツ",
+        "gyu-rare-katsu-desc": "サクッと衣、中はレア。",
         "rib-steak": "リブロースステーキ",
-        "rib-steak-desc": "肉の旨味をダイレクトに味わう、ボリューム満点の一皿。",
-        "wagyu-rib-steak": "A5和牛リブロースステーキ",
-        "wagyu-rib-steak-desc": "特別な夜に。口の中で脂が甘く溶け出します。",
-        "hamburger": "特製 粗挽きハンバーグ",
-        "hamburger-desc": "肉肉しさを残した粗挽きパティ。デミグラスソースで。",
-        "chicken-tatsuta": "若鶏の竜田揚げ",
-        "chicken-tatsuta-desc": "生姜醤油に漬け込んだ、サクサク食感の竜田揚げ。",
-        "chicken-steak": "チキンステーキ ガーリックソース",
-        "chicken-steak-desc": "皮面をパリパリに焼き上げました。",
-        "reimen": "〆の特製冷麺",
-        "reimen-desc": "魚介出汁の効いた透き通るスープでさっぱりと。",
+        "rib-steak-desc": "食べ応え抜群。",
+        "wagyu-rib-steak": "和牛リブロースステーキ",
+        "wagyu-rib-steak-desc": "特別な夜に。とろける旨味。",
+        "hamburger": "特製ハンバーグ",
+        "hamburger-desc": "肉汁たっぷり。",
+        "chicken-tatsuta": "チキン竜田揚げ",
+        "chicken-tatsuta-desc": "サクサク衣。",
+        "chicken-steak": "チキンステーキ",
+        "chicken-steak-desc": "皮はパリッと、身はジューシー。",
+        "reimen": "かふーじゅ冷麺",
+        "reimen-desc": "〆にぴったり。",
         "garlic-pizza": "ガーリックミートピザ",
-        "garlic-pizza-desc": "薄焼きクリスピー生地。おつまみ感覚で食べられるピザ。",
-        "margherita": "王道マルゲリータ",
-        "margherita-desc": "トマトとバジルのシンプルな美味しさ。",
-        "koumi-chahan": "香味野菜のチャーハン",
-        "koumi-chahan-desc": "大葉やミョウガなどの香味野菜が香る、大人のチャーハン。",
+        "garlic-pizza-desc": "ガツンとガーリック。",
+        "margherita": "マルゲリータ",
+        "margherita-desc": "定番ピザ。",
+        "koumi-chahan": "香味チャーハン",
+        "koumi-chahan-desc": "香味野菜が香る。",
         "mayu-chahan": "黒マー油チャーハン",
-        "mayu-chahan-desc": "焦がしニンニク油の香ばしさが食欲をそそります。",
-        "taco-rice": "〆のミニタコライス",
-        "taco-rice-desc": "少しだけ食べたい時に丁度いいサイズ。",
-        "vanilla-ice": "濃厚バニラアイス",
-        "vanilla-ice-desc": "バニラビーンズたっぷり。",
-        "age-mochi": "揚げ餅 黒蜜きなこ",
-        "age-mochi-desc": "熱々の揚げ餅に、冷たいアイスを添えても美味しい。",
-        "beer": "オリオン ザ・ドラフト",
-        "beer-desc": "沖縄の定番。キンキンに冷えてます。",
-        "awamori": "泡盛 各種",
-        "awamori-desc": "残波、菊之露、各種古酒を取り揃えております。",
-        "sanpincha": "さんぴん茶",
-        "sanpincha-desc": "沖縄料理にはやっぱりこれ。"
+        "mayu-chahan-desc": "焦がしニンニク油。",
+        "taco-rice": "〆のタコライス",
+        "taco-rice-desc": "沖縄の〆といえば。",
+        "vanilla-ice": "バニラアイス",
+        "vanilla-ice-desc": "食後にさっぱり。",
+        "age-mochi": "揚げ餅",
+        "age-mochi-desc": "黒蜜きなこで。",
+        "beer": "生ビール (ダミー)",
+        "beer-desc": "キンキンに冷えてます。",
+        "awamori": "泡盛 (ダミー)",
+        "awamori-desc": "沖縄といえば。",
+        "sanpincha": "さんぴん茶 (ダミー)",
+        "sanpincha-desc": "沖縄の定番。"
     },
     "en": {
         "catchphrase": "Naha, Wakasa.<br>Your Heart's<br>Hideaway.",
@@ -148,7 +144,11 @@ const menuTranslations = {
         "form-email": "Email",
         "form-message": "Message",
         "form-submit": "Send",
-        
+        "recommend-title": "Recommended",
+        "ranking-title": "Popular Ranking",
+        "blog-title": "Blog / Event Log",
+        "blog-read-more": "Read More →",
+        "back-to-list": "← Back to List",
         "event-1-title": "Wagyu Steak Half Price",
         "event-1-date": "Nov 25 (Sat) - 30 (Thu)",
         "event-1-desc": "A5 Rank Wagyu Ribeye Steak at half price! Limited quantity available.",
@@ -158,7 +158,6 @@ const menuTranslations = {
         "event-3-desc": "Free dessert for female groups on Wednesdays.",
         "event-4-title": "Meat Day (29th)",
         "event-4-desc": "10% OFF on selected meat dishes on the 29th of every month.",
-        
         "tab-food": "Food",
         "tab-drink": "Drinks",
         "cat-otsumami": "Appetizers",
@@ -170,7 +169,6 @@ const menuTranslations = {
         "cat-alcohol": "Alcohol",
         "cat-nonalcohol": "Non-Alcoholic",
         "modal-allergens-title": "Allergens",
-
         "iburigakko": "Smoked Radish & Cheese",
         "iburigakko-desc": "Smoked pickled radish paired with cream cheese.",
         "shutou-cheese": "Salted Bonito & Cheese",
@@ -272,7 +270,11 @@ const menuTranslations = {
         "form-email": "邮箱",
         "form-message": "内容",
         "form-submit": "发送",
-        
+        "recommend-title": "本月推荐",
+        "ranking-title": "人气排名",
+        "blog-title": "博客 / 活动日志",
+        "blog-read-more": "阅读更多 →",
+        "back-to-list": "← 返回列表",
         "event-1-title": "和牛牛排半价",
         "event-1-date": "11月25日 (周六) 〜",
         "event-1-desc": "A5级和牛肋眼牛排半价优惠！数量有限！",
@@ -282,7 +284,6 @@ const menuTranslations = {
         "event-3-desc": "女性团体赠送甜点！",
         "event-4-title": "肉之日 (29日)",
         "event-4-desc": "肉类菜品9折优惠！",
-        
         "tab-food": "料理",
         "tab-drink": "饮料",
         "cat-otsumami": "前菜",
@@ -294,9 +295,8 @@ const menuTranslations = {
         "cat-alcohol": "酒类",
         "cat-nonalcohol": "无酒精",
         "modal-allergens-title": "过敏原",
-
         "iburigakko": "烟熏萝卜奶酪",
-        "iburigakko-desc": "烟熏萝卜配奶油奶酪。",
+        "iburigakko-desc": "烟熏香气与浓郁奶酪。",
         "shutou-cheese": "酒盗奶油芝士",
         "shutou-cheese-desc": "腌制鲣鱼内脏配芝士。绝配清酒。",
         "yamaimo-zakuzaku": "香脆山药",
@@ -333,8 +333,8 @@ const menuTranslations = {
         "mabo-dofu-desc": "正宗四川风味。",
         "anchovy-cabbage": "凤尾鱼炒卷心菜",
         "anchovy-cabbage-desc": "大蒜和凤尾鱼的咸香。",
-        "gyoza": "肉汁煎饺",
-        "gyoza-desc": "小心肉汁烫口。",
+        "gyoza": "煎饺",
+        "gyoza-desc": "皮脆馅大，肉汁丰富。",
         "tofu-garlic": "大蒜炒豆腐",
         "tofu-garlic-desc": "蒜香浓郁，补充体力。",
         "goya-chanpuru": "苦瓜炒什锦",
@@ -358,7 +358,7 @@ const menuTranslations = {
         "reimen": "特制冷面",
         "reimen-desc": "清爽的海鲜汤底。",
         "garlic-pizza": "蒜香肉酱披萨",
-        "garlic-pizza-desc": "非常下酒。",
+        "garlic-pizza-desc": "浓郁蒜香，非常下酒。",
         "margherita": "玛格丽特披萨",
         "margherita-desc": "经典的番茄罗勒披萨。",
         "koumi-chahan": "香味炒饭",
@@ -380,13 +380,50 @@ const menuTranslations = {
     }
 };
 
-// ... (以下のallergenTranslations, foodMenuData, drinkMenuDataは変更なし、そのまま使ってください)
-// 画像パスなどはご自身の環境のままでOKです
 const allergenTranslations = {
     "jp": { "乳": "乳", "卵": "卵", "小麦": "小麦", "大豆": "大豆", "牛肉": "牛肉", "豚肉": "豚肉", "魚介": "魚介" },
     "en": { "乳": "Dairy", "卵": "Egg", "小麦": "Wheat", "大豆": "Soy", "牛肉": "Beef", "豚肉": "Pork", "魚介": "Seafood" },
     "cn": { "乳": "乳制品", "卵": "蛋", "小麦": "小麦", "大豆": "大豆", "牛肉": "牛肉", "豚肉": "猪肉", "魚介": "海鲜" }
 };
+
+const recommendItems = [
+    { key: "wagyu-rib-steak", img: "images/menu/wagyu.jpg", price: "2,480円", comment: "今月の一押し！A5ランクの上質な脂を堪能してください。" },
+    { key: "taimo-cheese", img: "images/menu/taimo.jpg", price: "580円", comment: "寒くなってきたこの時期にぴったり。熱々の田芋とチーズ。" },
+    { key: "aburi-charshu", img: "images/menu/charshu.jpg", price: "620円", comment: "ビールが進むこと間違いなし。香ばしい香りが食欲をそそります。" }
+];
+
+const rankingItems = [
+    { rank: 1, key: "wakadori-karaage", img: "images/menu/karaage.jpg", price: "720円", comment: "不動のNo.1！秘伝のタレが決め手です。" },
+    { rank: 2, key: "goya-chanpuru", img: "images/menu/goya.jpg", price: "640円", comment: "観光のお客様にも地元の方にも愛される味。" },
+    { rank: 3, key: "dashimaki", img: "images/menu/tamago.jpg", price: "560円", comment: "ふわふわ食感と溢れるお出汁が大人気。" }
+];
+
+const blogPosts = [
+    {
+        id: "post-2",
+        date: "2024.11.26",
+        title: "和牛ステーキフェア、大好評です！",
+        image: "images/events/monthly_special.jpg",
+        content: `
+            <p>昨日から始まりました「和牛リブロース半額フェア」、初日からたくさんのお客様にご来店いただき、ありがとうございます！</p>
+            <p>「口の中で溶けた！」「この値段でこれは凄い」と嬉しいお声をたくさん頂いております。</p>
+            <p>まだ在庫はございますが、週末に向けて予約が埋まってきておりますので、気になる方はお早めにご連絡ください。</p>
+            <p>皆様のご来店、心よりお待ちしております！</p>
+        `
+    },
+    {
+        id: "post-1",
+        date: "2024.11.20",
+        title: "【告知】11月25日から！和牛リブロース半額フェア開催",
+        image: "images/menu/wagyu.jpg", 
+        content: `
+            <p>日頃の感謝を込めて、スペシャルなイベントを開催いたします！</p>
+            <p>当店自慢の<strong>A5ランク和牛リブロースステーキ</strong>（通常2,480円）を、なんと<strong>半額の1,240円</strong>でご提供いたします。</p>
+            <p>期間は11月25日(土)〜30日(木)まで。<br>数量限定のため、売り切れの際はご容赦ください。</p>
+            <p>この機会にぜひ、極上の和牛を味わってくださいね。</p>
+        `
+    }
+];
 
 const foodMenuData = [
     { category: "cat-otsumami", items: [
@@ -450,5 +487,3 @@ const drinkMenuData = [
         { key: "sanpincha", price: "300円", allergens: [], img: "images/menu/tea.jpg" }
     ]}
 ];
-
-
